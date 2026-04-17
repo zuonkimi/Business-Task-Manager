@@ -1,0 +1,22 @@
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  flex: 1;
+  max-width: 800px;
+}
+
+.search-box {
+  @include input-base;
+  max-width: 800px;
+}
+
+.search-icon {
+  font-size: 26px;
+  display: block;
+  @include smooth;
+  &:hover {
+    transform: scale(1.1);
+    opacity: 0.9;
+  }
+}

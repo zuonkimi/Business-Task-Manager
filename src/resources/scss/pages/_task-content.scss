@@ -1,0 +1,109 @@
+// tasks/trash
+
+.task-form {
+  width: 100%;
+  padding-top: $spacing-md;
+  .task-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $spacing-md;
+
+    h2 {
+      color: $text-light;
+      font-weight: 600;
+    }
+
+    h4 {
+      color: $text-light;
+    }
+
+    .btn {
+      border-radius: $radius-pill;
+      padding: $spacing-sm $spacing-md;
+      border: 1px solid $color-gray-700;
+      @include smooth;
+      &:hover {
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  .table {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(10px);
+    color: $text-light;
+    border-radius: $radius-md;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+
+    thead {
+      background: rgba(59, 130, 246, 0.15);
+      color: $text-light;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+    }
+
+    td,
+    th {
+      padding: $spacing-ss;
+    }
+
+    tbody {
+      tr {
+        @include smooth;
+        &:hover {
+          opacity: 0.9;
+          background: rgba(59, 130, 246, 0.15);
+          transform: translateY(-1px);
+        }
+      }
+    }
+
+    .btn {
+      border-radius: $radius-sm;
+      padding: $spacing-xs $spacing-sm;
+      font-size: 14px;
+      @include smooth;
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+
+    .text-muted {
+      color: #94a3b8 !important;
+    }
+  }
+
+  .edit-form {
+    margin-top: $spacing-ss;
+
+    .form-control {
+      background: rgba($color-white, 0.05);
+      border: 1px solid rgba($color-white, 0.1);
+      color: $text-light;
+      &:focus {
+        border-color: $color-primary-dark;
+        box-shadow: none;
+      }
+    }
+    .btn-primary {
+      border-radius: $radius-sm;
+      @include smooth;
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+}
+
+.modal-body {
+  color: $color-dark;
+  font-size: 16px;
+}
+.modal-title {
+  color: $color-dark;
+  font-size: 20px;
+}

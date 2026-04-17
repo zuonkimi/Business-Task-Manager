@@ -1,0 +1,25 @@
+//                                     Avatar base
+.avatar {
+  display: inline-block;
+  border-radius: $radius-circle;
+  object-fit: cover;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+//                                     Mixin size avatar
+@mixin avatar-size($size) {
+  width: $size;
+  height: $size;
+}
+
+.avatar-md {
+  @include avatar-size(36px);
+}
+
+// Hbs class
+.user-avt {
+  @include avatar-size(36px);
+}

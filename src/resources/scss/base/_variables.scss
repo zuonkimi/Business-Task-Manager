@@ -1,0 +1,66 @@
+//                        Brand color
+$color-primary: #00c6ff;
+$color-primary-dark: #0072ff;
+
+//                         Status color
+$color-success: #00b894;
+$color-warning: #f1c40f;
+$color-danger: #ff416c;
+
+//                         Neutral color
+$color-dark: #111;
+$color-gray-900: #1a1a1a;
+$color-gray-700: #555;
+$color-gray-500: #999;
+$color-gray-300: #ddd;
+$color-white: #fff;
+
+//                         Text color
+$text-primary: $color-white;
+$text-muted: rgba($color-white, 0.5);
+$text-secondary: rgba($color-white, 0.7);
+$text-light: rgba($color-white, 0.8);
+
+//                         Background color
+$bg-main: #0f172a;
+$bg-card: rgba($color-white, 0.05);
+
+//                         Border color
+$border-color: rgba(0, 0, 0, 0.08);
+
+//                         Spacing
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-ss: 12px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-2xl: 40px;
+$spacing-3xl: 50px;
+
+//                         Border radius
+$radius-sm: 6px;
+$radius-md: 12px;
+$radius-lg: 20px;
+$radius-xl: 30px;
+$radius-circle: 50%;
+$radius-pill: 999px;
+
+//                         Shadow
+$shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+
+//                         Transition
+$transition-fast: 0.2s ease;
+$transition-base: 0.3s ease;
+
+//                         Z-index
+$z-navbar: 1000;
+$z-dropdown: 9999;
+$z-modal: 3000;
+
+//                         Breakpoint
+$breakpoint-xxl: 1200px;
+$breakpoint-lg: 1024px;
+$breakpoint-sm: 600px;

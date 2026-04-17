@@ -1,0 +1,126 @@
+.navbar {
+  position: sticky;
+  top: 30px;
+  height: 60px;
+  width: 100%;
+  max-width: $breakpoint-xxl;
+  margin-inline: auto;
+  padding: 0 $spacing-lg;
+  border-radius: $radius-xl;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-lg;
+  background-color: rgba(17, 17, 17, 1);
+  backdrop-filter: blur(10px);
+  color: $text-light;
+  z-index: 1030;
+  @include smooth;
+  &:hover {
+    box-shadow:
+      0 10px 35px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.08);
+  }
+}
+
+.logo-header {
+  width: 60px;
+  height: 60px;
+  border-radius: $radius-circle;
+  object-fit: cover;
+}
+
+.nav-center {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+}
+
+//============================================================================
+// .navbar {
+//   position: sticky;
+//   top: 30px;
+//   height: 60px;
+//   width: calc(100% - 60px);
+//   margin: 0 auto;
+//   padding: 0 16px;
+//   border-radius: 30px;
+
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   gap: 10%;
+
+//   background-color: rgba(17, 17, 17, 1);
+//   backdrop-filter: blur(10px);
+//   color: #ccc;
+//   box-shadow:
+//     0 8px 25px rgba(0, 0, 0, 0.4),
+//     0 0 0 1px rgba(255, 255, 255, 0.05);
+
+//   z-index: 1030;
+
+//   &:hover {
+//     box-shadow:
+//       0 10px 35px rgba(0, 0, 0, 0.5),
+//       0 0 0 1px rgba(255, 255, 255, 0.08);
+//   }
+// }
+
+// .logo-header {
+//   width: 60px;
+//   height: 60px;
+//   border-radius: 50%;
+// }
+
+// .nav-center {
+//   flex: 2;
+//   .search-wrapper {
+//     display: flex;
+//     gap: 10px;
+//     align-items: center;
+//     .search-box {
+//       width: 100%;
+//       max-width: 800px;
+//       padding: 6px 10px;
+//       border-radius: 8px;
+//       border: none;
+//       outline: none;
+
+//       background-color: rgba(255, 255, 255, 0.1);
+//       color: #ccc;
+
+//       &:focus {
+//         box-shadow:
+//           0 0 0 2px rgba(0, 198, 255, 0.2),
+//           // viền ngoài mềm
+//           0 0 10px rgba(0, 198, 255, 0.4); // glow
+//       }
+//     }
+//     .search-icon {
+//       font-size: 26px;
+//       display: block;
+//       &:hover {
+//         opacity: 0.8;
+//       }
+//     }
+//   }
+// }
+
+// .nav-right {
+//   display: flex;
+//   align-items: center;
+//   gap: 30px;
+//   .user-avt {
+//     width: 36px;
+//     height: 36px;
+//     border-radius: 50%;
+//     object-fit: cover;
+//   }
+// }

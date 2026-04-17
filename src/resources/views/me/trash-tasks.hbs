@@ -1,0 +1,114 @@
+<div class="task-form">
+  <div class="task-list-header">
+    <h2>🗑 Trash Tasks</h2>
+    <button class="btn btn-outline-secondary" onclick="goBackPrevPage()">
+      Back
+    </button>
+  </div>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Task</th>
+        <th>Description</th>
+        <th>Deadline</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each tasks}}
+      <tr>
+        <td>{{title}}</td>
+        <td>{{description}}</td>
+        <td>{{deadline}}</td>
+        <td>
+          <!-- Khôi phục -->
+          <button
+            type="button"
+            class="btn btn-sm btn-warning"
+            data-bs-toggle="modal"
+            data-bs-target="#deleteModal"
+            data-id="{{_id}}"
+            onclick="restoreTask('{{_id}}')"
+          >
+            ♻️ Restore
+          </button>
+
+          <!-- Xóa vĩnh viễn -->
+          <button
+            type="button"
+            class="btn btn-sm btn-danger"
+            data-bs-toggle="modal"
+            data-bs-target="#deleteModal"
+            data-id="{{_id}}"
+          >
+            💀 Destroy
+          </button>
+        </td>
+      </tr>
+      {{else}}
+      <tr>
+        <td colspan="5" class="text-center text-muted py-4">Thùng rác trống</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Xác nhận</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+
+      <div class="modal-body">Bạn chắc muốn xóa vĩnh viễn task này?</div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button class="btn btn-danger" id="confirmDeleteBtn">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>
+<form id="deleteForm" method="POST"></form>
+<form id="restoreForm" method="POST"></form>
+
+<script>
+  const destroyModal = document.getElementById('deleteModal');
+  const destroyBtn = document.getElementById('confirmDeleteBtn');
+  let deleteId = null;
+  let restoreId = null;
+
+  destroyModal.addEventListener('show.bs.modal', e => {
+    const button = e.relatedTarget;
+    deleteId = button.getAttribute('data-id');
+  });
+  destroyBtn.onclick = () => {
+    const form = document.getElementById('deleteForm');
+    form.action = `/tasks/${deleteId}/force?_method=DELETE`;
+    form.submit();
+  };
+
+  const restoreTask = id => {
+    restoreId = id;
+    const form = document.getElementById('restoreForm');
+    form.action = `/tasks/${restoreId}/restore?_method=PATCH`;
+    form.submit();
+  };
+
+  const goBackPrevPage = () => {
+    const prev = localStorage.getItem('prevPage');
+
+    if (prev) {
+      window.location.href = prev;
+      localStorage.removeItem('prevPage'); // optional
+    } else {
+      window.location.href = '/'; // fallback nếu không có
+    }
+  };
+</script>

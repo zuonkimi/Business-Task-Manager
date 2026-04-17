@@ -1,0 +1,39 @@
+// dashboard card
+
+.dashboard-container {
+  background: rgba($color-white, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba($color-white, 0.05);
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  color: $text-light;
+}
+
+.row.dashboard-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: $spacing-md;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 10px;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.dashboard-card {
+  flex: 0 0 200px;
+  min-width: 200px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  scroll-snap-align: start;
+  @include smooth;
+  &:hover {
+    opacity: 0.9;
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+  }
+}

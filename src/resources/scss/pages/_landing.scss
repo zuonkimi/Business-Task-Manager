@@ -1,0 +1,76 @@
+.landing-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.landing-main {
+  flex: 1;
+  display: flex;
+}
+
+.landing-page {
+  position: relative;
+  width: 100%;
+  background: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  .landing-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: radial-gradient(
+      circle at center,
+      rgba(59, 130, 246, 0.2),
+      transparent 70%
+    );
+    z-index: 1;
+  }
+
+  .landing-content {
+    position: relative;
+    text-align: center;
+    color: $text-light;
+    z-index: 2;
+    perspective: 1000px;
+    animation: fadeIn 2s ease;
+
+    .logo {
+      width: 250px;
+      margin-bottom: $spacing-md;
+      animation: rotate3D 2s linear;
+      transform-style: preserve-3d;
+      &:hover {
+        transform: scale(1.08);
+        @include smooth;
+      }
+    }
+
+    .actions {
+      margin-top: $spacing-md;
+
+      .btn {
+        padding: $spacing-sm $spacing-md;
+        margin: 0 $spacing-sm;
+        font-size: 18px;
+        text-decoration: none;
+        border-radius: 999px;
+        @include smooth;
+        &.btn-login {
+          background-color: $color-primary-dark;
+          color: $text-light;
+        }
+        &.btn-register {
+          border: 1px solid $color-white;
+          background-color: transparent;
+          color: $text-light;
+        }
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+}

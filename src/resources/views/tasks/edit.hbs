@@ -1,0 +1,43 @@
+<div class="task-form">
+  <div class="task-list-header">
+    <h2>✏️ Edit Task</h2>
+    <a href="/tasks/create" class="btn btn-outline-secondary"> Back </a>
+  </div>
+  <form action="/tasks/{{task._id}}?_method=PUT" class="edit-form" method="POST">
+    <div class=" mb-3">
+      <label>Title</label>
+      <input name="title" class="form-control" value="{{task.title}}" required />
+    </div>
+  
+    <div class="mb-3">
+      <label>Description</label>
+      <textarea name="description" class="form-control" placeholder="Ghi chú...">{{task.description}}</textarea>
+    </div>
+  
+    <div class="mb-3">
+      <label>Deadline</label>
+      <input
+        style="background: #555; color: #ddd; margin-left: 15px;"
+        type="date"
+        name="deadline"
+        value="{{formatDateInput task.deadline}}"
+      />
+    </div>
+  
+    <div class="mb-3">
+      <label>Tag</label>
+      <select name="tags" class="form-control">
+        <option style="background: #1a1a1a; color: #ddd;" value="請求書" {{selected "請求書" task.tags.[0]}}>請求書</option>
+        <option style="background: #1a1a1a; color: #ddd;" value="安全書類" {{selected "安全書類" task.tags.[0]}}>安全書類</option>
+        <option style="background: #1a1a1a; color: #ddd;" value="発注" {{selected "発注" task.tags.[0]}}>発注</option>
+        <option style="background: #1a1a1a; color: #ddd;" value="注文請書" {{selected "注文請書" task.tags.[0]}}>注文請書</option>
+        <option style="background: #1a1a1a; color: #ddd;" value="リモート" {{selected "リモート" task.tags.[0]}}>リモート</option>
+        <option style="background: #1a1a1a; color: #ddd;" value="領収書" {{selected "領収書" task.tags.[0]}}>領収書</option>
+        <option style="background: #1a1a1a; color: #ddd;" value="他" {{selected "他" task.tags.[0]}}>他</option>
+      </select>
+    </div>
+  
+    <button type="submit" class="btn btn-primary">Update</button>
+  </form>
+  
+</div>
