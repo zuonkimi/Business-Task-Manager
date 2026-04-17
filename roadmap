@@ -1,0 +1,121 @@
+todolist/              Route → Controller → Model → View
+│
+├── src/
+│   ├── index.js                 # entry point (start server)
+│
+│   ├── app/                     # BUSINESS LOGIC
+│   │   ├── controllers/          #lấy data - gọi service - filter - render
+│   │   │     ├── TaskController.js
+│   │   │     ├── MeController.js
+│   │   │     └── SiteController.js
+│   │   │     └── AuthController.js
+│   │   │
+│   │   ├── models/
+│   │   │     └── Task.js
+│   │   │     └── User.js
+│   │   │
+│   │   ├── middlewares/
+│   │   │     └── auth.js
+│   │   │     └── preventCache.js
+│   │   │
+│   │   └── services/            # (optional nhưng nên có)
+│   │         └── taskService.js
+│
+│   ├── config/                  # CONFIG HỆ THỐNG
+│   │     └── db.js
+│   │     └── session.js
+│
+│   ├── helpers/                 # HANDLEBARS HELPERS
+│   │     └── handlebars.js
+│
+│   ├── utils/                   # TOOL DÙNG CHUNG
+│   │     └── mongoose.js
+│
+│   ├── routes/                  # ROUTES
+│   │     ├── index.js
+│   │     ├── tasks.js
+│   │     ├── me.js
+│   │     └── site.js
+│   │     └── auth.js
+│
+│   ├── resources/               # VIEW + SCSS
+│   │   ├── views/
+│   │   │   ├── layouts/
+│   │   │   │     └── main.hbs
+│   │   │   │     └── landing.hbs
+│   │   │   │
+│   │   │   ├── auth/
+│   │   │   │     └── login.hbs
+│   │   │   │     └── register.hbs
+│   │   │   │
+│   │   │   ├── partials/
+│   │   │   │     ├── header.hbs
+│   │   │   │     └── footer.hbs
+│   │   │   │
+│   │   │   ├── tasks/
+│   │   │   │     ├── create.hbs
+│   │   │   │     ├── edit.hbs
+│   │   │   │     └── show.hbs
+│   │   │   │
+│   │   │   ├── me/
+│   │   │   │     └── trash-tasks.hbs
+│   │   │   │
+│   │   │   └── home.hbs
+│   │   │   └── landing.hbs
+│   │   │
+│   │   └── scss/
+│   │           |
+                ├── base/
+                │   ├── _reset.scss
+                │   ├── _variables.scss
+                │   ├── _typography.scss
+                │
+                ├── layout/
+                │   ├── _navbar.scss
+                │   ├── _sidebar.scss
+                │   ├── _grid.scss
+                │   ├── _main.scss
+                │
+                ├── pages/
+                │   ├── _landing.scss
+                │   ├── _auth.scss
+                │   ├── _dashboard.scss
+                │   ├── footer.scss
+                │   ├── _task-content.scss
+                │
+                ├── components/
+                │   ├── _button.scss
+                │   ├── _card.scss
+                │   ├── _dropdown.scss
+                │   ├── _search.scss
+                │
+                ├── utils/
+                │   ├── _animations.scss
+                │   ├── _helpers.scss
+                │
+                └── app.scss
+│   ├── public/                  # STATIC FILE
+│   │   ├── css/
+│   │   ├── js/
+│   │   └── img/
+│
+├── package.json
+└── .env
+
+
+2. Layout chuẩn cho HOME (Dashboard)
+📐 Bố cục:
+┌──────────── Sidebar ────────────┐
+│  📋 Zuon Todo App                    │
+│  Home                          │
+│  Create                        │
+│  Tasks                         │
+│  Trash                         │
+└───────────────────────────────┘
+
+┌──────────── Main ───────────────┐
+│  Navbar                        │
+│  Cards (stats)                │
+│  Filter bar                   │
+│  Task table                  │
+└───────────────────────────────┘

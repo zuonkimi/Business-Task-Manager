@@ -1,0 +1,11 @@
+.logo {
+  width: 150px;
+  display: block;
+  margin: 0 auto;
+  @include smooth;
+  cursor: pointer;
+  &:hover {
+    transform-origin: center;
+    transform: scale(1.05);
+  }
+}

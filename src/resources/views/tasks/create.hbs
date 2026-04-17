@@ -1,0 +1,110 @@
+<div class="task-form">
+  <div class="task-list-header">
+    <h2 class="mb-0">📋 Create & Edit Todo</h2>
+    <div>
+      <a
+        href="/me/trash-tasks"
+        class="btn btn-outline-secondary"
+        onclick="savePrevPage()"
+        >🗑</a
+      >
+      <a href="/" class="btn btn-outline-secondary"> Back </a>
+    </div>
+  </div>
+
+  <form action="/tasks/store" method="POST" class="mb-4">
+    <div class="row">
+      <div class="col">
+        <input
+          name="title"
+          class="form-control"
+          placeholder="Task..."
+          required
+        />
+      </div>
+      <div class="col">
+        <input
+          name="description"
+          class="form-control"
+          placeholder="Description..."
+        />
+      </div>
+      <div class="col">
+        <input type="date" name="deadline" class="form-control" />
+      </div>
+      <div class="col">
+        <select name="tags" class="form-control">
+          <option value="請求書">請求書</option>
+          <option value="安全書類">安全書類</option>
+          <option value="発注">発注</option>
+          <option value="注文請書">注文請書</option>
+          <option value="リモート">リモート</option>
+          <option value="領収書">領収書</option>
+          <option value="他">他</option>
+        </select>
+      </div>
+      <div class="col">
+        <button type="submit" class="btn btn-primary">Add</button>
+      </div>
+    </div>
+  </form>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Task</th>
+        <th>Description</th>
+        <th>Deadline</th>
+        <th>Tag</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each tasks}}
+      <tr class="{{taskStatusClass this}}">
+        <td>{{title}}</td>
+        <td>{{description}}</td>
+        <td>{{formatDate deadline}}</td>
+        <td>{{tags}}</td>
+        <td>{{status}}</td>
+        <td>
+          <form
+            action="/tasks/{{_id}}/status?_method=PATCH"
+            method="POST"
+            style="display: inline"
+          >
+            <button type="submit" class="btn btn-sm btn-success">✔</button>
+          </form>
+
+          <form
+            action="/tasks/{{_id}}?_method=DELETE"
+            method="POST"
+            style="display: inline"
+          >
+            <button type="submit" class="btn btn-sm btn-danger">❌</button>
+          </form>
+
+          <a href="/tasks/{{_id}}/edit" class="btn btn-sm btn-warning">✏️</a>
+        </td>
+      </tr>
+      {{else}}
+      <tr>
+        <td colspan="5" class="text-center text-muted py-4">
+          <div>
+            <h5>{{emptyMessage}}</h5>
+            <small>Hãy tạo task mới 🚀</small>
+          </div>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+
+<script>
+  const savePrevPage = () => {
+    const currentPage = window.location.pathname + window.location.search;
+    localStorage.setItem('prevPage', currentPage);
+  };
+</script>

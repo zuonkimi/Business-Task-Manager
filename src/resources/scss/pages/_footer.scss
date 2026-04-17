@@ -1,0 +1,48 @@
+.footer-layout {
+  margin-top: auto;
+  background: linear-gradient(
+    to top,
+    rgba(2, 6, 23, 0.95),
+    rgba(15, 23, 42, 0.6)
+  );
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba($color-white, 0.08);
+  color: $text-light;
+  text-align: center;
+  padding: 10px 20px 0px 20px;
+
+  .footer-social {
+    .social-link {
+      a {
+        position: relative;
+        margin: 0 10px;
+        color: $text-light;
+        text-decoration: none;
+        @include smooth;
+        &::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: -3px;
+          width: 0%;
+          height: 2px;
+          background-color: $color-primary;
+          @include smooth;
+        }
+        &:hover {
+          color: $color-primary;
+          text-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+          &::after {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+  .footer-bottom {
+    margin-top: $spacing-lg;
+    font-size: 14px;
+    padding-top: $spacing-md;
+    border: 1px solid #1e293b;
+  }
+}

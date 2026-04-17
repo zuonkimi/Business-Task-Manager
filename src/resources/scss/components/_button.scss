@@ -1,0 +1,84 @@
+//                       Btn
+.btn {
+  display: inline-block;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  border: none;
+  cursor: pointer;
+
+  @include smooth;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+//                        Btn size
+.btn-sm {
+  padding: $spacing-sm $spacing-ss;
+  font-size: 12px;
+}
+.btn-lg {
+  padding: $spacing-md $spacing-lg;
+  font-size: 16px;
+}
+
+//                        Variant
+
+//mixin color when hover
+@mixin btn-hover($color) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba($color, 0.3);
+}
+
+@mixin btn-primary {
+  background: $color-primary-dark;
+  color: $color-white;
+  @include smooth;
+  &:hover {
+    @include btn-hover($color-primary);
+  }
+}
+.btn-danger {
+  background: $color-danger;
+  color: $color-white;
+  &:hover {
+    @include btn-hover($color-danger);
+  }
+}
+
+//                         Outline btn
+.btn-outline-primary {
+  background: transparent;
+  border: 1px solid $color-primary;
+  color: $color-primary;
+  @include smooth;
+  &:hover {
+    background: $color-primary;
+    color: $color-white;
+  }
+}
+
+//                          Btn gradient
+.btn-gradient {
+  background: linear-gradient(135deg, $color-primary, $color-primary-dark);
+  color: $color-white;
+  &:hover {
+    @include btn-hover($color-primary);
+  }
+}
+
+//                         Custom state when clicked
+//active
+.btn:active {
+  transform: scale(0.97);
+}
+//disabled
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -1,0 +1,96 @@
+<div class="dashboard-container mt-4">
+  <h2>🏠 Dashboard</h2>
+
+  <!-- Thống kê nhanh -->
+  <div class="row dashboard-row mb-3">
+    <div class="col">
+      <a
+        href="/tasks/create"
+        class="card text-white bg-primary text-decoration-none dashboard-card"
+      >
+        <div class="card-body">
+          <h5 class="card-title">Create & Edit</h5>
+          <span class="card-number">
+            <i class="bi bi-plus-circle"></i>
+          </span>
+        </div>
+      </a>
+    </div>
+    <div class="col">
+      <a href="/tasks?filter=soon" class="text-decoration-none">
+        <div class="card text-white bg-warning dashboard-card">
+          <div class="card-body">
+            <h5 class="card-title">Sắp hết hạn</h5>
+            <span class="card-number">{{soonTasks}}</span>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col">
+      <a href="/tasks?filter=overdue" class="text-decoration-none">
+        <div class="card text-white bg-danger dashboard-card">
+          <div class="card-body">
+            <h5 class="card-title">Quá hạn</h5>
+            <span class="card-number">{{overdueTasks}}</span>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col">
+      <a href="/tasks?filter=done" class="text-decoration-none">
+        <div class="card text-white bg-success dashboard-card">
+          <div class="card-body">
+            <h5 class="card-title">Hoàn thành</h5>
+            <span class="card-number">{{doneTasks}}</span>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col">
+      <a href="/me/trash-tasks" class="text-decoration-none">
+        <div class="card text-white bg-secondary dashboard-card">
+          <div class="card-body">
+            <h5 class="card-title">Trash 🗑</h5>
+            <span class="card-number">{{trashTask}}</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Danh sách task mới nhất -->
+  <div class="task-form">
+    <div class="task-list-header">
+      <h4 class="mb-0">📋 Task mới nhất</h4>
+      <span class="text-muted">Tổng: {{totalTask}} task</span>
+    </div>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>Description</th>
+          <th>Deadline</th>
+          <th>Tag</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each tasks}}
+        <tr class="{{taskStatusClass this}}">
+          <td>{{title}}</td>
+          <td>{{description}}</td>
+          <td>{{formatDate deadline}}</td>
+          <td>{{tags}}</td>
+          <td>{{status}}</td>
+        </tr>
+        {{else}}
+        <tr>
+          <td colspan="5" class="text-center text-muted py-4">
+            {{emptyMessage}}
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
