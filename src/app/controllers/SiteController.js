@@ -1,38 +1,28 @@
-const Task = require('../models/Task');
 const {
-  enrichTasks,
-  countTasks,
-  getEmptyMessage,
-  filterTasks,
-} = require('../services/taskServices');
+  getTasksPageData,
+  getHomePageData,
+} = require('../services/controllersServices/task.service');
 
 class SiteController {
   async show(req, res, next) {
     try {
-      const filter = req.query.filter || 'all';
-      const tasks = await Task.find({
-        deleted: false,
-        userId: req.session.userId,
-      })
-        .sort({ createdAt: -1 })
-        .lean();
-
-      const tasksWithStatus = enrichTasks(tasks);
-
-      const filteredTask = filterTasks(tasksWithStatus, filter);
-
-      const { done, overdue, soon } = countTasks(tasksWithStatus);
-      let emptyMessage = '';
-      if (filteredTask.length === 0) {
-        emptyMessage = getEmptyMessage(filter);
+      if (!req.session.userId) {
+        return res.redirect('/landing');
       }
 
-      res.render('tasks/show', {
-        tasks: filteredTask,
+      const filter = req.query.filter || 'all';
+
+      const { tasks, stats, emptyMessage } = await getTasksPageData(
+        req.session.userId,
+        filter,
+      );
+
+      return res.render('tasks/show', {
+        tasks,
         activeFilter: filter,
-        soonTasks: soon,
-        overdueTasks: overdue,
-        doneTasks: done,
+        soonTasks: stats.soon,
+        overdueTasks: stats.overdue,
+        doneTasks: stats.done,
         emptyMessage,
       });
     } catch (err) {
@@ -40,43 +30,26 @@ class SiteController {
     }
   }
 
-  search(req, res, next) {
-    res.send('Site Page');
-  }
-
   async home(req, res, next) {
     try {
-      res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-      res.set('Pragma', 'no-cache');
-      res.set('Expires', '0');
       if (!req.session.userId) {
-        return res.render('landing', {
-          layout: 'landing',
-        });
+        return res.redirect('/landing');
       }
 
       const filter = req.query.filter || 'all';
-      const tasks = await Task.find({ userId: req.session.userId })
-        .sort({ createdAt: -1 })
-        .lean();
 
-      const activeTasks = tasks.filter(task => !task.deleted);
-      const tasksWithStatus = enrichTasks(activeTasks);
-      const filteredTask = filterTasks(tasksWithStatus, filter);
-      const { total, done, overdue, soon } = countTasks(tasksWithStatus);
-      const trashTask = tasks.filter(task => task.deleted).length;
-      let emptyMessage = '';
-      if (filteredTask.length === 0) {
-        emptyMessage = getEmptyMessage(filter);
-      }
+      const { tasks, stats, trashTask, emptyMessage } = await getHomePageData(
+        req.session.userId,
+        filter,
+      );
 
-      res.render('home', {
-        tasks: filteredTask,
+      return res.render('home', {
+        tasks,
         activeFilter: filter,
-        totalTask: total,
-        doneTasks: done,
-        overdueTasks: overdue,
-        soonTasks: soon,
+        totalTask: stats.total,
+        doneTasks: stats.done,
+        overdueTasks: stats.overdue,
+        soonTasks: stats.soon,
         trashTask,
         emptyMessage,
         userId: req.session.userId,
@@ -86,17 +59,21 @@ class SiteController {
     }
   }
 
-  landing(req, res, next) {
+  landing(req, res) {
     return res.render('landing', {
       layout: 'landing',
     });
   }
-  index(req, res, next) {
+
+  index(req, res) {
     if (!req.session.userId) {
       return res.redirect('/landing');
     }
-
     return res.redirect('/home');
+  }
+
+  search(req, res) {
+    return res.send('Site Page');
   }
 }
 

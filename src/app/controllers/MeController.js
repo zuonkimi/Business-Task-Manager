@@ -1,16 +1,16 @@
-const Task = require('../models/Task');
-const { enrichTasks } = require('../services/taskServices');
+const {
+  getTrashTasks,
+} = require('../services/controllersServices/task.service');
 
 class MeController {
   async trashTasks(req, res, next) {
     try {
-      const tasks = await Task.find({
-        deleted: true,
-        userId: req.session.userId,
-      }).lean();
-      const tasksWithStatus = enrichTasks(tasks);
+      const { tasks, isEmpty } = await getTrashTasks(req.session.userId);
 
-      res.render('me/trash-tasks', { tasks: tasksWithStatus });
+      return res.render('me/trash-tasks', {
+        tasks,
+        isEmpty,
+      });
     } catch (err) {
       next(err);
     }

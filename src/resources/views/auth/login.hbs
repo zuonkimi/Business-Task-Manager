@@ -2,6 +2,7 @@
   <div class="info-box">
     <h2>Welcome Back !</h2>
     <form method="POST" action="/auth/login">
+      <input type="hidden" name="_csrf" value="{{csrfToken}}" />
       <div class="input-box">
         <i class="bi bi-envelope-at-fill input-icon"></i>
         <input

@@ -3,7 +3,12 @@
     <h2>✏️ Edit Task</h2>
     <a href="/tasks/create" class="btn btn-outline-secondary"> Back </a>
   </div>
-  <form action="/tasks/{{task._id}}?_method=PUT" class="edit-form" method="POST">
+  <form action="/tasks/{{task._id}}/?_method=PUT" class="edit-form" method="POST">
+      <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+      {{!-- <input type="hidden" name="_method" value="PUT" /> --}}
+      {{!-- <input type="hidden" name="redirectTo" value="{{currentUrl}}"> --}}
+      <input type="hidden" name="redirectTo" value="{{redirectTo}}">
+
     <div class=" mb-3">
       <label>Title</label>
       <input name="title" class="form-control" value="{{task.title}}" required />

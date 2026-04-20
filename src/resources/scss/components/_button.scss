@@ -9,8 +9,7 @@
 
   border: none;
   cursor: pointer;
-
-  @include smooth;
+  transition: all $transition-base;
 
   &:hover {
     opacity: 0.9;
@@ -19,9 +18,10 @@
 
 //                        Btn size
 .btn-sm {
-  padding: $spacing-sm $spacing-ss;
+  padding: $spacing-sm $spacing-xs;
   font-size: 12px;
 }
+
 .btn-lg {
   padding: $spacing-md $spacing-lg;
   font-size: 16px;
@@ -35,17 +35,37 @@
   box-shadow: 0 10px 20px rgba($color, 0.3);
 }
 
-@mixin btn-primary {
+.btn-primary {
   background: $color-primary-dark;
   color: $color-white;
-  @include smooth;
+
   &:hover {
     @include btn-hover($color-primary);
   }
 }
+
+.btn-success {
+  background: $color-success;
+  color: $color-white;
+
+  &:hover {
+    @include btn-hover($color-success);
+  }
+}
+
+.btn-warning {
+  background: $color-warning;
+  color: #000;
+
+  &:hover {
+    @include btn-hover($color-warning);
+  }
+}
+
 .btn-danger {
   background: $color-danger;
   color: $color-white;
+
   &:hover {
     @include btn-hover($color-danger);
   }
@@ -56,9 +76,21 @@
   background: transparent;
   border: 1px solid $color-primary;
   color: $color-primary;
-  @include smooth;
+
   &:hover {
     background: $color-primary;
+    color: $color-white;
+  }
+}
+
+.btn-outline-secondary {
+  background: transparent;
+  border: 1px solid $color-gray-500;
+  color: $color-gray-500;
+  @include smooth;
+
+  &:hover {
+    background: $color-gray-500;
     color: $color-white;
   }
 }
@@ -67,17 +99,17 @@
 .btn-gradient {
   background: linear-gradient(135deg, $color-primary, $color-primary-dark);
   color: $color-white;
+
   &:hover {
     @include btn-hover($color-primary);
   }
 }
 
 //                         Custom state when clicked
-//active
 .btn:active {
   transform: scale(0.97);
 }
-//disabled
+
 .btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;

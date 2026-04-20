@@ -8,11 +8,14 @@
         onclick="savePrevPage()"
         >🗑</a
       >
-      <a href="/" class="btn btn-outline-secondary"> Back </a>
+      <a href="/home" class="btn btn-outline-secondary"> Back </a>
     </div>
   </div>
 
   <form action="/tasks/store" method="POST" class="mb-4">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+    <input type="hidden" name="redirectTo" value="{{currentUrl}}" />
+
     <div class="row">
       <div class="col">
         <input
@@ -70,27 +73,45 @@
         <td>{{status}}</td>
         <td>
           <form
-            action="/tasks/{{_id}}/status?_method=PATCH"
+            action="/tasks/{{_id}}/status/?_method=PATCH"
             method="POST"
             style="display: inline"
           >
+            {{!--
+            <input type="hidden" name="_csrf" value="{{csrfToken}}" /> --}}
+            <input type="hidden" name="_csrf" value="{{../csrfToken}}" />
+            {{!-- <input type="hidden" name="_method" value="PATCH" /> --}}
+            <input type="hidden" name="redirectTo" value="{{currentUrl}}" />
+
             <button type="submit" class="btn btn-sm btn-success">✔</button>
           </form>
 
           <form
-            action="/tasks/{{_id}}?_method=DELETE"
+            action="/tasks/{{_id}}/?_method=DELETE"
             method="POST"
             style="display: inline"
           >
+            {{!--
+            <input type="hidden" name="_csrf" value="{{csrfToken}}" /> --}}
+            <input type="hidden" name="_csrf" value="{{../csrfToken}}" />
+            {{!-- <input type="hidden" name="_method" value="DELETE" /> --}}
+            <input type="hidden" name="redirectTo" value="{{currentUrl}}" />
+
             <button type="submit" class="btn btn-sm btn-danger">❌</button>
           </form>
-
+          <a
+            href="/tasks/{{_id}}/edit?redirectTo={{../currentUrl}}"
+            class="btn btn-warning"
+            >✏️</a
+          >
+          {{!--
           <a href="/tasks/{{_id}}/edit" class="btn btn-sm btn-warning">✏️</a>
+          --}}
         </td>
       </tr>
       {{else}}
       <tr>
-        <td colspan="5" class="text-center text-muted py-4">
+        <td colspan="6" class="text-center text-muted py-4">
           <div>
             <h5>{{emptyMessage}}</h5>
             <small>Hãy tạo task mới 🚀</small>

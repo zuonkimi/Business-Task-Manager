@@ -20,7 +20,9 @@
       <tr>
         <td>{{title}}</td>
         <td>{{description}}</td>
-        <td>{{deadline}}</td>
+
+        <td>{{formatDate deadline}}</td>
+
         <td>
           <!-- Khôi phục -->
           <button
@@ -48,7 +50,7 @@
       </tr>
       {{else}}
       <tr>
-        <td colspan="5" class="text-center text-muted py-4">Thùng rác trống</td>
+        <td colspan="4" class="text-center text-muted py-4">Thùng rác trống</td>
       </tr>
       {{/each}}
     </tbody>
@@ -75,8 +77,16 @@
     </div>
   </div>
 </div>
-<form id="deleteForm" method="POST"></form>
-<form id="restoreForm" method="POST"></form>
+<form id="deleteForm" method="POST">
+  <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+  <input type="hidden" name="redirectTo" value="{{currentUrl}}" />
+  {{!-- <input type="hidden" name="_method" value="DELETE" /> --}}
+</form>
+<form id="restoreForm" method="POST">
+  <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+  <input type="hidden" name="redirectTo" value="{{currentUrl}}" />
+  {{!-- <input type="hidden" name="_method" value="PATCH" /> --}}
+</form>
 
 <script>
   const destroyModal = document.getElementById('deleteModal');
@@ -91,16 +101,16 @@
   destroyBtn.onclick = () => {
     const form = document.getElementById('deleteForm');
     form.action = `/tasks/${deleteId}/force?_method=DELETE`;
+    //form.action = `/tasks/${deleteId}/force`;
     form.submit();
   };
 
   const restoreTask = id => {
-    restoreId = id;
     const form = document.getElementById('restoreForm');
-    form.action = `/tasks/${restoreId}/restore?_method=PATCH`;
+    form.action = `/tasks/${id}/restore?_method=PATCH`;
+    //form.action = `/tasks/${id}/restore`;
     form.submit();
   };
-
   const goBackPrevPage = () => {
     const prev = localStorage.getItem('prevPage');
 
@@ -108,7 +118,7 @@
       window.location.href = prev;
       localStorage.removeItem('prevPage'); // optional
     } else {
-      window.location.href = '/'; // fallback nếu không có
+      window.location.href = '/home'; // fallback nếu không có
     }
   };
 </script>

@@ -11,20 +11,31 @@ class AuthController {
   //Post login
   async loginPost(req, res, next) {
     try {
-      const { email, password } = req.body;
-      const user = await User.findOne({ email });
-      if (!user)
+      // const { email, password } = req.body;
+      const email = req.body.email?.trim();
+      const password = req.body.password?.trim();
+      // validate email and password
+      if (!email || !password) {
         return res.render('auth/login', {
           layout: 'auth',
-          error: 'User not found',
+          error: 'Email and password are required!',
         });
-      const match = await bcrypt.compare(password, user.password);
-      if (!match) return res.send('Wrong password');
+      }
+
+      const user = await User.findOne({ email });
+      const isValid = user && (await bcrypt.compare(password, user.password));
+      //validate user and password matched
+      if (!isValid) {
+        return res.render('auth/login', {
+          layout: 'auth',
+          error: 'Invalid email or password!',
+        });
+      }
 
       req.session.userId = user._id;
       req.session.email = user.email;
 
-      res.redirect('/home');
+      return res.redirect('/home');
     } catch (err) {
       next(err);
     }
@@ -32,20 +43,26 @@ class AuthController {
 
   //Get register
   register(req, res) {
-    res.render('auth/register', {
+    return res.render('auth/register', {
       layout: 'auth',
     });
   }
   //Post register
   async registerPost(req, res, next) {
     try {
-      const { email, password } = req.body;
-      if (!password || password.length < 6) {
+      const email = req.body.email?.trim();
+      const password = req.body.password?.trim();
+      // Validate password
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      if (!passwordRegex.test(password)) {
         return res.render('auth/register', {
           layout: 'auth',
-          error: 'Password must be at least 6 characters!',
+          error:
+            'Password must be at least 8 characters and include uppercase, lowercase, number, and special character!',
         });
       }
+
       const hashedPassword = await bcrypt.hash(password, 10);
       const existingUser = await User.findOne({ email });
 
@@ -60,7 +77,7 @@ class AuthController {
         password: hashedPassword,
       });
 
-      res.redirect('/auth/login');
+      return res.redirect('/auth/login');
     } catch (err) {
       next(err);
     }
@@ -72,7 +89,7 @@ class AuthController {
       if (err) return next(err);
 
       res.clearCookie('connect.sid');
-      return res.redirect('/auth/login');
+      return res.redirect(303, '/auth/login');
     });
   }
 }

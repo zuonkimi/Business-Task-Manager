@@ -14,12 +14,17 @@
   "type": "commonjs",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "csurf": "^1.11.0",
     "dotenv": "^17.4.0",
     "express": "^5.2.1",
     "express-handlebars": "^8.0.7",
+    "express-rate-limit": "^8.3.2",
     "express-session": "^1.19.0",
+    "joi": "^18.1.2",
     "method-override": "^3.0.0",
-    "mongoose": "^9.3.3"
+    "mongoose": "^9.3.3",
+    "redis": "^5.12.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.14",

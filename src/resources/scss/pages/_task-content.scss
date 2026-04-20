@@ -48,7 +48,7 @@
 
     td,
     th {
-      padding: $spacing-ss;
+      padding: $spacing-sm;
     }
 
     tbody {
@@ -78,7 +78,7 @@
   }
 
   .edit-form {
-    margin-top: $spacing-ss;
+    margin-top: $spacing-sm;
 
     .form-control {
       background: rgba($color-white, 0.05);

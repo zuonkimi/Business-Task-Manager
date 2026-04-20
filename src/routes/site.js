@@ -3,13 +3,14 @@ const router = express.Router();
 
 const siteController = require('../app/controllers/SiteController');
 
+//public
 router.get('/landing', siteController.landing);
+router.get('/', siteController.index);
 
 //list + filter
 router.get('/tasks', siteController.show);
 
 router.get('/search', siteController.search);
 router.get('/home', siteController.home);
-router.get('/', siteController.index);
 
 module.exports = router;

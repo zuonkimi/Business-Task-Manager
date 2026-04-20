@@ -1,6 +1,15 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const TASK_TAGS = [
+  '安全書類',
+  '請求書',
+  '発注',
+  '注文請書',
+  'リモート',
+  '領収書',
+  '他',
+];
 const TaskSchema = new Schema(
   {
     title: { type: String, required: true },
@@ -11,19 +20,12 @@ const TaskSchema = new Schema(
       default: 'pending',
     },
     deadline: Date,
-    tags: {
-      type: [String],
-      enum: [
-        '安全書類',
-        '請求書',
-        '発注',
-        '注文請書',
-        'リモート',
-        '領収書',
-        '他',
-      ],
-    },
-    description: String,
+    tags: [
+      {
+        type: [String],
+        enum: TASK_TAGS,
+      },
+    ],
     deleted: { type: Boolean, default: false },
 
     userId: {
@@ -34,5 +36,8 @@ const TaskSchema = new Schema(
   },
   { timestamps: true },
 );
+
+TaskSchema.index({ userId: 1, deleted: 1 });
+TaskSchema.index({ createdAt: -1 });
 
 module.exports = mongoose.model('Task', TaskSchema);

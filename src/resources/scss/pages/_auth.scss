@@ -71,7 +71,7 @@
       width: 100%;
       border-radius: $radius-pill;
       margin-top: $spacing-sm;
-      @include btn-primary;
+      // @include btn-primary;
     }
 
     .social-submit {
@@ -102,7 +102,7 @@
 
     a {
       position: relative;
-      margin: 0 $spacing-ss;
+      margin: 0 $spacing-sm;
       font-size: 15px;
       font-weight: bold;
       color: $text-primary;
@@ -128,163 +128,3 @@
     }
   }
 }
-
-//===========================================================================================
-// .auth-layout {
-//   position: relative;
-//   display: flex;
-//   flex-direction: column;
-//   min-height: 100vh;
-//   background: #0f172a;
-//   overflow: hidden;
-//   &::before {
-//     content: '';
-//     position: absolute;
-//     inset: 0;
-//     z-index: 1;
-
-//     background: radial-gradient(
-//       circle at center,
-//       rgba(59, 130, 246, 0.25),
-//       transparent 70%
-//     );
-//   }
-
-//   .auth-main {
-//     position: relative;
-//     flex: 1;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     z-index: 2;
-
-//     .auth-box {
-//       padding: 40px;
-//       width: 360px;
-//       border-radius: 20px;
-//       text-align: center;
-//       z-index: 3;
-
-//       background-color: rgba(15, 23, 42, 0.7);
-//       backdrop-filter: blur(10px);
-
-//       .logo {
-//         width: 150px;
-//         margin-bottom: 20px;
-//         &:hover {
-//           transform: scale(1.08);
-//           transition: 0.3s;
-//         }
-//       }
-//     }
-//   }
-// }
-
-// .login-page,
-// .register-page {
-//   width: 100%;
-//   .info-box {
-//     h2 {
-//       margin-bottom: 20px;
-//       color: #e2e8f0;
-//       font-weight: 600;
-//     }
-
-//     .input-box {
-//       position: relative;
-//       margin-bottom: 15px;
-
-//       input {
-//         width: 100%;
-//         padding: 12px 12px 12px 40px;
-//         border-radius: 999px;
-//         border: none;
-//         outline: none;
-//         background: rgba(255, 255, 255, 0.1);
-//         color: #e2e8f0;
-//         transition: 0.3s;
-//         &::placeholder {
-//           color: #94a3b8;
-//         }
-//         &:focus {
-//           box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.6);
-//           background: rgba(255, 255, 255, 0.15);
-//         }
-//       }
-//       .input-icon {
-//         position: absolute;
-//         left: 12px;
-//         top: 50%;
-//         transform: translateY(-50%);
-//         color: #94a3b8;
-//         font-size: 14px;
-//       }
-//     }
-//     .btn-submit {
-//       width: 100%;
-//       border-radius: 999px;
-//       padding: 10px;
-//       margin-top: 10px;
-
-//       background: #3b82f6;
-//       border: none;
-//       color: #ccc;
-//       transition: 0.3s;
-//       &:hover {
-//         transform: translateY(-2px);
-//         background: #2563eb;
-//         box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
-//       }
-//     }
-
-//     .social-submit {
-//       margin-top: 18px;
-
-//       .btn {
-//         margin: 0 5px;
-//         width: 40px;
-//         height: 40px;
-//         border-radius: 50%;
-//         display: inline-flex;
-//         align-items: center;
-//         justify-content: center;
-//         transition: 0.3s;
-//         &:hover {
-//           transform: scale(1.15);
-//         }
-//       }
-//     }
-//   }
-//   .get-account {
-//     margin-top: 15px;
-//     font-size: 14px;
-//     color: #94a3b8;
-
-//     a {
-//       position: relative;
-//       margin: 0 10px;
-//       font-size: 15px;
-//       font-weight: bold;
-//       color: #3464a8;
-//       text-decoration: none;
-//       transition: 0.3s;
-//       &::after {
-//         content: '';
-//         position: absolute;
-//         left: 0;
-//         bottom: -3px;
-//         width: 0%;
-//         height: 2px;
-//         background-color: #3b82f6;
-//         transition: 0.3s;
-//       }
-//       &:hover {
-//         color: #60a5fa;
-//         text-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
-//         &::after {
-//           width: 100%;
-//         }
-//       }
-//     }
-//   }
-// }
