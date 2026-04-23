@@ -20,12 +20,11 @@ const TaskSchema = new Schema(
       default: 'pending',
     },
     deadline: Date,
-    tags: [
-      {
-        type: [String],
-        enum: TASK_TAGS,
-      },
-    ],
+    tags: {
+      type: [String],
+      enum: TASK_TAGS,
+    },
+
     deleted: { type: Boolean, default: false },
 
     userId: {

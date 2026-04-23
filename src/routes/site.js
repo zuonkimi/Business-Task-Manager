@@ -10,7 +10,6 @@ router.get('/', siteController.index);
 //list + filter
 router.get('/tasks', siteController.show);
 
-router.get('/search', siteController.search);
 router.get('/home', siteController.home);
 
 module.exports = router;

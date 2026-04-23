@@ -1,60 +1,25 @@
-const Task = require('../../models/Task');
-const { client, safeDel } = require('../layersServices/redisClient');
-const {
-  enrichTasks,
-  filterTasks,
-  countTasks,
-  getEmptyMessage,
-} = require('../layersServices/taskServices');
-const { getUserTasks } = require('../layersServices/taskQueries');
+const taskGlobal = require('../globalServices/task.globalService');
+const { safeDel } = require('../layersServices/redisClient');
 
 // =====================
-// SHOW PAGE
+// CONSTANTS
 // =====================
-const getTasksPageData = async (userId, filter) => {
-  const tasks = await getUserTasks(userId, false);
-
-  const enriched = enrichTasks(tasks);
-  const filtered = filterTasks(enriched, filter);
-  const stats = countTasks(enriched);
-
-  return {
-    tasks: filtered,
-    stats,
-    emptyMessage: filtered.length === 0 ? getEmptyMessage(filter) : '',
-  };
-};
-
-// =====================
-// HOME PAGE
-// =====================
-const getHomePageData = async (userId, filter) => {
-  const tasks = await getUserTasks(userId, false);
-  const trashTasks = await getUserTasks(userId, true);
-
-  const enriched = enrichTasks(tasks);
-  const filtered = filterTasks(enriched, filter);
-  const stats = countTasks(enriched);
-
-  return {
-    tasks: filtered,
-    stats,
-    trashTask: trashTasks.length,
-    emptyMessage: filtered.length === 0 ? getEmptyMessage(filter) : '',
-  };
+const STATUS = {
+  DONE: 'done',
+  PENDING: 'pending',
 };
 
 // =====================
 // CREATE TASK
 // =====================
 const createTask = async (userId, data) => {
-  const task = await Task.create({
+  const task = await taskGlobal.create({
     ...data,
     userId,
     deleted: false,
   });
 
-  await safeDel(`tasks:${userId}`); // invalidate cache
+  await safeDel(`tasks:${userId}`);
 
   return task;
 };
@@ -63,7 +28,7 @@ const createTask = async (userId, data) => {
 // UPDATE TASK
 // =====================
 const updateTask = async (taskId, userId, data) => {
-  await Task.updateOne({ _id: taskId, userId }, data);
+  await taskGlobal.update(taskId, userId, data);
 
   await safeDel(`tasks:${userId}`);
 };
@@ -72,16 +37,16 @@ const updateTask = async (taskId, userId, data) => {
 // DELETE (SOFT)
 // =====================
 const deleteTask = async (taskId, userId) => {
-  await Task.updateOne({ _id: taskId, userId }, { deleted: true });
+  await taskGlobal.update(taskId, userId, { deleted: true });
 
   await safeDel(`tasks:${userId}`);
 };
 
 // =====================
-// RESTORE
+// RESTORE TASK
 // =====================
 const restoreTask = async (taskId, userId) => {
-  await Task.updateOne({ _id: taskId, userId }, { deleted: false });
+  await taskGlobal.update(taskId, userId, { deleted: false });
 
   await safeDel(`tasks:${userId}`);
 };
@@ -90,7 +55,7 @@ const restoreTask = async (taskId, userId) => {
 // FORCE DELETE
 // =====================
 const forceDeleteTask = async (taskId, userId) => {
-  await Task.deleteOne({ _id: taskId, userId });
+  await taskGlobal.delete(taskId, userId);
 
   await safeDel(`tasks:${userId}`);
 };
@@ -99,43 +64,32 @@ const forceDeleteTask = async (taskId, userId) => {
 // TOGGLE STATUS
 // =====================
 const toggleStatus = async (taskId, userId) => {
-  const task = await Task.findOne({ _id: taskId, userId });
+  const task = await taskGlobal.findById(taskId, userId);
 
   if (!task) return null;
 
-  const newStatus = task.status === 'done' ? 'pending' : 'done';
+  const newStatus = task.status === STATUS.DONE ? STATUS.PENDING : STATUS.DONE;
 
-  await Task.updateOne({ _id: taskId, userId }, { status: newStatus });
+  await taskGlobal.update(taskId, userId, { status: newStatus });
 
   await safeDel(`tasks:${userId}`);
 
-  return true;
+  return newStatus;
 };
 
 // =====================
-// TRASH TASKS
+// GET TASK BY ID
 // =====================
-const getTrashTasks = async userId => {
-  const tasks = await getUserTasks(userId, true);
-
-  const deletedTasks = tasks.filter(t => t.deleted);
-
-  const enriched = enrichTasks(deletedTasks);
-
-  return {
-    tasks: enriched,
-    isEmpty: enriched.length === 0,
-  };
+const getTaskById = async (taskId, userId) => {
+  return await taskGlobal.findById(taskId, userId);
 };
 
 module.exports = {
-  getTasksPageData,
-  getHomePageData,
   createTask,
   updateTask,
   deleteTask,
   restoreTask,
   forceDeleteTask,
   toggleStatus,
-  getTrashTasks,
+  getTaskById,
 };

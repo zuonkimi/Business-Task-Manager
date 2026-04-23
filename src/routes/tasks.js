@@ -13,6 +13,9 @@ router.use(authMiddleware);
 router.get('/create', taskController.create);
 router.post('/store', validate(taskValidateSchema), taskController.store);
 
+// search and filter
+router.get('/', taskController.index);
+
 //delete-restore-force delete
 router.patch('/:id/restore', taskController.restore);
 router.delete('/:id/force', taskController.forceDelete);

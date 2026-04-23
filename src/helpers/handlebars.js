@@ -1,14 +1,8 @@
-const {
-  getTaskStatus,
-} = require('../app/services/layersServices/taskServices');
-
 module.exports = {
   taskStatusClass: task => {
-    const status = getTaskStatus(task);
-
-    if (status === 'done') return 'table-success';
-    if (status === 'overdue') return 'table-danger';
-    if (status === 'soon') return 'table-warning';
+    if (task.status === 'done') return 'table-success';
+    if (task.isOverdue) return 'table-danger';
+    if (task.isSoon) return 'table-warning';
 
     return '';
   },

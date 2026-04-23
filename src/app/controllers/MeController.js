@@ -1,15 +1,13 @@
-const {
-  getTrashTasks,
-} = require('../services/controllersServices/task.service');
+const taskPageService = require('../services/pageServices/task.pageService');
 
 class MeController {
   async trashTasks(req, res, next) {
     try {
-      const { tasks, isEmpty } = await getTrashTasks(req.session.userId);
+      const result = await taskPageService.getTrashPageData(req.session.userId);
 
       return res.render('me/trash-tasks', {
-        tasks,
-        isEmpty,
+        tasks: result.tasks,
+        isEmpty: result.isEmpty,
       });
     } catch (err) {
       next(err);

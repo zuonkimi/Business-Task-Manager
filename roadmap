@@ -1,3 +1,6 @@
+=========================================== FLOW ======================================
+          Route → Controller → Service → Query (DB) → quay lại Controller → View
+
 todolist/              Route → Controller → Model → View
 │
 ├── src/
@@ -17,9 +20,19 @@ todolist/              Route → Controller → Model → View
 │   │   ├── middlewares/
 │   │   │     └── auth.js
 │   │   │     └── preventCache.js
+│   │   │     └── validate.js
 │   │   │
 │   │   └── services/            # (optional nhưng nên có)
-│   │         └── taskService.js
+│   │   │     └── controllersServices.js
+│   │   │                   └── task.service.js
+│   │   │      └── layersServices.js
+│   │   │                   └── redisClient.js
+│   │   │                   └── taskCache.js
+│   │   │                   └── taskQueries.js
+│   │   │                   └── taskServices.js
+│   │   └── validator/
+│   │            └── validator/
+│   │                     └── task.validator.js
 │
 │   ├── config/                  # CONFIG HỆ THỐNG
 │   │     └── db.js
@@ -43,6 +56,7 @@ todolist/              Route → Controller → Model → View
 │   │   │   ├── layouts/
 │   │   │   │     └── main.hbs
 │   │   │   │     └── landing.hbs
+│   │   │   │     └── auth.hbs
 │   │   │   │
 │   │   │   ├── auth/
 │   │   │   │     └── login.hbs
@@ -51,6 +65,7 @@ todolist/              Route → Controller → Model → View
 │   │   │   ├── partials/
 │   │   │   │     ├── header.hbs
 │   │   │   │     └── footer.hbs
+│   │   │   │     └── sidebar.hbs
 │   │   │   │
 │   │   │   ├── tasks/
 │   │   │   │     ├── create.hbs
@@ -80,7 +95,7 @@ todolist/              Route → Controller → Model → View
                 │   ├── _landing.scss
                 │   ├── _auth.scss
                 │   ├── _dashboard.scss
-                │   ├── footer.scss
+                │   ├── _footer.scss
                 │   ├── _task-content.scss
                 │
                 ├── components/
@@ -88,10 +103,14 @@ todolist/              Route → Controller → Model → View
                 │   ├── _card.scss
                 │   ├── _dropdown.scss
                 │   ├── _search.scss
+                │   ├── _logo.scss
+                │   ├── _form.scss
+                │   ├── _avatar.scss
                 │
                 ├── utils/
                 │   ├── _animations.scss
                 │   ├── _helpers.scss
+                │   ├── _mixins.scss
                 │
                 └── app.scss
 │   ├── public/                  # STATIC FILE
@@ -119,3 +138,5 @@ todolist/              Route → Controller → Model → View
 │  Filter bar                   │
 │  Task table                  │
 └───────────────────────────────┘
+
+3. Todo App -> Work management system

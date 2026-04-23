@@ -7,10 +7,25 @@
   </div>
 
   <div class="nav-center">
+    {{!--
     <div class="search-wrapper">
-      <input type="text" class="search-box" placeholder="Search tasks..." />
-      <i class="bi bi-search search-icon"></i>
+      --}}
+      <form method="GET" action="/tasks" class="search-wrapper">
+        <input
+          type="text"
+          name="keyword"
+          class="search-box"
+          placeholder="Search tasks / documents..."
+          value="{{filter.keyword}}"
+          required
+        />
+        <button type="submit" class="search-btn">
+          <i class="bi bi-search search-icon"></i>
+        </button>
+      </form>
+      {{!--
     </div>
+    --}}
   </div>
 
   <div class="nav-right">

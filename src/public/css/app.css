@@ -393,6 +393,12 @@ a:hover {
   cursor: not-allowed;
 }
 
+.search-btn {
+  background: none;
+  border: none;
+  color: #ddd;
+}
+
 .card {
   padding: 16px;
   border-radius: 20px;

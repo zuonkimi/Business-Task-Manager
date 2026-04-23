@@ -1,33 +1,21 @@
-const Task = require('../models/Task');
 const taskService = require('../services/controllersServices/task.service');
-const taskQueries = require('../services/layersServices/taskQueries');
-const {
-  enrichTasks,
-  getEmptyMessage,
-} = require('../services/layersServices/taskServices');
+const taskPageService = require('../services/pageServices/task.pageService');
 
 class TaskController {
+  // =====================
+  // LIST TASKS (SHOW PAGE)
+  // =====================
   async index(req, res, next) {
     try {
-      const page = parseInt(req.query.page) || 1;
-      const limit = 10;
-      const skip = (page - 1) * limit;
-
-      const tasks = await taskQueries.getUserTasksPaginated(
+      const result = await taskPageService.getTasksPage(
         req.session.userId,
-        skip,
-        limit,
+        req.query,
       );
 
-      const total = await taskQueries.countUserTasks(req.session.userId);
-
-      return res.render('tasks/index', {
-        tasks,
-        pagination: {
-          page,
-          total,
-          limit,
-        },
+      return res.render('tasks/show', {
+        tasks: result.tasks,
+        activeFilter: result.filters,
+        pagination: result.pagination,
         currentUrl: req.originalUrl,
       });
     } catch (err) {
@@ -35,16 +23,19 @@ class TaskController {
     }
   }
 
+  // =====================
+  // CREATE PAGE
+  // =====================
   async create(req, res, next) {
     try {
-      const tasks = await taskQueries.getUserTasks(req.session.userId);
-
-      const filter = req.query.filter || 'all';
-      const enrichedTasks = enrichTasks(tasks);
+      const result = await taskPageService.getCreatePageData(
+        req.session.userId,
+        req.query,
+      );
 
       return res.render('tasks/create', {
-        tasks: enrichedTasks,
-        emptyMessage: getEmptyMessage(filter),
+        tasks: result.tasks,
+        emptyMessage: result.emptyMessage,
         currentUrl: req.originalUrl,
       });
     } catch (err) {
@@ -52,6 +43,9 @@ class TaskController {
     }
   }
 
+  // =====================
+  // STORE TASK
+  // =====================
   async store(req, res, next) {
     try {
       const { title, status, deadline, tags, description } = req.body;
@@ -70,6 +64,9 @@ class TaskController {
     }
   }
 
+  // =====================
+  // DELETE (SOFT)
+  // =====================
   async delete(req, res, next) {
     try {
       await taskService.deleteTask(req.params.id, req.session.userId);
@@ -80,6 +77,9 @@ class TaskController {
     }
   }
 
+  // =====================
+  // RESTORE
+  // =====================
   async restore(req, res, next) {
     try {
       await taskService.restoreTask(req.params.id, req.session.userId);
@@ -90,6 +90,9 @@ class TaskController {
     }
   }
 
+  // =====================
+  // FORCE DELETE
+  // =====================
   async forceDelete(req, res, next) {
     try {
       await taskService.forceDeleteTask(req.params.id, req.session.userId);
@@ -100,6 +103,9 @@ class TaskController {
     }
   }
 
+  // =====================
+  // TOGGLE STATUS
+  // =====================
   async updateStatus(req, res, next) {
     try {
       const result = await taskService.toggleStatus(
@@ -117,12 +123,15 @@ class TaskController {
     }
   }
 
+  // =====================
+  // EDIT PAGE
+  // =====================
   async edit(req, res, next) {
     try {
-      const task = await Task.findOne({
-        _id: req.params.id,
-        userId: req.session.userId,
-      }).lean();
+      const task = await taskService.getTaskById(
+        req.params.id,
+        req.session.userId,
+      );
 
       if (!task) {
         return res.status(404).send('Task not found');
@@ -137,6 +146,9 @@ class TaskController {
     }
   }
 
+  // =====================
+  // UPDATE TASK
+  // =====================
   async updateTask(req, res, next) {
     try {
       const { title, deadline, tags, description } = req.body;

@@ -1,57 +1,53 @@
-const {
-  getTasksPageData,
-  getHomePageData,
-} = require('../services/controllersServices/task.service');
+const taskPageService = require('../services/pageServices/task.pageService');
 
 class SiteController {
+  // =====================
+  // SHOW TASK PAGE
+  // =====================
   async show(req, res, next) {
     try {
       if (!req.session.userId) {
         return res.redirect('/landing');
       }
 
-      const filter = req.query.filter || 'all';
-
-      const { tasks, stats, emptyMessage } = await getTasksPageData(
+      const result = await taskPageService.getTasksPage(
         req.session.userId,
-        filter,
+        req.query,
       );
 
       return res.render('tasks/show', {
-        tasks,
-        activeFilter: filter,
-        soonTasks: stats.soon,
-        overdueTasks: stats.overdue,
-        doneTasks: stats.done,
-        emptyMessage,
+        tasks: result.tasks,
+        activeFilter: result.filters,
+        pagination: result.pagination,
+        currentUrl: req.originalUrl,
       });
     } catch (err) {
       next(err);
     }
   }
 
+  // =====================
+  // HOME PAGE
+  // =====================
   async home(req, res, next) {
     try {
       if (!req.session.userId) {
         return res.redirect('/landing');
       }
 
-      const filter = req.query.filter || 'all';
-
-      const { tasks, stats, trashTask, emptyMessage } = await getHomePageData(
+      const result = await taskPageService.getHomePageData(
         req.session.userId,
-        filter,
+        req.query,
       );
 
       return res.render('home', {
-        tasks,
-        activeFilter: filter,
-        totalTask: stats.total,
-        doneTasks: stats.done,
-        overdueTasks: stats.overdue,
-        soonTasks: stats.soon,
-        trashTask,
-        emptyMessage,
+        tasks: result.tasks,
+        totalTask: result.stats.total,
+        doneTasks: result.stats.done,
+        overdueTasks: result.stats.overdue,
+        soonTasks: result.stats.soon,
+        trashTask: result.trashTask,
+        emptyMessage: result.emptyMessage,
         userId: req.session.userId,
       });
     } catch (err) {
@@ -59,21 +55,23 @@ class SiteController {
     }
   }
 
+  // =====================
+  // LANDING PAGE
+  // =====================
   landing(req, res) {
     return res.render('landing', {
       layout: 'landing',
     });
   }
 
+  // =====================
+  // ROOT
+  // =====================
   index(req, res) {
     if (!req.session.userId) {
       return res.redirect('/landing');
     }
     return res.redirect('/home');
-  }
-
-  search(req, res) {
-    return res.send('Site Page');
   }
 }
 
