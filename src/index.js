@@ -26,7 +26,7 @@ const cookieParser = require('cookie-parser');
 // config session for app
 const sessionConfig = require('./config/session');
 // get environment const (process.env is env saved)
-const port = process.env.PORT;
+const port = process.env.PORT || 9999;
 // read date from form (convert object type)
 app.use(express.urlencoded({ extended: true }));
 // read json data
@@ -77,7 +77,8 @@ db.connect().then(() => {
   // Load all routes for app
   route(app);
   // start server
-  app.listen(port, () => {
-    console.log(`Server chạy tại http://localhost:${port}`);
-  });
+});
+
+app.listen(port, () => {
+  console.log(`Server chạy tại port ${port}`);
 });
