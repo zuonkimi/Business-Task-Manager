@@ -1,40 +1,33 @@
 <div class="task-form">
-  <div class="task-list-header">
+  <!-- HEADER -->
+  <div
+    class="task-list-header d-flex justify-content-between align-items-center mb-3"
+  >
     <h2>🗑 Trash Tasks</h2>
     <button class="btn btn-outline-secondary" onclick="goBackPrevPage()">
       Back
     </button>
   </div>
-
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Task</th>
-        <th>Description</th>
-        <th>Deadline</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each tasks}}
-      <tr>
-        <td>{{title}}</td>
-        <td>{{description}}</td>
-        <td>{{deadline}}</td>
-        <td>
-          <!-- Khôi phục -->
+  <!-- LIST -->
+  <div class="trash-list">
+    {{#each tasks}}
+    <div class="card mb-2 shadow-sm">
+      <div class="card-body">
+        <!-- TITLE -->
+        <h5 class="mb-1">{{title}}</h5>
+        <!-- DESCRIPTION -->
+        <p class="text-muted mb-2">{{description}}</p>
+        <!-- DEADLINE -->
+        <div class="text-muted mb-2">📅 {{formatDate deadline}}</div>
+        <!-- ACTION -->
+        <div class="d-flex gap-2">
           <button
             type="button"
             class="btn btn-sm btn-warning"
-            data-bs-toggle="modal"
-            data-bs-target="#deleteModal"
-            data-id="{{_id}}"
             onclick="restoreTask('{{_id}}')"
           >
             ♻️ Restore
           </button>
-
-          <!-- Xóa vĩnh viễn -->
           <button
             type="button"
             class="btn btn-sm btn-danger"
@@ -44,15 +37,15 @@
           >
             💀 Destroy
           </button>
-        </td>
-      </tr>
-      {{else}}
-      <tr>
-        <td colspan="5" class="text-center text-muted py-4">Thùng rác trống</td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
+        </div>
+      </div>
+    </div>
+    {{else}}
+    <div class="text-center text-muted mt-4">
+      <h5>Thùng rác trống</h5>
+    </div>
+    {{/each}}
+  </div>
 </div>
 <div class="modal fade" id="deleteModal" tabindex="-1">
   <div class="modal-dialog">
@@ -65,9 +58,7 @@
           data-bs-dismiss="modal"
         ></button>
       </div>
-
       <div class="modal-body">Bạn chắc muốn xóa vĩnh viễn task này?</div>
-
       <div class="modal-footer">
         <button class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
         <button class="btn btn-danger" id="confirmDeleteBtn">Xóa</button>
@@ -82,33 +73,34 @@
   const destroyModal = document.getElementById('deleteModal');
   const destroyBtn = document.getElementById('confirmDeleteBtn');
   let deleteId = null;
-  let restoreId = null;
 
-  destroyModal.addEventListener('show.bs.modal', e => {
-    const button = e.relatedTarget;
+  // SET ID khi mở modal
+  destroyModal.addEventListener('show.bs.modal', event => {
+    const button = event.relatedTarget;
     deleteId = button.getAttribute('data-id');
   });
-  destroyBtn.onclick = () => {
+
+  // DELETE HARD
+  destroyBtn.onclick = async () => {
     const form = document.getElementById('deleteForm');
-    form.action = `/tasks/${deleteId}/force?_method=DELETE`;
-    form.submit();
+    await fetch(`/tasks/${deleteId}/force`, {
+      method: 'DELETE',
+    });
+    location.reload();
   };
-
-  const restoreTask = id => {
-    restoreId = id;
-    const form = document.getElementById('restoreForm');
-    form.action = `/tasks/${restoreId}/restore?_method=PATCH`;
-    form.submit();
+  // RESTORE
+  const restoreTask = async id => {
+    await fetch(`/tasks/${id}/restore?_method=PATCH`, {
+      method: 'POST',
+    });
+    location.reload();
   };
-
+  // BACK
   const goBackPrevPage = () => {
-    const prev = localStorage.getItem('prevPage');
-
-    if (prev) {
-      window.location.href = prev;
-      localStorage.removeItem('prevPage'); // optional
+    if (window.history.length > 1) {
+      window.history.go(-1);
     } else {
-      window.location.href = '/'; // fallback nếu không có
+      window.location.href = '/tasks';
     }
   };
 </script>

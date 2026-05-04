@@ -1,17 +1,17 @@
 .container {
   width: 100%;
   max-width: 1200px;
-  margin-inline: 0 auto;
-  padding-inline: 0 $spacing-md;
+  margin-inline: auto;
+  padding-inline: $spacing-md;
 }
 
-//                           Grid base
+// GRID
 .grid {
   display: grid;
   gap: $spacing-md;
 }
 
-//                           Grid size
+/* COLS */
 .grid-2 {
   @include grid-cols(2);
 }
@@ -22,19 +22,18 @@
   @include grid-cols(4);
 }
 
-//                           Grid auto
+/* AUTO */
 .grid-auto {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
-//                           Responsive
+// RESPONSIVE
 @media (max-width: $breakpoint-lg) {
   .grid-3,
   .grid-4 {
     @include grid-cols(2);
   }
 }
-
 @media (max-width: $breakpoint-sm) {
   .grid-4,
   .grid-3,

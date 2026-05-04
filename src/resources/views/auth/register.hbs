@@ -1,44 +1,54 @@
-<div class="register-page">
+<div class="register-page auth-page">
   <div class="info-box">
-    <h2>Create Account</h2>
+    <div class="auth-header">
+      <h2>Create Account</h2>
+      <p>Start organizing your life in seconds</p>
+    </div>
 
-    {{#if error}}
-    <div class="alert alert-danger">{{error}}</div>
-    {{/if}}
     <form method="POST" action="/auth/register">
+      <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+
       <div class="input-box">
-        <i class="bi bi-envelope-at-fill input-icon"></i>
+        <i class="bi bi-person-fill input-icon"></i>
+        <input type="text" name="name" placeholder="Nickname..." required />
+      </div>
+
+      <div class="input-box">
+        <i class="bi bi-at input-icon"></i>
         <input
-          type="email"
-          name="email"
-          class="form-control mb-2"
-          placeholder="Email..."
+          type="text"
+          name="username"
+          placeholder="@Username..."
           required
         />
       </div>
+
+      <div class="input-box">
+        <i class="bi bi-envelope-at-fill input-icon"></i>
+        <input type="email" name="email" placeholder="Email..." required />
+      </div>
+
       <div class="input-box">
         <i class="bi bi-person-fill-lock input-icon"></i>
         <input
           type="password"
           name="password"
-          class="form-control mb-2"
           placeholder="Password..."
           required
         />
       </div>
-      <button class="btn btn-submit">Create Account</button>
+
+      <button class="btn-submit">Create Account</button>
     </form>
+
     <div class="social-submit">
-      <a href="/auth/google" class="btn btn-danger btn-social">
-        <i class="bi bi-google"></i>
-      </a>
-      <a href="/auth/facebook" class="btn btn-primary btn-social">
-        <i class="bi bi-facebook"></i>
-      </a>
-      <a href="/auth/line" class="btn btn-success btn-social">
-        <i class="bi bi-line"></i>
-      </a>
+      <a href="/auth/google" class="btn-social"><i class="bi bi-google"></i></a>
+      <a href="/auth/facebook" class="btn-social"
+        ><i class="bi bi-facebook"></i
+      ></a>
+      <a href="/auth/line" class="btn-social"><i class="bi bi-line"></i></a>
     </div>
+
     <p class="get-account">
       Already have an account?
       <a href="/auth/login">Login</a>

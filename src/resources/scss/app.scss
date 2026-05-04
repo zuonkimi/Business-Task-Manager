@@ -1,10 +1,12 @@
 @import 'utils/animations';
 @import 'utils/helpers';
 @import 'utils/mixins';
+@import 'utils/breakpoint';
 
 @import 'base/reset';
 @import 'base/variables';
 @import 'base/typography';
+@import 'base/theme';
 
 @import 'layout/grid';
 @import 'layout/navbar';
@@ -17,9 +19,13 @@
 @import 'components/search';
 @import 'components/avatar';
 @import 'components/logo';
+@import 'components/form';
 
 @import 'pages/auth';
 @import 'pages/dashboard';
 @import 'pages/landing';
 @import 'pages/footer';
 @import 'pages/task-content';
+@import 'pages/task-list';
+@import 'pages/profile';
+@import 'pages/users';

@@ -1,15 +1,25 @@
-<aside class="sidebar">
+<aside class="sidebar" id="sidebar">
+  {{!-- MOBILE: close button --}}
+  <div class="sidebar-close d-md-none">
+    <button
+      type="button"
+      onclick="sidebarToggle()"
+      class="btn btn-sm btn-outline-light"
+    >
+      <i class="bi bi-x-lg"></i>
+    </button>
+  </div>
   <a href="/">
     <i class="bi bi-house-heart"></i>
     Home
   </a>
   <a href="/tasks">
     <i class="bi bi-list-task"></i>
-    Tasks
+    My Tasks
   </a>
-  <a href="/tasks/create">
-    <i class="bi bi-cloud-plus-fill"></i>
-    Create
+  <a href="/users">
+    <i class="bi bi-people-fill"></i>
+    Friend Search
   </a>
   <a href="/me/trash-tasks">
     <i class="bi bi-trash3-fill"></i>

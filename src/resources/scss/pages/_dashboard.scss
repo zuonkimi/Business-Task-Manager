@@ -1,39 +1,120 @@
-// dashboard card
-
+// DASHBOARD CONTAINER
 .dashboard-container {
-  background: rgba($color-white, 0.03);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba($color-white, 0.05);
-  border-radius: $radius-lg;
+  max-width: 680px;
+  margin: 0 auto;
   padding: $spacing-lg;
   color: $text-light;
+  width: 100%;
+  overflow-x: hidden;
 }
 
-.row.dashboard-row {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: $spacing-md;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding-bottom: 10px;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-  scroll-snap-type: x proximity;
-  &::-webkit-scrollbar {
-    display: none;
+// KPI CARD
+.dashboard-card {
+  text-align: center;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  &:hover {
+    transform: translateY(-2px);
   }
 }
 
-.dashboard-card {
-  flex: 0 0 200px;
-  min-width: 200px;
-  text-align: center;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-  scroll-snap-align: start;
-  @include smooth;
+// FEED CARD
+.feed-card {
+  border-radius: 16px;
+  background: rgba($color-white, 0.04);
+  border: 1px solid rgba($color-white, 0.06);
+  backdrop-filter: blur(6px);
+  transition: all 0.2s ease;
   &:hover {
-    opacity: 0.9;
-    transform: translateY(-6px) scale(1.02);
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+  }
+  .card-body {
+    display: block; // IMPORTANT
+    padding: 1rem 1.2rem;
+  }
+  h5 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  p {
+    font-size: 0.95rem;
+    color: rgba($text-light, 0.85);
+    margin-bottom: 8px;
+  }
+  .meta {
+    font-size: 0.8rem;
+    opacity: 0.7;
+  }
+}
+
+// ATTACHMENTS
+.attachments {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin: $spacing-sm 0;
+}
+
+.post-img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: $radius-md;
+  display: block;
+}
+
+// ACTION BAR
+.action-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  margin-top: $spacing-sm;
+  padding-top: $spacing-sm;
+  border-top: 1px solid rgba($color-white, 0.08);
+  a,
+  button {
+    flex: 1;
+    text-align: center;
+    color: $text-light;
+    font-size: 0.9rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    @include smooth;
+    &:hover {
+      opacity: 1;
+      transform: translateY(-1px);
+    }
+  }
+  .btn-like.liked {
+    color: #ef4444;
+  }
+}
+
+// AVATAR
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: gray;
+  flex-shrink: 0;
+}
+
+// MOBILE
+@media (max-width: 576px) {
+  .dashboard-container {
+    padding: 12px;
+  }
+  h2 {
+    font-size: 18px;
+  }
+  .feed-card {
+    border-radius: 12px;
   }
 }

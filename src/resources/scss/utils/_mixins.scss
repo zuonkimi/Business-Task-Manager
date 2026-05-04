@@ -1,4 +1,4 @@
-//                           Mixin define glass effect
+/* GLASS */
 @mixin glass($opacity: 0.1) {
   background-color: rgba(255, 255, 255, $opacity);
   backdrop-filter: blur(10px);
@@ -7,18 +7,17 @@
     0 0 0 1px rgba(0, 0, 0, 0.05);
 }
 
-//                           Mixin smooth
+/* SMOOTH */
 @mixin smooth {
-  transition: all 0.25s ease;
+  transition: all $transition-base;
 }
 
-//                           Mixin dashboard box
+/* BACKGROUND GLOW */
 @mixin bg-glow {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 0;
-
   background:
     radial-gradient(
       circle at 20% 20%,
@@ -37,19 +36,16 @@
     );
 }
 
-//                                Mixin input
+/* INPUT BASE */
 @mixin input-base {
   width: 100%;
   padding: $spacing-sm $spacing-md;
   border-radius: $radius-sm;
   border: none;
   outline: none;
-
   background-color: rgba(255, 255, 255, 0.1);
   color: $text-light;
-
   @include smooth;
-
   &:focus {
     box-shadow:
       0 0 0 2px rgba($color-primary, 0.2),
@@ -57,12 +53,12 @@
   }
 }
 
-//                                Mixin grid
+/* GRID */
 @mixin grid-cols($width) {
   grid-template-columns: repeat($width, 1fr);
 }
 
-//                                Mixin scrollbar
+/* SCROLLBAR */
 @mixin scrollbar {
   &::-webkit-scrollbar {
     width: 8px;
@@ -73,9 +69,27 @@
   &::-webkit-scrollbar-thumb {
     background: rgba(148, 163, 184, 0.4);
     border-radius: 10px;
-    transition: 0.3s;
     &:hover {
       background: rgba(148, 163, 184, 0.7);
+    }
+  }
+}
+
+// RESPONSIVE
+@mixin respond($breakpoint) {
+  @if $breakpoint == sm {
+    @media (max-width: $sm) {
+      @content;
+    }
+  }
+  @if $breakpoint == md {
+    @media (max-width: $md) {
+      @content;
+    }
+  }
+  @if $breakpoint == lg {
+    @media (max-width: $lg) {
+      @content;
     }
   }
 }

@@ -1,52 +1,48 @@
-const Handlebars = require('handlebars');
-
 module.exports = {
+  // TASK STATUS CLASS
   taskStatusClass: task => {
+    if (!task) return '';
     if (task.status === 'done') return 'table-success';
-    if (!task.deadline) return '';
-
-    const now = new Date();
-    const deadline = new Date(task.deadline);
-
-    if (isNaN(deadline)) return '';
-
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const deadlineDate = new Date(
-      deadline.getFullYear(),
-      deadline.getMonth(),
-      deadline.getDate(),
-    );
-
-    if (deadlineDate < today) return 'table-danger';
-
-    const diff = (deadlineDate - today) / (1000 * 60 * 60 * 24);
-
-    if (diff <= 3) return 'table-warning';
+    if (task.status === 'cancelled') return 'table-secondary';
+    if (task.isOverdue) return 'table-danger';
+    if (task.isSoon) return 'table-warning';
     return '';
   },
+
+  // FORMAT DATE (DISPLAY)
   formatDate: date => {
     if (!date) return '';
-    const customDate = new Date(date);
-    if (isNaN(customDate.getTime())) return '';
-
-    const month = String(customDate.getMonth() + 1).padStart(2, '0');
-    const day = String(customDate.getDate()).padStart(2, '0');
-
-    return `${month}/${day}`;
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return '';
+    return d.toLocaleDateString('en-GB'); // dd/mm/yyyy
   },
+
+  // FORMAT DATE (INPUT)
   formatDateInput: date => {
     if (!date) return '';
-
-    const inputDate = new Date(date);
-
-    if (isNaN(inputDate.getTime())) return '';
-
-    return inputDate.toISOString().split('T')[0];
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return '';
+    return d.toISOString().split('T')[0];
   },
-  eq: (a, b) => {
-    return a === b;
+
+  // EQUALITY CHECK
+  eq: (a, b) => a === b,
+
+  // SELECT OPTION
+  selected: (value, current) => {
+    return value === current ? 'selected' : '';
   },
-  selected: (value, crr) => {
-    return value === crr ? 'selected' : '';
+
+  // STRING INCLUDES (CASE INSENSITIVE)
+  includes: (str, keyword) => {
+    if (!str || !keyword) return false;
+    return String(str).toLowerCase().includes(String(keyword).toLowerCase());
+  },
+
+  // HIGHLIGHT SEARCH KEYWORD
+  highlight: (text, keyword) => {
+    if (!text || !keyword) return text;
+    const regex = new RegExp(`(${keyword})`, 'gi');
+    return String(text).replace(regex, '<mark>$1</mark>');
   },
 };

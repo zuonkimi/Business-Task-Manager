@@ -1,108 +1,29 @@
-//                          Card default
 .card {
   padding: $spacing-lg;
-  border-radius: $radius-lg;
+  border-radius: $radius-pill;
   background: $bg-card;
   box-shadow: $shadow-sm;
+  font-weight: 500;
   @include smooth;
   &:hover {
-    transform: translateY(-5px);
+    transform: translateY(-3px);
     box-shadow: $shadow-md;
   }
 }
 
-//                           Card title
-.card-title {
-  margin-bottom: 0;
-  font-size: 18px;
-}
-
-//                          Glass effect (variant card)
-.card-glass {
-  @include glass(0.1);
-}
-
-//                           Card layout
+// CARD BODY
 .card-body {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: block;
 }
 
-//                           Card number
-.card-number {
-  font-size: 2rem;
-  font-weight: bold;
-
-  i {
-    font-size: 1.8rem;
+// FEED CARD
+.feed-card {
+  border-radius: 16px;
+  background: rgba($color-white, 0.04);
+  border: 1px solid rgba($color-white, 0.06);
+  backdrop-filter: blur(6px);
+  @include smooth;
+  .card-body {
+    padding: 1rem 1.2rem;
   }
 }
-
-//                           Card color
-.card-primary {
-  background: linear-gradient(135deg, $color-primary, $color-primary-dark);
-  color: $color-white;
-}
-
-.card-warning {
-  background: linear-gradient(
-    135deg,
-    $color-warning,
-    lighten($color-warning, 10%)
-  );
-  color: $color-dark;
-}
-
-.card-danger {
-  background: linear-gradient(
-    135deg,
-    $color-danger,
-    lighten($color-danger, 10%)
-  );
-  color: $color-white;
-}
-
-.card-success {
-  background: linear-gradient(
-    135deg,
-    $color-success,
-    lighten($color-success, 10%)
-  );
-  color: $color-white;
-}
-
-.card-secondary {
-  background: linear-gradient(135deg, $color-gray-700, $color-gray-900);
-  color: $color-white;
-}
-
-// ===========================================================================
-
-// .card-glass {
-//   padding: 30px;
-//   border-radius: 20px;
-
-//   background-color: rgba(255, 255, 255, 0.1);
-//   backdrop-filter: blur(10px);
-// }
-
-// .card-body {
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-// }
-
-// .card-title {
-//   margin-bottom: 0;
-//   font-size: 18px;
-// }
-
-// .card-number {
-//   font-size: 2rem;
-//   font-weight: bold;
-
-//   i {
-//     font-size: 1.8rem;
-//   }
-// }

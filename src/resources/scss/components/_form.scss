@@ -1,16 +1,16 @@
-//                                       Input
-.input {
+.form-control {
   width: 100%;
   padding: $spacing-sm $spacing-md;
-  border-radius: $radius-sm;
-  border: none;
-  outline: none;
-  background-color: rgba($color-white, 0.1);
+  border-radius: $radius-md;
+  border: 1px solid rgba($color-white, 0.1);
+  background-color: rgba($color-white, 0.05);
   color: $text-light;
+  outline: none;
   @include smooth;
   &:focus {
+    border-color: $color-primary;
     box-shadow:
       0 0 0 2px rgba($color-primary, 0.2),
-      0 0 10px rgba($color-primary, 0.4);
+      0 0 10px rgba($color-primary, 0.3);
   }
 }

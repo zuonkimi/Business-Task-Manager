@@ -1,25 +1,38 @@
-//                                     Avatar base
 .avatar {
   display: inline-block;
   border-radius: $radius-circle;
-  object-fit: cover;
+  overflow: hidden;
+  position: relative;
   cursor: pointer;
+  width: 36px;
+  height: 36px;
+  @include smooth;
   &:hover {
     transform: scale(1.05);
   }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
 }
 
-//                                     Mixin size avatar
-@mixin avatar-size($size) {
-  width: $size;
-  height: $size;
+/* SIZE VARIANTS */
+.avatar-sm {
+  width: 28px;
+  height: 28px;
 }
-
 .avatar-md {
-  @include avatar-size(36px);
+  width: 36px;
+  height: 36px;
+}
+.avatar-lg {
+  width: 48px;
+  height: 48px;
 }
 
-// Hbs class
+/* USER AVATAR */
 .user-avt {
-  @include avatar-size(36px);
+  @extend .avatar;
 }

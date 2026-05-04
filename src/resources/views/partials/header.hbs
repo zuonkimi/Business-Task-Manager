@@ -1,43 +1,95 @@
 <nav class="navbar">
   <div class="nav-left">
-    <a class="navbar-brand logo-header" href="/">
+    <button class="btn btn-dark d-md-none me-2" onclick="sidebarToggle()">
+      <i class="bi bi-three-dots-vertical"></i>
+    </button>
+    <a class="navbar-brand" href="/">
       <img src="/img/img1.png" class="logo-header" alt="logo" />
-      Todo App</a
-    >
+      Zuno Pulse
+    </a>
   </div>
 
   <div class="nav-center">
-    <div class="search-wrapper">
-      <input type="text" class="search-box" placeholder="Search tasks..." />
-      <i class="bi bi-search search-icon"></i>
-    </div>
+    <form method="GET" action="/search" class="search-wrapper">
+      <input
+        type="text"
+        name="keyword"
+        class="search-box"
+        placeholder="Search tasks / documents / users..."
+        value="{{activeFilter.keyword}}"
+      />
+      <button type="submit" class="search-btn">
+        <i class="bi bi-search search-icon"></i>
+      </button>
+    </form>
   </div>
 
   <div class="nav-right">
-    <img
-      src="https://scontent.fhnd4-2.fna.fbcdn.net/v/t39.30808-1/616569761_4170886249830973_3803159533372183987_n.jpg?stp=cp0_dst-jpg_s40x40_tt6&_nc_cat=105&ccb=1-7&_nc_sid=1d2534&_nc_ohc=v9DtcCYmRX0Q7kNvwHrBNsU&_nc_oc=Adpa1i22disMmR8HIfRQ2im45IdIV1HcoZK1dD9SImjPPW-otfUOCoFZ-lsKCFuXjjHhAkyQ_4teiAhA4a0Fh-P3&_nc_zt=24&_nc_ht=scontent.fhnd4-2.fna&_nc_gid=kPEjVz_ovWWIXkNhQP7INQ&_nc_ss=7a32e&oh=00_AfxstR7fxCPEULGfYRdhCKYvKLuL4urznHJh_4UlNO_wCQ&oe=69CD9844"
-      alt="zuonkimi"
-      class="avatar user-avt"
-    />
+    <div class="avatar avatar-md">
+      <a href="/profile/{{currentUser._id}}">
+        <img src="{{currentUser.avatar}}" alt="{{currentUser.name}}" />
+      </a>
+    </div>
+
     <div class="dropdown">
       <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown">
-        Menu
-        <i class="bi bi-list"></i>
+        Menu <i class="bi bi-list"></i>
       </button>
+
       <div class="dropdown-menu">
-        <a href="#">
-          <i class="bi bi-person-circle"></i>
-          Profile
+        <a href="/profile/{{currentUser._id}}">
+          <i class="bi bi-person-circle"></i> Profile
         </a>
-        <a href="#">
-          <i class="bi bi-gear"></i>
-          Settings
-        </a>
+        <a href="#"><i class="bi bi-gear"></i> Settings</a>
         <a href="/auth/logout">
-          <i class="bi bi-box-arrow-right"></i>
-          Logout
+          <i class="bi bi-box-arrow-right"></i> Logout
         </a>
       </div>
     </div>
   </div>
 </nav>
+
+<!-- MOBILE SEARCH OVERLAY -->
+<div class="search-overlay">
+  <div class="search-overlay__box">
+    <form method="GET" action="/search" class="search-wrapper">
+      <input
+        type="text"
+        name="keyword"
+        class="search-box"
+        placeholder="Search tasks / documents / users..."
+      />
+      <button type="submit" class="search-btn">
+        <i class="bi bi-search search-icon"></i>
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- SCRIPT -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const overlay = document.querySelector('.search-overlay');
+    const navSearchBtn = document.querySelector('.nav-center .search-btn');
+    if (!overlay || !navSearchBtn) return;
+    const input = overlay.querySelector('input[name="keyword"]');
+    navSearchBtn.addEventListener('click', event => {
+      if (window.innerWidth > 600) return;
+      event.preventDefault();
+      overlay.classList.add('active');
+      requestAnimationFrame(() => {
+        input?.focus();
+      });
+    });
+    overlay.addEventListener('click', event => {
+      if (event.target === overlay) {
+        overlay.classList.remove('active');
+      }
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        overlay.classList.remove('active');
+      }
+    });
+  });
+</script>

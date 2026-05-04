@@ -1,74 +1,152 @@
-.landing-layout {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.landing-main {
-  flex: 1;
-  display: flex;
-}
-
 .landing-page {
   position: relative;
   width: 100%;
-  background: #0f172a;
+  min-height: 100vh;
+  background: $bg-main;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-
+  &::before {
+    @include bg-glow;
+    animation: floatBg 10s ease-in-out infinite;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(
+      circle,
+      rgba(139, 92, 246, 0.3),
+      transparent 60%
+    );
+    bottom: -200px;
+    right: -200px;
+    filter: blur(60px);
+    z-index: 0;
+    animation: floatBg 12s ease-in-out infinite;
+  }
+  // OVERLAY
   .landing-overlay {
     position: absolute;
     inset: 0;
-    background-color: radial-gradient(
+    background: radial-gradient(
       circle at center,
       rgba(59, 130, 246, 0.2),
       transparent 70%
     );
     z-index: 1;
   }
-
+  // MAIN
   .landing-content {
     position: relative;
-    text-align: center;
-    color: $text-light;
     z-index: 2;
-    perspective: 1000px;
-    animation: fadeIn 2s ease;
-
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 $spacing-4xl;
+    gap: $spacing-4xl;
+    color: $text-primary;
+  }
+  // CENTER
+  .landing-center {
+    flex: 1;
+    text-align: center;
+    animation: fadeUp 1s ease;
     .logo {
-      width: 250px;
-      margin-bottom: $spacing-md;
-      animation: rotate3D 2s linear;
-      transform-style: preserve-3d;
-      &:hover {
-        transform: scale(1.08);
+      width: 220px;
+      margin-bottom: $spacing-xl;
+      animation: float 3s ease-in-out infinite;
+    }
+    .actions {
+      margin-top: $spacing-lg;
+      .btn {
+        margin: 0 $spacing-sm;
+        padding: $spacing-sm $spacing-lg;
+        border-radius: $radius-pill;
+        text-decoration: none;
         @include smooth;
       }
+      .btn-login {
+        background: $color-primary-dark;
+        color: $color-white;
+      }
+      .btn-register {
+        border: 1px solid $color-white;
+        color: $color-white;
+      }
+      .btn:hover {
+        transform: scale(1.05);
+      }
     }
-
-    .actions {
-      margin-top: $spacing-md;
-
-      .btn {
-        padding: $spacing-sm $spacing-md;
-        margin: 0 $spacing-sm;
-        font-size: 18px;
-        text-decoration: none;
-        border-radius: 999px;
-        @include smooth;
-        &.btn-login {
-          background-color: $color-primary-dark;
-          color: $text-light;
-        }
-        &.btn-register {
-          border: 1px solid $color-white;
-          background-color: transparent;
-          color: $text-light;
-        }
-        &:hover {
-          transform: scale(1.05);
+  }
+  // SIDE
+  .landing-side {
+    flex: 1;
+    max-width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    opacity: 0.9;
+    h3 {
+      margin-bottom: $spacing-sm;
+    }
+    .mini-card {
+      @include glass(0.05);
+      padding: $spacing-sm;
+      border-radius: $radius-md;
+      @include smooth;
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+      }
+    }
+  }
+  .left {
+    animation: slideLeft 1s ease;
+  }
+  .right {
+    animation: slideRight 1s ease;
+  }
+  // MOBILE
+  @include respond(md) {
+    align-items: flex-start;
+    .landing-content {
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: $spacing-2xl $spacing-lg;
+      gap: $spacing-xl;
+    }
+    .landing-side {
+      max-width: 100%;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .landing-center {
+      .logo {
+        width: 160px;
+      }
+      h1 {
+        font-size: 20px;
+      }
+    }
+  }
+  @include respond(sm) {
+    .landing-side {
+      flex-direction: column;
+      align-items: center;
+    }
+    .landing-center {
+      .actions {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-sm;
+        .btn {
+          width: 100%;
         }
       }
     }
