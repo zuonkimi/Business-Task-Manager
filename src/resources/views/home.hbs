@@ -52,10 +52,7 @@
       {{#if tags}}
       <div class="mb-2">
         {{#each tags}}
-        <a
-          href="/tasks?tag={{this}}"
-          class="badge btn-info text-dark text-decoration-none"
-        >
+        <a href="#" class="badge btn-info text-dark text-decoration-none">
           #{{this}}
         </a>
         {{/each}}
@@ -69,6 +66,7 @@
 
       <!-- DESCRIPTION -->
       <p class="mb-2">{{description}}</p>
+
       <!-- ATTACHMENTS -->
       {{#if attachments}}
       <div class="attachments mb-2">

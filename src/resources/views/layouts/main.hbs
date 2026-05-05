@@ -25,6 +25,9 @@
         {{> header}}
 
         <main class="main-content">{{{body}}}</main>
+        <button id="scrollTopBtn" class="scroll-top-btn">
+          <i class="bi bi-arrow-up-circle-fill"></i>
+        </button>
       </div>
     </div>
     <script
@@ -41,6 +44,23 @@
           window.location.reload();
         }
       };
+
+      // show/hide button
+      const scrollBtn = document.getElementById('scrollTopBtn');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          scrollBtn.classList.add('show');
+        } else {
+          scrollBtn.classList.remove('show');
+        }
+      });
+      // click to top
+      scrollBtn.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      });
     </script>
   </body>
 </html>

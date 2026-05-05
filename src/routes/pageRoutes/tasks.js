@@ -29,6 +29,9 @@ router.patch('/:id/restore', taskController.restore);
 router.delete('/:id/force', taskController.forceDelete);
 router.delete('/:id', taskController.delete);
 
+// DETAIL
+router.get('/:id', taskController.showDetail);
+
 // LIKE
 router.post('/:id/like', taskController.toggleLike);
 

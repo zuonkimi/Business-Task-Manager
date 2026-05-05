@@ -85,16 +85,12 @@
   text-overflow: ellipsis;
 }
 
-/* ================= MIXINS ================= */
 /* GLASS */
 /* SMOOTH */
 /* BACKGROUND GLOW */
 /* INPUT BASE */
 /* GRID */
 /* SCROLLBAR */
-/* ================= RESPONSIVE ================= */
-/* ================= BREAKPOINT ================= */
-/* Legacy (giữ để không vỡ code cũ) */
 /* Main system (dùng cho project) */
 * {
   margin: 0;
@@ -102,20 +98,9 @@
   box-sizing: border-box;
 }
 
-/* ================= COLORS ================= */
 /* Brand */
 /* Status */
 /* Neutral */
-/* ================= TEXT ================= */
-/* ================= BACKGROUND ================= */
-/* ================= BORDER ================= */
-/* ================= SPACING ================= */
-/* ================= RADIUS ================= */
-/* ================= SHADOW ================= */
-/* ================= TRANSITION ================= */
-/* ================= Z-INDEX ================= */
-/* ================= BREAKPOINT ================= */
-/* ================= TYPOGRAPHY ================= */
 /* Body */
 body {
   font-family: "Poppins", "Noto Sans JP", sans-serif;
@@ -180,7 +165,6 @@ a:hover {
   opacity: 0.8;
 }
 
-/* ================= HELPERS ================= */
 .text-center {
   text-align: center;
 }
@@ -197,7 +181,6 @@ a:hover {
   font-weight: 600;
 }
 
-/* ================= THEME (CSS VARIABLES) ================= */
 :root {
   /* Background */
   --bg: #f5f6f8;
@@ -215,7 +198,7 @@ a:hover {
   --border: #e5e7eb;
 }
 
-/* 🌙 Dark mode */
+/* Dark mode */
 [data-theme=dark] {
   --bg: #0f172a;
   --card: rgba(255, 255, 255, 0.05);
@@ -224,7 +207,6 @@ a:hover {
   --border: rgba(255, 255, 255, 0.1);
 }
 
-/* ================= CONTAINER ================= */
 .container {
   width: 100%;
   max-width: 1200px;
@@ -232,7 +214,6 @@ a:hover {
   padding-inline: 12px;
 }
 
-/* ================= GRID ================= */
 .grid {
   display: grid;
   gap: 12px;
@@ -256,7 +237,6 @@ a:hover {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
-/* ================= RESPONSIVE ================= */
 @media (max-width: 1024px) {
   .grid-3,
   .grid-4 {
@@ -311,9 +291,6 @@ a:hover {
   gap: 16px;
 }
 
-/* =========================
-   RESPONSIVE NAVBAR
-========================= */
 @media (max-width: 768px) {
   .navbar {
     height: 56px;
@@ -323,7 +300,6 @@ a:hover {
     justify-content: space-between;
     gap: 8px;
   }
-  /* ================= LEFT ================= */
   .nav-left {
     display: flex;
     align-items: center;
@@ -334,11 +310,10 @@ a:hover {
     width: 42px;
     height: 42px;
   }
-  /* ẩn chữ Todo App */
+  /* ẩn chữ Branch */
   .navbar-brand {
     font-size: 0;
   }
-  /* ================= CENTER (SEARCH ICON ONLY) ================= */
   .nav-center {
     flex: 0;
     display: flex;
@@ -363,7 +338,6 @@ a:hover {
   .nav-center .search-btn:active {
     transform: scale(0.9);
   }
-  /* ================= RIGHT ================= */
   .nav-right {
     display: flex;
     align-items: center;
@@ -378,7 +352,6 @@ a:hover {
     font-size: 14px;
   }
 }
-/* ================= SIDEBAR ================= */
 .sidebar {
   position: sticky;
   top: 0;
@@ -419,9 +392,6 @@ a:hover {
   font-size: 16px;
   color: inherit;
 }
-.sidebar {
-  /* ================= MOBILE ================= */
-}
 @media (max-width: 768px) {
   .sidebar {
     position: fixed;
@@ -438,7 +408,6 @@ a:hover {
   }
 }
 
-/* ================= MAIN LAYOUT ================= */
 .main-layout {
   position: relative;
   width: 100%;
@@ -455,7 +424,6 @@ a:hover {
   pointer-events: none;
 }
 
-/* ================= APP LAYOUT ================= */
 .app-layout {
   display: flex;
   min-height: 100vh;
@@ -466,7 +434,6 @@ a:hover {
   }
 }
 
-/* ================= MAIN AREA ================= */
 .main-area {
   flex: 1;
   display: flex;
@@ -480,7 +447,6 @@ a:hover {
   }
 }
 
-/* ================= MAIN CONTENT ================= */
 .main-content {
   flex: 1;
   position: relative;
@@ -506,7 +472,36 @@ a:hover {
   }
 }
 
-/* ================= BUTTON BASE ================= */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  color: white;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+.scroll-top-btn:hover {
+  transform: translateY(-2px);
+}
+.scroll-top-btn.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
 .btn {
   display: inline-block;
   padding: 8px 12px;
@@ -529,7 +524,6 @@ a:hover {
   cursor: not-allowed;
 }
 
-/* ================= SIZE ================= */
 .btn-sm {
   padding: 8px 4px;
   font-size: 12px;
@@ -540,8 +534,6 @@ a:hover {
   font-size: 16px;
 }
 
-/* ================= HOVER EFFECT ================= */
-/* ================= VARIANTS ================= */
 .btn-primary {
   background: #0072ff;
   color: #fff;
@@ -587,7 +579,6 @@ a:hover {
   box-shadow: 0 10px 20px rgba(0, 114, 255, 0.3);
 }
 
-/* ================= OUTLINE ================= */
 .btn-outline-primary {
   background: transparent;
   border: 1px solid #00c6ff;
@@ -608,7 +599,6 @@ a:hover {
   color: #fff;
 }
 
-/* ================= GRADIENT ================= */
 .btn-gradient {
   background: linear-gradient(135deg, #00c6ff, #0072ff);
   color: #fff;
@@ -630,14 +620,12 @@ a:hover {
   min-height: 60px;
 }
 
-/* ================= SPECIAL ================= */
 .search-btn {
   background: none;
   border: none;
   color: #ddd;
 }
 
-/* ================= CARD BASE ================= */
 .card {
   padding: 16px;
   border-radius: 999px;
@@ -651,12 +639,10 @@ a:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* ================= CARD BODY ================= */
 .card-body {
   display: block;
 }
 
-/* ================= FEED CARD ================= */
 .feed-card {
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.04);
@@ -724,7 +710,6 @@ a:hover {
   opacity: 0.7;
 }
 
-/* ================= SEARCH PAGE ================= */
 .search-page {
   max-width: 1100px;
   margin: 0 auto;
@@ -739,7 +724,6 @@ a:hover {
   gap: 16px;
 }
 
-/* ================= CARD ================= */
 .search-card {
   padding: 12px;
   border-radius: 20px;
@@ -753,14 +737,12 @@ a:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* ================= LIST ================= */
 .list--vertical {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-/* ================= USER ================= */
 .user-row {
   display: flex;
   align-items: center;
@@ -792,7 +774,6 @@ a:hover {
   opacity: 0.6;
 }
 
-/* ================= TASK ================= */
 .task-row {
   display: flex;
   flex-direction: column;
@@ -822,7 +803,6 @@ a:hover {
   opacity: 0.7;
 }
 
-/* ================= SEARCH INPUT ================= */
 /* GLOBAL wrapper (navbar + overlay dùng chung) */
 .search-wrapper {
   display: flex;
@@ -859,13 +839,11 @@ a:hover {
   transform: scale(1.1);
 }
 
-/* ================= CONTEXT FIX ================= */
 /* search page full width */
 .search-page .search-wrapper {
   max-width: 100%;
 }
 
-/* ================= OVERLAY ================= */
 .search-overlay {
   display: none;
   position: fixed;
@@ -906,14 +884,12 @@ a:hover {
     opacity: 1;
   }
 }
-/* ================= EMPTY ================= */
 .empty {
   text-align: center;
   opacity: 0.6;
   padding: 12px;
 }
 
-/* ================= MOBILE ================= */
 @media (max-width: 768px) {
   .grid--2 {
     grid-template-columns: 1fr;
@@ -928,7 +904,6 @@ a:hover {
     max-width: 90%;
   }
 }
-/* ================= AVATAR ================= */
 .avatar, .user-avt {
   display: inline-block;
   border-radius: 50%;
@@ -1002,7 +977,6 @@ a:hover {
   box-shadow: 0 0 0 2px rgba(0, 198, 255, 0.2), 0 0 10px rgba(0, 198, 255, 0.3);
 }
 
-/* ================= AUTH LAYOUT ================= */
 .auth-layout {
   position: relative;
   display: flex;
@@ -1025,7 +999,6 @@ a:hover {
   flex: 1;
   display: flex;
   justify-content: center;
-  /* 🔥 FIX QUAN TRỌNG */
   align-items: flex-start;
   padding: 40px 16px;
   overflow-y: auto;
@@ -1043,7 +1016,6 @@ a:hover {
   margin-bottom: 20px;
 }
 
-/* ================= LOGIN + REGISTER ================= */
 .login-page,
 .register-page {
   width: 100%;
@@ -1182,7 +1154,6 @@ a:hover {
   text-shadow: 0 0 8px rgba(96, 165, 250, 0.6);
 }
 
-/* ================= ANIMATION ================= */
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -1193,14 +1164,11 @@ a:hover {
     transform: translateY(0);
   }
 }
-/* ================= SMART CENTER ================= */
-/* màn cao thì center lại */
 @media (min-height: 750px) {
   .auth-main {
     align-items: center;
   }
 }
-/* ================= MOBILE ================= */
 @media (max-width: 768px) {
   .auth-main {
     align-items: flex-start;
@@ -1221,7 +1189,6 @@ a:hover {
     font-size: 13px;
   }
 }
-/* ================= DASHBOARD CONTAINER ================= */
 .dashboard-container {
   max-width: 680px;
   margin: 0 auto;
@@ -1231,7 +1198,6 @@ a:hover {
   overflow-x: hidden;
 }
 
-/* ================= KPI CARD ================= */
 .dashboard-card {
   text-align: center;
   border-radius: 12px;
@@ -1243,7 +1209,6 @@ a:hover {
   transform: translateY(-2px);
 }
 
-/* ================= FEED CARD ================= */
 .feed-card {
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.04);
@@ -1274,7 +1239,6 @@ a:hover {
   opacity: 0.7;
 }
 
-/* ================= ATTACHMENTS ================= */
 .attachments {
   display: flex;
   flex-direction: column;
@@ -1290,7 +1254,6 @@ a:hover {
   display: block;
 }
 
-/* ================= ACTION BAR ================= */
 .action-bar {
   display: flex;
   justify-content: space-between;
@@ -1321,7 +1284,6 @@ a:hover {
   color: #ef4444;
 }
 
-/* ================= AVATAR ================= */
 .avatar, .user-avt {
   width: 32px;
   height: 32px;
@@ -1330,7 +1292,6 @@ a:hover {
   flex-shrink: 0;
 }
 
-/* ================= MOBILE ================= */
 @media (max-width: 576px) {
   .dashboard-container {
     padding: 12px;
@@ -1351,7 +1312,6 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* ================= GLOBAL GLOW (DÙNG MIXIN CỦA BẠN) ================= */
 }
 .landing-page::before {
   content: "";
@@ -1373,17 +1333,11 @@ a:hover {
   z-index: 0;
   animation: floatBg 12s ease-in-out infinite;
 }
-.landing-page {
-  /* ================= OVERLAY ================= */
-}
 .landing-page .landing-overlay {
   position: absolute;
   inset: 0;
   background: radial-gradient(circle at center, rgba(59, 130, 246, 0.2), transparent 70%);
   z-index: 1;
-}
-.landing-page {
-  /* ================= MAIN ================= */
 }
 .landing-page .landing-content {
   position: relative;
@@ -1396,9 +1350,6 @@ a:hover {
   padding: 0 50px;
   gap: 50px;
   color: #fff;
-}
-.landing-page {
-  /* ================= CENTER ================= */
 }
 .landing-page .landing-center {
   flex: 1;
@@ -1431,9 +1382,6 @@ a:hover {
 .landing-page .landing-center .actions .btn:hover {
   transform: scale(1.05);
 }
-.landing-page {
-  /* ================= SIDE ================= */
-}
 .landing-page .landing-side {
   flex: 1;
   max-width: 280px;
@@ -1462,9 +1410,6 @@ a:hover {
 }
 .landing-page .right {
   animation: slideRight 1s ease;
-}
-.landing-page {
-  /* ================= RESPONSIVE (DÙNG MIXIN CỦA BẠN) ================= */
 }
 @media (max-width: 768px) {
   .landing-page {
@@ -1575,7 +1520,6 @@ a:hover {
   transform: translateY(-2px);
 }
 
-/* ================= CREATE POST FORM ================= */
 .create-post-form .form-control {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1604,7 +1548,6 @@ a:hover {
   transform: translateY(-1px);
 }
 
-/* ================= COMMENT ================= */
 .comment-list {
   margin-top: 12px;
 }
@@ -1632,12 +1575,10 @@ a:hover {
   opacity: 0.6;
 }
 
-/* ================= TEXTAREA (REUSE) ================= */
 textarea.form-control {
   border-radius: 12px;
 }
 
-/* ================= TABLE (ADMIN / TRASH) ================= */
 .table {
   background: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(10px);
@@ -1676,7 +1617,6 @@ textarea.form-control {
   color: #94a3b8 !important;
 }
 
-/* ================= MODAL ================= */
 .modal-body {
   color: #111;
   font-size: 16px;
@@ -1700,14 +1640,12 @@ textarea.form-control {
   border-radius: 8px;
 }
 
-/* ================= TRASH LIST ================= */
 .trash-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-/* ================= CARD ================= */
 .trash-list .card {
   border-radius: 14px;
   border: 1px solid rgba(0, 0, 0, 0.06);
@@ -1715,31 +1653,26 @@ textarea.form-control {
   background: #fff;
 }
 
-/* hover giống app xịn */
 .trash-list .card:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
-/* ================= TITLE ================= */
 .trash-list h5 {
   font-weight: 600;
   font-size: 16px;
   color: #999;
 }
 
-/* ================= DESCRIPTION ================= */
 .trash-list p {
   font-size: 14px;
   color: #666;
 }
 
-/* ================= META ================= */
 .trash-list .text-muted {
   font-size: 13px;
 }
 
-/* ================= ACTION BUTTON ================= */
 .trash-list .btn {
   border-radius: 8px;
   font-size: 13px;
@@ -1766,7 +1699,6 @@ textarea.form-control {
   background-color: #c9302c;
 }
 
-/* ================= EMPTY STATE ================= */
 .trash-list .text-center {
   opacity: 0.7;
 }
@@ -1936,7 +1868,6 @@ textarea.form-control {
   color: rgba(255, 255, 255, 0.8);
 }
 
-/* ================= CARD ================= */
 .profile-card {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.06);
@@ -1944,7 +1875,6 @@ textarea.form-control {
   padding: 18px;
 }
 
-/* ================= HEADER ================= */
 .profile-header {
   display: flex;
   align-items: center;
@@ -1987,7 +1917,6 @@ textarea.form-control {
   max-width: 500px;
 }
 
-/* ================= ACTION ================= */
 .profile-action {
   margin-top: 10px;
   display: flex;
@@ -2016,7 +1945,6 @@ textarea.form-control {
   background: #6b7280;
 }
 
-/* ================= STATS (GỌN + KHÔNG TRỐNG) ================= */
 .profile-stats {
   margin-top: 14px;
   display: flex;
@@ -2040,7 +1968,6 @@ textarea.form-control {
   opacity: 0.5;
 }
 
-/* ================= POSTS ================= */
 .profile-posts {
   margin-top: 22px;
 }
@@ -2094,7 +2021,6 @@ textarea.form-control {
   margin-top: 8px;
 }
 
-/* ================= MOBILE ================= */
 @media (max-width: 768px) {
   .post-grid {
     grid-template-columns: 1fr;
@@ -2107,14 +2033,12 @@ textarea.form-control {
     flex: 1 1 45%;
   }
 }
-/* ================= PAGE ================= */
 .users-page {
   max-width: 720px;
   margin: 0 auto;
   padding: 16px;
 }
 
-/* ================= HEADER ================= */
 .users-header {
   display: flex;
   justify-content: space-between;
@@ -2141,14 +2065,12 @@ textarea.form-control {
   opacity: 0.8;
 }
 
-/* ================= LIST ================= */
 .users-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-/* ================= CARD ================= */
 .user-card {
   display: flex;
   align-items: center;
@@ -2164,7 +2086,6 @@ textarea.form-control {
   transform: translateY(-1px);
 }
 
-/* ================= LEFT ================= */
 .user-left {
   display: flex;
   align-items: center;
@@ -2173,7 +2094,6 @@ textarea.form-control {
   min-width: 0;
 }
 
-/* ================= AVATAR ================= */
 .user-avatar,
 .user-avatar-placeholder {
   width: 42px;
@@ -2195,7 +2115,6 @@ textarea.form-control {
   font-weight: 600;
 }
 
-/* ================= TEXT ================= */
 .user-meta {
   display: flex;
   flex-direction: column;
@@ -2220,12 +2139,234 @@ textarea.form-control {
   text-overflow: ellipsis;
 }
 
-/* ================= BUTTON ================= */
 .follow-btn {
   flex-shrink: 0;
   border-radius: 999px;
   padding: 6px 14px;
   font-size: 13px;
+}
+
+.task-detail {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: fadeIn 0.3s ease;
+}
+
+.task-main {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.task-left {
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.task-left .media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.task-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: calc(100vh - 80px);
+  overflow: hidden;
+}
+
+.task-info {
+  background-color: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  padding: 8px 12px;
+}
+
+/* HEADER */
+.task-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* AVATAR */
+.task-header .avatar, .task-header .user-avt {
+  width: 34px;
+  height: 34px;
+}
+
+/* META */
+.task-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+/* NAME + TIME */
+.name-line {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+}
+.name-line strong {
+  font-weight: 600;
+}
+.name-line span {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* TITLE */
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* TAGS */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+.tags .tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(0, 198, 255, 0.12);
+  color: #00c6ff;
+}
+
+/* DESCRIPTION */
+.task-desc {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.5;
+  margin-top: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.comment-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* COMMENT LIST (SCROLLABLE) */
+.comment-list {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+.comment-list::-webkit-scrollbar {
+  width: 8px;
+}
+.comment-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+.comment-list::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: 10px;
+}
+.comment-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.7);
+}
+
+/* COMMENT ITEM */
+.comment-item {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.comment-user {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+}
+.comment-user strong {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.comment-item p {
+  margin-top: 4px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.comment-input-box {
+  display: flex;
+  gap: 8px;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  padding: 8px;
+  border-radius: 20px;
+}
+
+.comment-input-box input {
+  flex: 1;
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+}
+.comment-input-box input:focus {
+  box-shadow: 0 0 0 2px rgba(0, 198, 255, 0.2), 0 0 10px rgba(0, 198, 255, 0.4);
+}
+
+.comment-input-box button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.comment-input-box button:hover {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 992px) {
+  .task-main {
+    grid-template-columns: 1fr;
+  }
+  .task-right {
+    height: auto;
+  }
+  .task-left {
+    aspect-ratio: 16/9;
+  }
 }
 
 /*# sourceMappingURL=app.css.map */

@@ -130,6 +130,21 @@ class TaskController {
       next(err);
     }
   }
+
+  async showDetail(req, res, next) {
+    try {
+      const task = await taskService.getDetail(
+        req.params.id,
+        req.session.userId,
+      );
+      if (!task) {
+        return res.redirect('/tasks');
+      }
+      return res.render('tasks/detail', { task });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 module.exports = new TaskController();

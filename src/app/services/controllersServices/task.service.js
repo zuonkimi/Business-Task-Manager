@@ -71,6 +71,21 @@ const getTaskById = async (taskId, userId) => {
   return task;
 };
 
+//GET TASK DETAIL
+const getDetail = async (taskId, userId) => {
+  const task = await Task.findOne({
+    _id: taskId,
+    deleted: false,
+  })
+    .populate('author')
+    .populate({
+      path: 'comments',
+      populate: { path: 'user' },
+    })
+    .lean();
+  return task;
+};
+
 module.exports = {
   createTask,
   updateTask,
@@ -79,4 +94,5 @@ module.exports = {
   forceDeleteTask,
   toggleStatus,
   getTaskById,
+  getDetail,
 };
