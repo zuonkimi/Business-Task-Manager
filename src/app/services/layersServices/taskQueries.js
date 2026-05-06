@@ -1,5 +1,3 @@
-const Task = require('../../models/Task');
-
 //  NORMALIZE KEYWORD
 const normalizeKeyword = keyword => {
   if (!keyword) return null;

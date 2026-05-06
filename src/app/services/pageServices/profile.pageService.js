@@ -2,7 +2,6 @@ const Task = require('../../models/Task');
 const User = require('../../models/User');
 const Follow = require('../../models/Follow');
 const { buildQuery } = require('../layersServices/taskQueries');
-// const { getUserTasks } = require('../layersServices/taskQueries');
 const { enrichTasks } = require('../layersServices/taskServices');
 const { isOwner } = require('../../utils/fileHelpers');
 
@@ -21,7 +20,7 @@ const getProfilePage = async (viewerId, profileUserId) => {
   );
   let tasks = await Task.find(taskQuery).sort({ createdAt: -1 }).lean();
   // let tasks = await getUserTasks(profileUserId);
-  tasks = enrichTasks(tasks);
+  tasks = await enrichTasks(tasks);
   //FOLLOW DATA
   const followers = await Follow.countDocuments({
     following: profileUserId,

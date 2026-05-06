@@ -85,8 +85,10 @@
         <span class="badge status {{status}}">{{status}}</span>
 
         <div>
-          ❤️ <span id="like-count-{{_id}}">{{likes.length}}</span>
-          • 💬 {{comments.length}}
+          <i class="bi bi-suit-heart-fill"></i>
+          <span id="like-count-{{_id}}">{{likes.length}}</span> •
+          <i class="bi bi-chat-left-dots"></i>
+          {{commentCount}}
         </div>
       </div>
 
@@ -94,16 +96,22 @@
 
       <!-- ACTION -->
       <div class="d-flex justify-content-around text-center action-bar">
-        <a href="/tasks/{{_id}}" class="text-decoration-none"> 💬 Comment </a>
+        <a href="/tasks/{{_id}}" class="text-decoration-none">
+          <i class="bi bi-chat-left-dots"></i>
+          Comment
+        </a>
 
         <button class="btn-like {{#if isLiked}}liked{{/if}}" data-id="{{_id}}">
-          ❤️
+          <i class="bi bi-suit-heart-fill"></i>
           <span class="like-text">
             {{#if isLiked}}Liked{{else}}Like{{/if}}
           </span>
         </button>
 
-        <a href="/tasks/{{_id}}" class="text-decoration-none"> 👀 View </a>
+        <a href="/tasks/{{_id}}" class="text-decoration-none">
+          <i class="bi bi-eye-fill"></i>
+          View
+        </a>
       </div>
     </div>
   </div>

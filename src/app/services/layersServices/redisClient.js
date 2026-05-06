@@ -33,7 +33,7 @@ const connectRedis = async () => {
   }
 };
 
-// 🔥 SAFE WRAPPER (QUAN TRỌNG)
+// SAFE WRAPPER
 const safeDel = async key => {
   try {
     if (client.isOpen) {

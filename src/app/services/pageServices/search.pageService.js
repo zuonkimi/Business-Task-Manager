@@ -29,7 +29,7 @@ const search = async (query, userId) => {
     ],
   }).lean();
   return {
-    tasks: enrichTasks(tasks),
+    tasks: await enrichTasks(tasks),
     users,
     keyword,
   };

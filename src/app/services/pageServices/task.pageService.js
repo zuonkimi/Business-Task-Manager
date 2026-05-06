@@ -66,7 +66,7 @@ const getFeedPage = async (userId, query) => {
   });
 
   const tasks = await runQuery(taskQuery, page, limit);
-  const enriched = enrichTasks(tasks, userId);
+  const enriched = await enrichTasks(tasks, userId);
   const filtered = filterByStatus(enriched, filters.status);
   const total = await Task.countDocuments(taskQuery);
   return {
@@ -91,8 +91,7 @@ const getTasksPage = async (userId, query) => {
     mode: 'myPosts',
   });
   const tasks = await runQuery(taskQuery, page, limit);
-
-  const enriched = enrichTasks(tasks, userId);
+  const enriched = await enrichTasks(tasks, userId);
   const filtered = filterByStatus(enriched, filters.status);
   const paginated = paginate(filtered, page, limit);
   return {
@@ -112,7 +111,7 @@ const getProfilePage = async (viewerId, profileUserId, query = {}) => {
     targetUserId: profileUserId,
   });
   const tasks = await runQuery(taskQuery, page, limit);
-  const enriched = enrichTasks(tasks, viewerId);
+  const enriched = await enrichTasks(tasks, viewerId);
   const filtered = filterByStatus(enriched, filters.status);
   const total = await Task.countDocuments(taskQuery);
   return {
@@ -161,7 +160,7 @@ const getHomePageData = async userId => {
     trash,
   };
   return {
-    tasks: enrichTasks(tasks, userId),
+    tasks: await enrichTasks(tasks, userId),
     stats,
     emptyMessage: tasks.length ? '' : 'Hãy follow ai đó để xem feed 👀',
   };
@@ -177,7 +176,7 @@ const getCreatePageData = async userId => {
     },
   );
   const tasks = await runQuery(taskQuery, 1, 50, false);
-  const enriched = enrichTasks(tasks, userId);
+  const enriched = await enrichTasks(tasks, userId);
   return {
     tasks: enriched,
     emptyMessage: enriched.length ? '' : 'No tasks found',
@@ -194,7 +193,7 @@ const getTrashPageData = async userId => {
     },
   );
   const tasks = await runQuery(taskQuery, 1, 50);
-  const enriched = enrichTasks(tasks, userId);
+  const enriched = await enrichTasks(tasks, userId);
   return {
     tasks: enriched,
     isEmpty: enriched.length === 0,

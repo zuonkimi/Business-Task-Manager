@@ -12,25 +12,6 @@ const TASK_TAGS = [
   '他',
 ];
 
-/* ================= COMMENT SUB-SCHEMA ================= */
-const CommentSchema = new Schema(
-  {
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-    },
-    content: {
-      type: String,
-      default: '',
-    },
-    isDeleted: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  { timestamps: true },
-);
-
 /* ================= TASK SCHEMA ================= */
 const TaskSchema = new Schema(
   {
@@ -91,7 +72,10 @@ const TaskSchema = new Schema(
       type: Number,
       default: 0,
     },
-    comments: [CommentSchema],
+    commentCount: {
+      type: Number,
+      default: 0,
+    },
     /* ================= FILES ================= */
     attachments: [
       {

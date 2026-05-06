@@ -1,4 +1,4 @@
-const followService = require('../../services/apiServices/followService');
+const followService = require('../../services/follows/follow.service');
 
 class FollowController {
   async followUser(req, res, next) {

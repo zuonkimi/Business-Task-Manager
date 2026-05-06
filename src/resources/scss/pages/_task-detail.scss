@@ -119,7 +119,7 @@
   overflow: hidden;
 }
 
-//  COMMENT SECTION (FOCUS AREA)
+// COMMENT BOX
 .comment-box {
   display: flex;
   flex-direction: column;
@@ -128,37 +128,117 @@
   overflow: hidden;
 }
 
-/* COMMENT LIST (SCROLLABLE) */
+// COMMENT LIST
 .comment-list {
   flex: 1;
   overflow-y: auto;
+  padding: $spacing-sm;
   padding-right: 6px;
+  @include glass(0.03);
+  border-radius: $radius-lg;
   @include scrollbar;
 }
 
-/* COMMENT ITEM */
+// COMMENT ITEM
 .comment-item {
-  padding: $spacing-sm 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.comment-user {
   display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  color: $text-muted;
-  strong {
-    color: $text-light;
+  align-items: flex-start;
+  gap: $spacing-sm;
+  padding: $spacing-sm 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: 0.2s;
+  &:hover {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: $radius-md;
   }
 }
 
-.comment-item p {
-  margin-top: 4px;
-  font-size: 14px;
-  color: $text-light;
+// AVATAR
+.comment-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
-//  COMMENT INPUT (STICKY FACEBOOK STYLE)
+// BODY
+.comment-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+// HEADER (NAME + DELETE)
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.comment-name {
+  font-weight: 600;
+  color: $text-light;
+  max-width: 70%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// DELETE
+.delete-comment-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: $text-muted;
+  opacity: 0.5;
+  &:hover {
+    opacity: 1;
+    color: red;
+  }
+}
+
+// CONTENT
+.comment-content {
+  font-size: 14px;
+  color: $text-light;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+// FOOTER (LIKE / REPLY / TIME)
+.comment-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: $text-muted;
+  margin-top: 6px;
+}
+
+.comment-footer button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: $text-muted;
+  &:hover {
+    color: $color-primary;
+  }
+}
+
+.comment-time {
+  margin-left: auto;
+  font-size: 11px;
+  color: $text-muted;
+}
+
+// INPUT
 .comment-input-box {
   display: flex;
   gap: $spacing-sm;
@@ -169,10 +249,12 @@
   padding: $spacing-sm;
   border-radius: $radius-lg;
 }
+
 .comment-input-box input {
   flex: 1;
   @include input-base;
 }
+
 .comment-input-box button {
   padding: $spacing-sm $spacing-md;
   border: none;

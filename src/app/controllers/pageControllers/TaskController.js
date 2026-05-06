@@ -1,6 +1,7 @@
 const taskService = require('../../services/controllersServices/task.service');
 const taskPageService = require('../../services/pageServices/task.pageService');
 const taskActionService = require('../../services/actions/tasksAction.service');
+const commentService = require('../../services/comments/comment.service');
 const { buildAttachments } = require('../../utils/fileHelpers');
 const validatedBody = require('../../middlewares/validate');
 
@@ -137,10 +138,12 @@ class TaskController {
         req.params.id,
         req.session.userId,
       );
+      const comments =
+        (await commentService.getCommentByTaskId(req.params.id)) || [];
       if (!task) {
         return res.redirect('/tasks');
       }
-      return res.render('tasks/detail', { task });
+      return res.render('tasks/detail', { task, comments });
     } catch (err) {
       next(err);
     }

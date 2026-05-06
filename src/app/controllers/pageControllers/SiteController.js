@@ -1,5 +1,6 @@
 const taskPageService = require('../../services/pageServices/task.pageService');
 const searchPageService = require('../../services/pageServices/search.pageService');
+
 class SiteController {
   // SHOW TASK PAGE
   async show(req, res, next) {

@@ -5,11 +5,13 @@ const meRouter = require('./pageRoutes/me');
 const authRouter = require('./pageRoutes/auth');
 const profileRouter = require('./pageRoutes/profile');
 const followRouter = require('./apiRoutes/follow');
+const commentRouter = require('./apiRoutes/comment');
 const requireAuth = require('../app/middlewares/auth');
 const preventCache = require('../app/middlewares/preventCache');
 
 function route(app) {
   //private
+  app.use('/api/comments', requireAuth, preventCache, commentRouter);
   app.use('/api/follow', requireAuth, preventCache, followRouter);
   app.use('/tasks', requireAuth, preventCache, tasksRouter);
   app.use('/me', requireAuth, preventCache, meRouter);

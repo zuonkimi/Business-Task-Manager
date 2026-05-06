@@ -4,7 +4,7 @@ const router = express.Router();
 const { validate } = require('../../app/middlewares/validate');
 const taskValidateSchema = require('../../app/validator/task.validator');
 const authMiddleware = require('../../app/middlewares/auth');
-const upload = require('../../app/middlewares/upload'); // 👈 sửa tên cho gọn
+const upload = require('../../app/middlewares/upload');
 const taskController = require('../../app/controllers/pageControllers/TaskController');
 
 // Login middleware

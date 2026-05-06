@@ -1,4 +1,5 @@
 const Task = require('../../models/Task');
+const Comment = require('../../models/Comment');
 const { safeDel } = require('../layersServices/redisClient');
 
 const isOwner = (task, userId) =>
@@ -78,12 +79,16 @@ const getDetail = async (taskId, userId) => {
     deleted: false,
   })
     .populate('author')
-    .populate({
-      path: 'comments',
-      populate: { path: 'user' },
-    })
     .lean();
-  return task;
+  const comments = await Comment.find({
+    taskId,
+    isDeleted: false,
+  }).populate('user');
+
+  return {
+    ...task,
+    comments,
+  };
 };
 
 module.exports = {

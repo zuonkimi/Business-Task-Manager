@@ -15,7 +15,7 @@ const getUserTasksCached = async userId => {
     if (cached) return JSON.parse(cached);
     // If no cache -> query DB
     const tasks = await Task.find({
-      userId,
+      author: userId,
       deleted: false,
     }) // user tasks and not deleted tasks
       .sort({ createdAt: -1 }) // sort by created time new -> old
@@ -27,7 +27,7 @@ const getUserTasksCached = async userId => {
     console.error('Cache error:', err);
     // handle fallback when error -> query DB
     return Task.find({
-      userId,
+      author: userId,
       deleted: false,
     }).lean();
   }

@@ -1,10 +1,9 @@
 const Task = require('../../models/Task');
 
+// LIKE TASK
 const toggleLike = async (taskId, userId) => {
   const task = await Task.findById(taskId);
-  if (!task) {
-    throw new Error('Task not found!');
-  }
+  if (!task) throw new Error('Task not found');
   const isLiked = task.likes.some(id => id.toString() === userId.toString());
   if (isLiked) {
     task.likes = task.likes.filter(id => id.toString() !== userId.toString());
@@ -20,4 +19,6 @@ const toggleLike = async (taskId, userId) => {
   };
 };
 
-module.exports = { toggleLike };
+module.exports = {
+  toggleLike,
+};

@@ -1,6 +1,24 @@
-const enrichTasks = (tasks, userId) => {
+const Comment = require('../../models/Comment');
+
+const enrichTasks = async (tasks, userId) => {
   const now = Date.now();
   const DAY = 1000 * 60 * 60 * 24;
+  const commentCounts = await Comment.aggregate([
+    {
+      $match: { isDeleted: false, taskId: { $ne: null } },
+    },
+    {
+      $group: {
+        _id: '$taskId',
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+  const commentMap = {};
+  commentCounts.forEach(item => {
+    if (!item || !item._id) return;
+    commentMap[String(item._id)] = item.count;
+  });
   return tasks.map(task => {
     const obj = task.toObject ? task.toObject() : task;
     const deadline = obj.deadline ? new Date(obj.deadline).getTime() : null;
@@ -19,6 +37,7 @@ const enrichTasks = (tasks, userId) => {
       isOverdue,
       isSoon,
       isLiked,
+      commentCount: commentMap[obj._id.toString()] || 0,
     };
   });
 };
