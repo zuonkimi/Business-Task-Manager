@@ -20,10 +20,8 @@
   <body class="main-layout">
     <div class="app-layout">
       {{> sidebar}}
-
       <div class="main-area">
         {{> header}}
-
         <main class="main-content">{{{body}}}</main>
         <button id="scrollTopBtn" class="scroll-top-btn">
           <i class="bi bi-arrow-up-circle-fill"></i>
@@ -44,7 +42,6 @@
           window.location.reload();
         }
       };
-
       // show/hide button
       const scrollBtn = document.getElementById('scrollTopBtn');
       window.addEventListener('scroll', () => {

@@ -1,6 +1,7 @@
 const Task = require('../models/Task');
 const Comment = require('../models/Comment');
 const Follow = require('../models/Follow');
+const notificationService = require('./notification.service');
 const { client, connectRedis, safeDel } = require('./redis.service');
 
 const CACHE_TTL = 60;
@@ -8,8 +9,19 @@ const enrichTasks = async (tasks, userId) => {
   const now = Date.now();
   const DAY = 1000 * 60 * 60 * 24;
   const commentCounts = await Comment.aggregate([
-    { $match: { isDeleted: false, taskId: { $ne: null } } },
-    { $group: { _id: '$taskId', count: { $sum: 1 } } },
+    {
+      $match: {
+        isDeleted: false,
+        taskId: { $ne: null },
+        parentId: null,
+      },
+    },
+    {
+      $group: {
+        _id: '$taskId',
+        count: { $sum: 1 },
+      },
+    },
   ]);
   const commentMap = {};
   commentCounts.forEach(item => {
@@ -41,7 +53,7 @@ const buildQuery = (viewerId, filters = {}, options = {}) => {
   const tags = filters.tags;
   const { mode = 'myPosts', targetUserId, followingIds = [] } = options;
   const query = { deleted: mode === 'trash' };
-  // ==================== GLOBAL SEARCH ====================
+  // GLOBAL SEARCH
   const trimmedKeyword = keyword ? keyword.toString().trim() : '';
   const meaningfulKeyword = trimmedKeyword
     .replace(/[^\p{L}\p{N}]/gu, '')
@@ -56,7 +68,7 @@ const buildQuery = (viewerId, filters = {}, options = {}) => {
     return query;
   }
 
-  // ==================== NORMAL MODE ====================
+  // NORMAL MODE
   if (mode === 'profile' && targetUserId) {
     query.author = targetUserId;
   } else if (mode === 'feed') {
@@ -68,7 +80,7 @@ const buildQuery = (viewerId, filters = {}, options = {}) => {
     query.author = viewerId;
   }
 
-  // ==================== STATUS FILTER ====================
+  // STATUS FILTER
   if (status) {
     if (['overdue', 'soon'].includes(status)) {
       // Những cái này là computed field → sẽ filter sau khi enrich
@@ -78,7 +90,7 @@ const buildQuery = (viewerId, filters = {}, options = {}) => {
     }
   }
 
-  // ==================== TAGS FILTER ====================
+  // TAGS FILTER
   if (tags) {
     const tagArray = [].concat(tags).filter(Boolean);
     if (tagArray.length) {
@@ -89,10 +101,22 @@ const buildQuery = (viewerId, filters = {}, options = {}) => {
 };
 
 class TaskService {
-  // === CRUD ===
+  // CRUD
   async createTask(userId, data) {
     const task = await Task.create({ ...data, author: userId, deleted: false });
     await safeDel(`tasks:${userId}`);
+    //notification
+    const followers = await Follow.find({
+      following: userId,
+    }).select('follower');
+    for (const follow of followers) {
+      await notificationService.createNotification({
+        recipient: follow.follower,
+        sender: userId,
+        type: 'new_task',
+        task: task._id,
+      });
+    }
     return task;
   }
 
@@ -135,12 +159,18 @@ class TaskService {
     } else {
       task.likes.push(userId);
       task.likeCount += 1;
+      await notificationService.createNotification({
+        recipient: task.author,
+        sender: userId,
+        type: 'like_task',
+        task: task._id,
+      });
     }
     await task.save();
     return { liked: !isLiked, likeCount: task.likeCount };
   }
 
-  // === PAGE & QUERY ===
+  // PAGE & QUERY
   async getTasksPage(userId, filters = {}, mode = 'myPosts') {
     let options = { mode };
     if (mode === 'profile') {
@@ -168,7 +198,7 @@ class TaskService {
   async getHomePageData(userId) {
     await connectRedis();
     const followingIds = await this.getFollowingIds(userId);
-    const visibleUserIds = [userId, followingIds];
+    const visibleUserIds = [userId, ...followingIds];
     const query = buildQuery(userId, {}, { mode: 'feed', followingIds });
     const tasks = await Task.find(query)
       .populate('author')

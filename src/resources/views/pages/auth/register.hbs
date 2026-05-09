@@ -7,12 +7,10 @@
 
     <form method="POST" action="/auth/register">
       <input type="hidden" name="_csrf" value="{{csrfToken}}" />
-
       <div class="input-box">
         <i class="bi bi-person-fill input-icon"></i>
         <input type="text" name="name" placeholder="Nickname..." required />
       </div>
-
       <div class="input-box">
         <i class="bi bi-at input-icon"></i>
         <input
@@ -22,12 +20,10 @@
           required
         />
       </div>
-
       <div class="input-box">
         <i class="bi bi-envelope-at-fill input-icon"></i>
         <input type="email" name="email" placeholder="Email..." required />
       </div>
-
       <div class="input-box">
         <i class="bi bi-person-fill-lock input-icon"></i>
         <input
@@ -37,7 +33,6 @@
           required
         />
       </div>
-
       <button class="btn-submit">Create Account</button>
     </form>
 
@@ -48,7 +43,6 @@
       ></a>
       <a href="/auth/line" class="btn-social"><i class="bi bi-line"></i></a>
     </div>
-
     <p class="get-account">
       Already have an account?
       <a href="/auth/login">Login</a>

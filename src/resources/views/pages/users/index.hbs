@@ -5,7 +5,6 @@
       <h5>Discover people</h5>
       <p>Connect with others in the community</p>
     </div>
-
     <a href="#" class="view-following">Following</a>
   </div>
 
@@ -22,16 +21,13 @@
           <div class="user-avatar-placeholder">{{this.name.[0]}}</div>
           {{/if}}
         </a>
-
         <div class="user-meta">
           <a href="/profile/{{this._id}}" class="user-name"> {{this.name}} </a>
-
           {{#if this.email}}
           <span class="user-subtext">{{this.email}}</span>
           {{/if}}
         </div>
       </div>
-
       <!-- RIGHT -->
       <button
         class="btn follow-btn {{#if this.isFollowing}}btn-secondary{{else}}btn-primary{{/if}}"

@@ -1,6 +1,6 @@
 // TASK DETAIL - COMMENT SCROLL ĐỘC LẬP
 .task-detail {
-  max-width: 1280px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: $spacing-lg 0;
 }
@@ -60,7 +60,6 @@
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
-
   strong {
     font-size: 14px;
     font-weight: 700;
@@ -148,7 +147,6 @@
   border-radius: 50%;
   flex-shrink: 0;
 }
-
 .comment-body {
   flex: 1;
   min-width: 0;
@@ -159,7 +157,6 @@
   align-items: center;
   margin-bottom: 6px;
 }
-
 .comment-name {
   font-weight: 600;
   font-size: 14.8px;
@@ -185,7 +182,6 @@
   gap: 22px;
   font-size: 13.5px;
 }
-
 .comment-footer button {
   background: none;
   border: none;
@@ -207,7 +203,6 @@
   display: flex;
   gap: $spacing-sm;
 }
-
 .comment-input-box input {
   flex: 1;
   @include input-base;
@@ -215,7 +210,6 @@
   border-radius: 9999px;
   min-height: 54px;
 }
-
 .comment-input-box button {
   height: 54px;
   width: 54px;
@@ -228,19 +222,16 @@
     transform: scale(1.1);
   }
 }
-
 .reply-list {
   margin-top: 12px;
   padding-left: 40px;
   border-left: 2px solid #eee;
 }
-
 .reply-item {
   display: flex;
   gap: 10px;
   margin-top: 12px;
 }
-
 // RESPONSIVE
 @include respond(lg) {
   .task-main {
@@ -253,7 +244,6 @@
     min-height: 500px;
   }
 }
-
 @include respond(md) {
   .task-detail {
     padding: $spacing-md;

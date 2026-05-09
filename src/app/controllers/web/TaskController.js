@@ -127,7 +127,6 @@ class TaskController {
     try {
       const data = req.body;
       const attachments = buildAttachments(req.files);
-
       const updateData = {
         title: data.title,
         description: data.description,

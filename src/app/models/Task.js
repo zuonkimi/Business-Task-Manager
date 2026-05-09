@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-/* ================= TAGS ================= */
+// TAGS
 const TASK_TAGS = [
   '安全書類',
   '請求書',
@@ -12,10 +12,10 @@ const TASK_TAGS = [
   '他',
 ];
 
-/* ================= TASK SCHEMA ================= */
+// TASK SCHEMA
 const TaskSchema = new Schema(
   {
-    /* ================= BASIC INFO ================= */
+    // BASIC INFO
     title: {
       type: String,
       required: true,
@@ -26,27 +26,27 @@ const TaskSchema = new Schema(
       type: String,
       default: '',
     },
-    /* ================= OWNER ================= */
+    // OWNER
     author: {
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
       index: true,
     },
-    /* ================= STATUS ================= */
+    // STATUS
     status: {
       type: String,
       enum: ['pending', 'done'],
       default: 'pending',
       index: true,
     },
-    /* ================= DEADLINE ================= */
+    // DEADLINE
     deadline: {
       type: Date,
       default: null,
       index: true,
     },
-    /* ================= TAGS ================= */
+    // TAGS
     tags: {
       type: [String],
       default: [],
@@ -55,13 +55,13 @@ const TaskSchema = new Schema(
         message: 'Invalid tag detected',
       },
     },
-    /* ================= SOFT DELETE ================= */
+    // SOFT DELETE
     deleted: {
       type: Boolean,
       default: false,
       index: true,
     },
-    /* ================= SOCIAL ================= */
+    // SOCIAL
     likes: [
       {
         type: Schema.Types.ObjectId,
@@ -76,7 +76,7 @@ const TaskSchema = new Schema(
       type: Number,
       default: 0,
     },
-    /* ================= FILES ================= */
+    // FILES
     attachments: [
       {
         url: {
@@ -94,7 +94,7 @@ const TaskSchema = new Schema(
         },
       },
     ],
-    /* ================= ANALYTICS ================= */
+    // ANALYTICS
     views: {
       type: Number,
       default: 0,
@@ -104,7 +104,7 @@ const TaskSchema = new Schema(
     timestamps: true,
   },
 );
-/* ================= INDEX ================= */
+// INDEX
 TaskSchema.index({ createdAt: -1 });
 TaskSchema.index({ author: 1, createdAt: -1 });
 TaskSchema.index({ title: 'text', description: 'text' });

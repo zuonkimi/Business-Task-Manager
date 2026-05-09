@@ -34,7 +34,7 @@ class UserService {
     });
     return {
       user,
-      posts: tasksData.tasks, // Quan trọng: khớp với template .hbs
+      posts: tasksData.tasks,
       isFollowing: !!isFollowing,
       isOwner: String(viewerId) === String(profileUserId),
       stats: {

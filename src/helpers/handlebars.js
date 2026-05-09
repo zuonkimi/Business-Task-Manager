@@ -28,6 +28,9 @@ module.exports = {
   // EQUALITY CHECK
   eq: (a, b) => a === b,
 
+  // GREATER THAN
+  gt: (a, b) => a > b,
+
   // SELECT OPTION
   selected: (value, current) => {
     return value === current ? 'selected' : '';

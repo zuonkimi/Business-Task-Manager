@@ -6,26 +6,21 @@
       <a href="/tasks/create" class="btn btn-primary">+ Create Post</a>
     </div>
   </div>
-
   <!-- KPI -->
   <div class="row g-2 g-md-3 mb-3">
     <div class="col-6 col-md-3">
       <div class="card btn-warning p-2">Soon: {{soonTasks}}</div>
     </div>
-
     <div class="col-6 col-md-3">
       <div class="card btn-danger p-2">Overdue: {{overdueTasks}}</div>
     </div>
-
     <div class="col-6 col-md-3">
       <div class="card btn-success p-2">Done: {{doneTasks}}</div>
     </div>
-
     <div class="col-6 col-md-3">
       <div class="card btn-secondary p-2">Trash: {{trashTask}}</div>
     </div>
   </div>
-
   <!-- FEED -->
   {{#each tasks}}
   <div class="card feed-card mb-3 shadow-sm">
@@ -47,7 +42,6 @@
           <div class="meta">{{formatDate deadline}}</div>
         </div>
       </div>
-
       <!-- TAGS -->
       {{#if tags}}
       <div class="mb-2">
@@ -58,15 +52,12 @@
         {{/each}}
       </div>
       {{/if}}
-
       <!-- TITLE -->
       <h5 class="task-title mb-3">
         <a href="/tasks/{{_id}}">{{title}}</a>
       </h5>
-
       <!-- DESCRIPTION -->
       <p class="mb-2">{{description}}</p>
-
       <!-- ATTACHMENTS -->
       {{#if attachments}}
       <div class="attachments mb-2">
@@ -79,11 +70,9 @@
         {{/if}} {{/each}}
       </div>
       {{/if}}
-
       <!-- STATUS -->
       <div class="d-flex justify-content-between align-items-center meta mb-2">
         <span class="badge status {{status}}">{{status}}</span>
-
         <div>
           <i class="bi bi-suit-heart-fill"></i>
           <span id="like-count-{{_id}}">{{likes.length}}</span> •
@@ -91,23 +80,19 @@
           {{commentCount}}
         </div>
       </div>
-
       <hr />
-
       <!-- ACTION -->
       <div class="d-flex justify-content-around text-center action-bar">
         <a href="/tasks/{{_id}}" class="text-decoration-none">
           <i class="bi bi-chat-left-dots"></i>
           Comment
         </a>
-
         <button class="btn-like {{#if isLiked}}liked{{/if}}" data-id="{{_id}}">
           <i class="bi bi-suit-heart-fill"></i>
           <span class="like-text">
             {{#if isLiked}}Liked{{else}}Like{{/if}}
           </span>
         </button>
-
         <a href="/tasks/{{_id}}" class="text-decoration-none">
           <i class="bi bi-eye-fill"></i>
           View
@@ -124,18 +109,13 @@
     btn.addEventListener('click', async () => {
       const id = btn.dataset.id;
       btn.disabled = true;
-
       try {
         const res = await fetch(`/tasks/${id}/like`, { method: 'POST' });
         const data = await res.json();
-
         if (!data.success) return;
-
         const countEl = document.querySelector(`#like-count-${id}`);
         if (countEl) countEl.textContent = data.likeCount;
-
         btn.classList.toggle('liked', data.liked);
-
         const textEl = btn.querySelector('.like-text');
         if (textEl) textEl.textContent = data.liked ? 'Liked' : 'Like';
       } catch (err) {

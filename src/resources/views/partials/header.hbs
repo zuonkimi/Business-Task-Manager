@@ -1,4 +1,5 @@
 <nav class="navbar">
+  <!-- LEFT -->
   <div class="nav-left">
     <button class="btn btn-dark d-md-none me-2" onclick="sidebarToggle()">
       <i class="bi bi-three-dots-vertical"></i>
@@ -9,6 +10,7 @@
     </a>
   </div>
 
+  <!-- CENTER -->
   <div class="nav-center">
     <form method="GET" action="/search" class="search-wrapper">
       <input
@@ -24,25 +26,109 @@
     </form>
   </div>
 
+  <!-- RIGHT -->
   <div class="nav-right">
+    <!-- NOTIFICATION -->
+    <div class="dropdown notification-dropdown">
+      <!-- DESKTOP -->
+      <button
+        class="btn btn-dark position-relative d-none d-md-inline-flex"
+        data-bs-toggle="dropdown"
+      >
+        <i class="bi bi-bell-fill"></i>
+        {{#if unreadCount}}
+        <span class="notification-badge">
+          {{#if (gt unreadCount 99)}}99+{{else}}{{unreadCount}}{{/if}}
+        </span>
+        {{/if}}
+      </button>
+      <!-- MOBILE -->
+      <a
+        href="/notifications"
+        class="btn btn-dark position-relative d-inline-flex d-md-none"
+      >
+        <i class="bi bi-bell-fill"></i>
+        {{#if unreadCount}}
+        <span class="notification-badge">
+          {{#if (gt unreadCount 99)}}99+{{else}}{{unreadCount}}{{/if}}
+        </span>
+        {{/if}}
+      </a>
+      <!-- DROPDOWN -->
+      <div class="dropdown-menu dropdown-menu-end notification-menu">
+        <div class="notification-menu-header">
+          <span>Notifications</span>
+          {{#if unreadCount}}
+          <form action="/notifications/read-all" method="POST">
+            <button type="submit" class="mark-all-btn">Mark all read</button>
+          </form>
+          {{/if}}
+        </div>
+        {{#if notifications.length}}
+        <div class="notification-menu-list">
+          {{#each notifications}}
+          <a
+            href="/notifications/{{this._id}}/redirect"
+            class="notification-card {{#unless this.isRead}}unread{{/unless}}"
+          >
+            <div class="notification-card-avatar">
+              <img src="{{this.sender.avatar}}" alt="{{this.sender.name}}" />
+            </div>
+            <div class="notification-card-content">
+              <div class="notification-card-text">
+                <strong>{{this.sender.name}}</strong>
+                {{#if (eq this.type "comment")}} commented on your task {{/if}}
+                {{#if (eq this.type "like_comment")}} liked your comment {{/if}}
+                {{#if (eq this.type "like_task")}} liked your task {{/if}} {{#if
+                (eq this.type "reply")}} replied to your comment {{/if}} {{#if
+                (eq this.type "follow")}} followed you {{/if}} {{#if (eq
+                this.type "new_task")}} created a new task {{/if}}
+              </div>
+              <div class="notification-card-time">
+                {{timeAgo this.createdAt}}
+              </div>
+            </div>
+          </a>
+          {{/each}}
+        </div>
+        {{else}}
+        <div class="empty-notification">
+          <i class="bi bi-bell"></i>
+          <p>No notifications yet</p>
+        </div>
+        {{/if}}
+        <div class="notification-menu-footer">
+          <a href="/notifications"> View all notifications </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFILE -->
     <div class="avatar avatar-md">
       <a href="/profile/{{currentUser._id}}">
         <img src="{{currentUser.avatar}}" alt="{{currentUser.name}}" />
       </a>
     </div>
 
+    <!-- MENU -->
     <div class="dropdown">
       <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown">
         Menu <i class="bi bi-list"></i>
       </button>
-
       <div class="dropdown-menu">
         <a href="/profile/{{currentUser._id}}">
-          <i class="bi bi-person-circle"></i> Profile
+          <i class="bi bi-person-circle"></i>
+          Profile
         </a>
-        <a href="#"><i class="bi bi-gear"></i> Settings</a>
+
+        <a href="#">
+          <i class="bi bi-gear"></i>
+          Settings
+        </a>
+
         <a href="/auth/logout">
-          <i class="bi bi-box-arrow-right"></i> Logout
+          <i class="bi bi-box-arrow-right"></i>
+          Logout
         </a>
       </div>
     </div>

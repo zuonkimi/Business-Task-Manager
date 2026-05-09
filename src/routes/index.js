@@ -4,22 +4,34 @@ const siteRouter = require('./web/site');
 const meRouter = require('./web/me');
 const authRouter = require('./web/auth');
 const profileRouter = require('./web/profile');
+const webNotificationRouter = require('./web/notification');
 const followRouter = require('./api/follow');
 const commentRouter = require('./api/comment');
+const apiNotificationRouter = require('./api/notification');
 const requireAuth = require('../app/middlewares/auth');
 const preventCache = require('../app/middlewares/preventCache');
+const notificationMiddleware = require('../app/middlewares/notification');
 
 function route(app) {
+  //public
+  app.use('/auth', authRouter);
   //private
+  app.use(notificationMiddleware);
   app.use('/api/comments', requireAuth, preventCache, commentRouter);
   app.use('/api/follow', requireAuth, preventCache, followRouter);
+  app.use(
+    '/api/notifications',
+    requireAuth,
+    preventCache,
+    apiNotificationRouter,
+  );
   app.use('/tasks', requireAuth, preventCache, tasksRouter);
   app.use('/me', requireAuth, preventCache, meRouter);
-  app.use('/auth', authRouter);
   app.use('/profile', profileRouter);
+  app.use('/notifications', webNotificationRouter);
   app.use('/users', usersRouter);
 
-  //public
+  //home
   app.use('/', siteRouter);
 }
 

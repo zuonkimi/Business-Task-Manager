@@ -1,13 +1,26 @@
 const Follow = require('../models/Follow');
+const notificationService = require('./notification.service');
 
 class FollowService {
   async followUser(followerId, followingId) {
     if (followerId === followingId) throw new Error('Cannot follow yourself');
-    return await Follow.findOneAndUpdate(
-      { follower: followerId, following: followingId },
-      { follower: followerId, following: followingId },
-      { upsert: true, new: true },
-    );
+    const exitingFollow = await Follow.findOne({
+      follower: followerId,
+      following: followingId,
+    });
+    if (exitingFollow) {
+      return exitingFollow;
+    }
+    const follow = await Follow.create({
+      follower: followerId,
+      following: followingId,
+    });
+    await notificationService.createNotification({
+      recipient: followingId,
+      sender: followerId,
+      type: 'follow',
+    });
+    return follow;
   }
 
   async unfollowUser(followerId, followingId) {

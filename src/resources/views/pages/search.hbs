@@ -3,7 +3,6 @@
     <!-- USERS -->
     <section class="card search-card">
       <h3 class="card__title">Peoples</h3>
-
       {{#if users.length}}
       <div class="list list--vertical">
         {{#each users}}
@@ -11,7 +10,6 @@
           <div class="avatar avatar--md">
             <img src="{{this.avatar}}" alt="{{this.name}}" />
           </div>
-
           <div class="user-row__info">
             <div class="user-row__name">{{this.name}}</div>
             <div class="user-row__sub">@{{this.username}}</div>
@@ -27,13 +25,12 @@
     <!-- TASKS -->
     <section class="card search-card">
       <h3 class="card__title">Tasks Result</h3>
-
       {{#if tasks.length}}
       <div class="list list--vertical">
         {{#each tasks}}
         <div class="task-row">
           <a href="/tasks/{{this._id}}" class="task-row__title">
-            📌 {{this.title}}
+            <i class="bi bi-card-list"></i> {{this.title}}
           </a>
 
           {{#if this.author}}

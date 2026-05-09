@@ -1,5 +1,4 @@
 <div class="profile-page">
-  <!-- PROFILE CARD -->
   <section class="profile-card">
     <!-- HEADER -->
     <div class="profile-header">
@@ -10,7 +9,6 @@
         <div class="avatar-fallback">{{user.name.[0]}}</div>
         {{/if}}
       </div>
-
       <div class="profile-info">
         <h2>{{user.name}}</h2>
         <p class="email">{{user.email}}</p>
@@ -42,17 +40,14 @@
         <strong>{{stats.total}}</strong>
         <span>Posts</span>
       </div>
-
       <div class="stat">
         <strong>{{stats.followers}}</strong>
         <span>Followers</span>
       </div>
-
       <div class="stat">
         <strong>{{stats.following}}</strong>
         <span>Following</span>
       </div>
-
       <div class="stat">
         <strong>{{stats.done}}</strong>
         <span>Done</span>
@@ -63,7 +58,6 @@
   <!-- POSTS -->
   <section class="profile-posts">
     <div class="section-title">Recent Activity</div>
-
     {{#if posts.length}}
     <div class="post-grid">
       {{#each posts}}
@@ -71,14 +65,11 @@
         {{#if this.attachments}}
         <img src="{{this.attachments.[0].url}}" />
         {{/if}}
-
         <div class="post-body">
           <h4>{{this.title}}</h4>
-
           {{#if this.description}}
           <p>{{this.description}}</p>
           {{/if}}
-
           <div class="post-meta">
             <span>{{formatDate this.createdAt}}</span>
             <span class="badge">{{this.status}}</span>

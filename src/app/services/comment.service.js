@@ -1,4 +1,6 @@
 const Comment = require('../models/Comment');
+const Task = require('../models/Task');
+const notificationService = require('./notification.service');
 
 class CommentService {
   async createComment({ taskId, userId, content, parentId = null }) {
@@ -8,6 +10,29 @@ class CommentService {
       content,
       parentId,
     });
+    //notification
+    if (parentId) {
+      const parentComment = await Comment.findById(parentId);
+      if (parentComment) {
+        await notificationService.createNotification({
+          recipient: parentComment.user,
+          sender: userId,
+          type: 'reply',
+          task: taskId,
+          comment: parentComment._id,
+        });
+      }
+    } else {
+      const task = await Task.findById(taskId);
+      if (task) {
+        await notificationService.createNotification({
+          recipient: task.author,
+          sender: userId,
+          type: 'comment',
+          task: taskId,
+        });
+      }
+    }
     const populatedComment = await Comment.findById(comment._id)
       .populate('user', 'name avatar')
       .lean();
@@ -60,6 +85,13 @@ class CommentService {
     } else {
       comment.likes.push(userId);
       comment.likeCount += 1;
+      await notificationService.createNotification({
+        recipient: comment.user,
+        sender: userId,
+        type: 'like_comment',
+        task: comment.taskId,
+        comment: comment._id,
+      });
     }
     await comment.save();
     return { liked: !isLiked, likeCount: comment.likeCount };

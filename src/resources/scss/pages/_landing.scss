@@ -1,154 +1,121 @@
 .landing-page {
-  position: relative;
-  width: 100%;
   min-height: 100vh;
   background: $bg-main;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+  color: $text-light;
   &::before {
     @include bg-glow;
-    animation: floatBg 10s ease-in-out infinite;
+    animation: floatBg 25s ease-in-out infinite;
+    opacity: 0.6;
   }
-  &::after {
-    content: '';
-    position: absolute;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(
-      circle,
-      rgba(139, 92, 246, 0.3),
-      transparent 60%
-    );
-    bottom: -200px;
-    right: -200px;
-    filter: blur(60px);
-    z-index: 0;
-    animation: floatBg 12s ease-in-out infinite;
-  }
-  // OVERLAY
-  .landing-overlay {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-      circle at center,
-      rgba(59, 130, 246, 0.2),
-      transparent 70%
-    );
-    z-index: 1;
-  }
-  // MAIN
-  .landing-content {
+  .hero-section {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 4rem;
+    padding: 0 $spacing-4xl;
     position: relative;
     z-index: 2;
-    width: 100%;
-    max-width: 1200px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding: 0 $spacing-4xl;
-    gap: $spacing-4xl;
-    color: $text-primary;
-  }
-  // CENTER
-  .landing-center {
-    flex: 1;
-    text-align: center;
-    animation: fadeUp 1s ease;
-    .logo {
-      width: 220px;
-      margin-bottom: $spacing-xl;
-      animation: float 3s ease-in-out infinite;
-    }
-    .actions {
-      margin-top: $spacing-lg;
-      .btn {
-        margin: 0 $spacing-sm;
-        padding: $spacing-sm $spacing-lg;
+    .hero-content {
+      .hero-badge {
+        display: inline-block;
+        background: rgba(59, 130, 246, 0.15);
+        color: $color-primary;
+        padding: 6px 16px;
         border-radius: $radius-pill;
-        text-decoration: none;
-        @include smooth;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
       }
-      .btn-login {
-        background: $color-primary-dark;
-        color: $color-white;
+      .hero-title {
+        font-size: clamp(2.8rem, 6vw, 4.5rem);
+        line-height: 1.1;
+        font-weight: 700;
+        margin-bottom: 1.2rem;
       }
-      .btn-register {
-        border: 1px solid $color-white;
-        color: $color-white;
+      .gradient-text {
+        background: linear-gradient(90deg, #00c6ff, #a78bfa, #60a5fa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
-      .btn:hover {
-        transform: scale(1.05);
+      .hero-subtitle {
+        font-size: 1.25rem;
+        opacity: 0.85;
+        max-width: 460px;
+        margin-bottom: 2rem;
       }
-    }
-  }
-  // SIDE
-  .landing-side {
-    flex: 1;
-    max-width: 280px;
-    display: flex;
-    flex-direction: column;
-    gap: $spacing-md;
-    opacity: 0.9;
-    h3 {
-      margin-bottom: $spacing-sm;
-    }
-    .mini-card {
-      @include glass(0.05);
-      padding: $spacing-sm;
-      border-radius: $radius-md;
-      @include smooth;
-      &:hover {
-        background: rgba(255, 255, 255, 0.1);
-        transform: translateX(5px);
-      }
-    }
-  }
-  .left {
-    animation: slideLeft 1s ease;
-  }
-  .right {
-    animation: slideRight 1s ease;
-  }
-  // MOBILE
-  @include respond(md) {
-    align-items: flex-start;
-    .landing-content {
-      flex-direction: column;
-      justify-content: flex-start;
-      padding: $spacing-2xl $spacing-lg;
-      gap: $spacing-xl;
-    }
-    .landing-side {
-      max-width: 100%;
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .landing-center {
-      .logo {
-        width: 160px;
-      }
-      h1 {
-        font-size: 20px;
-      }
-    }
-  }
-  @include respond(sm) {
-    .landing-side {
-      flex-direction: column;
-      align-items: center;
-    }
-    .landing-center {
-      .actions {
+      .hero-actions {
         display: flex;
-        flex-direction: column;
-        gap: $spacing-sm;
-        .btn {
-          width: 100%;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+      }
+    }
+    .hero-visual {
+      position: relative;
+      .mockup {
+        width: 100%;
+        max-width: 620px;
+        border-radius: 20px;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        transition: transform 0.4s ease;
+        &:hover {
+          transform: translateY(-12px) rotate(1deg);
         }
       }
+    }
+  }
+  // Features
+  .features-section {
+    padding: 6rem $spacing-4xl;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px);
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+    .feature-card {
+      @include glass(0.06);
+      padding: 2rem 1.5rem;
+      border-radius: $radius-lg;
+      text-align: center;
+      transition: all 0.3s ease;
+      i {
+        font-size: 2.8rem;
+        color: $color-primary;
+        margin-bottom: 1rem;
+        display: block;
+      }
+      &:hover {
+        transform: translateY(-8px);
+        background: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+
+  .final-cta {
+    padding: 5rem $spacing-4xl;
+    text-align: center;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(0, 198, 255, 0.08)
+    );
+  }
+}
+
+// Responsive
+@include respond(md) {
+  .hero-section {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 8rem 1.5rem 4rem;
+    .hero-visual {
+      order: -1;
+      margin-bottom: 2rem;
     }
   }
 }

@@ -35,7 +35,10 @@
         {{/if}}
         <!-- META -->
         <div class="task-meta mt-2">
-          <span>📅 {{formatDate deadline}}</span>
+          <span
+            ><i class="bi bi-calendar-heart-fill"></i> {{formatDate
+            deadline}}</span
+          >
         </div>
         <!-- ACTION -->
         <div class="task-actions mt-3">
@@ -56,7 +59,7 @@
     {{else}}
     <div class="empty-state">
       <h5>No tasks found</h5>
-      <small>Try changing filter or create a new task 🚀</small>
+      <small>Try changing filter or create a new task </small>
     </div>
     {{/each}}
   </div>

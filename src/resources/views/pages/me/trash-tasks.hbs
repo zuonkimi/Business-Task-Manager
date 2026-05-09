@@ -3,7 +3,7 @@
   <div
     class="task-list-header d-flex justify-content-between align-items-center mb-3"
   >
-    <h2>🗑 Trash Tasks</h2>
+    <h2><i class="bi bi-trash3"></i> Trash Tasks</h2>
     <button class="btn btn-outline-secondary" onclick="goBackPrevPage()">
       Back
     </button>
@@ -18,7 +18,9 @@
         <!-- DESCRIPTION -->
         <p class="text-muted mb-2">{{description}}</p>
         <!-- DEADLINE -->
-        <div class="text-muted mb-2">📅 {{formatDate deadline}}</div>
+        <div class="text-muted mb-2">
+          <i class="bi bi-calendar-heart"></i> {{formatDate deadline}}
+        </div>
         <!-- ACTION -->
         <div class="d-flex gap-2">
           <button
@@ -26,7 +28,7 @@
             class="btn btn-sm btn-warning"
             onclick="restoreTask('{{_id}}')"
           >
-            ♻️ Restore
+            <i class="bi bi-arrow-repeat"></i> Restore
           </button>
           <button
             type="button"
@@ -35,7 +37,7 @@
             data-bs-target="#deleteModal"
             data-id="{{_id}}"
           >
-            💀 Destroy
+            <i class="bi bi-calendar-x-fill"></i> Destroy
           </button>
         </div>
       </div>
@@ -73,13 +75,11 @@
   const destroyModal = document.getElementById('deleteModal');
   const destroyBtn = document.getElementById('confirmDeleteBtn');
   let deleteId = null;
-
   // SET ID khi mở modal
   destroyModal.addEventListener('show.bs.modal', event => {
     const button = event.relatedTarget;
     deleteId = button.getAttribute('data-id');
   });
-
   // DELETE HARD
   destroyBtn.onclick = async () => {
     const form = document.getElementById('deleteForm');

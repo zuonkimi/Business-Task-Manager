@@ -1,0 +1,65 @@
+<div class="notification-page">
+  <!-- HEADER -->
+  <div class="notification-header">
+    <div>
+      <h5>
+        Notifications {{#if unreadCount}}
+        <span class="notification-count"> {{unreadCount}} </span>
+        {{/if}}
+      </h5>
+      <p>Stay updated with activity from your community</p>
+    </div>
+    {{#if unreadCount}}
+    <form action="/notifications/read-all" method="POST">
+      <button type="submit" class="mark-all-btn">Mark all read</button>
+    </form>
+    {{/if}}
+  </div>
+
+  <!-- LIST -->
+  {{#if notifications.length}}
+  <div class="notifications-list">
+    {{#each notifications}}
+    <a
+      href="/notifications/{{this._id}}/redirect"
+      class="notification-row {{#unless this.isRead}}unread{{/unless}}"
+    >
+      <!-- LEFT -->
+      <div class="notification-left">
+        <!-- AVATAR -->
+        <img
+          src="{{this.sender.avatar}}"
+          alt="{{this.sender.name}}"
+          class="notification-avatar"
+        />
+        <!-- TEXT -->
+        <div class="notification-meta">
+          <div class="notification-text">
+            <strong>{{this.sender.name}}</strong>
+            {{#if (eq this.type "comment")}} commented on your task {{/if}}
+            {{#if (eq this.type "like_comment")}} liked your comment {{/if}}
+            {{#if (eq this.type "like_task")}} liked your task {{/if}} {{#if (eq
+            this.type "reply")}} replied to your comment {{/if}} {{#if (eq
+            this.type "follow")}} followed you {{/if}} {{#if (eq this.type
+            "new_task")}} created a new task {{/if}}
+          </div>
+          <div class="notification-time">{{timeAgo this.createdAt}}</div>
+        </div>
+      </div>
+      <!-- UNREAD DOT -->
+      {{#unless this.isRead}}
+      <span class="notification-dot"></span>
+      {{/unless}}
+    </a>
+    {{/each}}
+  </div>
+  {{else}}
+
+  <!-- EMPTY -->
+  <div class="empty-notification">
+    <i class="bi bi-bell"></i>
+    <h6>You're all caught up</h6>
+    <p>No notifications yet</p>
+  </div>
+  {{/if}}
+</div>

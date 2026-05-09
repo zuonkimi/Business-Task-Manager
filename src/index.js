@@ -56,7 +56,6 @@ app.use(async (req, res, next) => {
   } catch (err) {
     res.locals.currentUser = null;
   }
-
   next();
 });
 
