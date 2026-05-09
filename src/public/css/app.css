@@ -2146,142 +2146,150 @@ textarea.form-control {
 }
 
 .task-detail {
-  max-width: 1100px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding-top: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  animation: fadeIn 0.3s ease;
+  padding: 16px 0;
 }
 
 .task-main {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 16px;
-  align-items: start;
+  grid-template-columns: 7fr 5fr;
+  gap: 24px;
 }
 
 .task-left {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(10px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
   border-radius: 20px;
   overflow: hidden;
-  aspect-ratio: 4/3;
-  position: relative;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
 }
 
-.task-left .media {
+.task-media {
+  aspect-ratio: 16/9;
+  background: #000;
+  overflow: hidden;
+}
+.task-media img,
+.task-media video {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
 }
 
-.task-right {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  height: calc(100vh - 80px);
-  overflow: hidden;
+.task-content {
+  padding: 24px;
+  flex: 1;
 }
 
 .task-info {
-  background-color: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
-  border-radius: 20px;
-  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 320px;
+  overflow: hidden;
 }
 
-/* HEADER */
 .task-header {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
-/* AVATAR */
 .task-header .avatar, .task-header .user-avt {
-  width: 34px;
-  height: 34px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
-/* META */
-.task-meta {
-  display: flex;
-  flex-direction: column;
-}
-
-/* NAME + TIME */
 .name-line {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 .name-line strong {
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
 }
 .name-line span {
   font-size: 12px;
   color: rgba(255, 255, 255, 0.5);
 }
 
-/* TITLE */
 .title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-top: 4px;
-  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.35;
+  word-break: break-word;
 }
 
-/* TAGS */
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
-  margin-top: 6px;
-}
-.tags .tag {
-  font-size: 11px;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: rgba(0, 198, 255, 0.12);
-  color: #00c6ff;
+  gap: 6px;
 }
 
-/* DESCRIPTION */
+.tag {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.06);
+  white-space: nowrap;
+}
+
 .task-desc {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.5);
-  line-height: 1.5;
-  margin-top: 8px;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+  overflow-y: auto;
+  font-size: 14px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.88);
+  word-break: break-word;
+  padding-right: 4px;
+}
+.task-desc::-webkit-scrollbar {
+  width: 8px;
+}
+.task-desc::-webkit-scrollbar-track {
+  background: transparent;
+}
+.task-desc::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: 10px;
+}
+.task-desc::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.7);
+}
+
+.task-right {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 140px); /* Thanh scroll độc lập theo viewport */
+  min-height: 600px;
+  max-height: 85vh;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
   overflow: hidden;
 }
 
 .comment-box {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  flex: 1;
   overflow: hidden;
 }
 
 .comment-list {
   flex: 1;
   overflow-y: auto;
-  padding: 8px;
-  padding-right: 6px;
-  background-color: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
-  border-radius: 20px;
+  padding: 16px;
 }
 .comment-list::-webkit-scrollbar {
   width: 8px;
@@ -2296,14 +2304,18 @@ textarea.form-control {
 .comment-list::-webkit-scrollbar-thumb:hover {
   background: rgba(148, 163, 184, 0.7);
 }
+.comment-list {
+  min-height: 400px;
+}
 
 .comment-item {
   display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  transition: 0.2s;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+.comment-item:last-child {
+  border-bottom: none;
 }
 .comment-item:hover {
   background: rgba(255, 255, 255, 0.03);
@@ -2311,95 +2323,72 @@ textarea.form-control {
 }
 
 .comment-avatar {
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  object-fit: cover;
   flex-shrink: 0;
 }
 
 .comment-body {
   flex: 1;
   min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
 }
 
 .comment-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 10px;
+  align-items: center;
+  margin-bottom: 6px;
 }
 
 .comment-name {
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.8);
-  max-width: 70%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 14.8px;
 }
 
 .delete-comment-btn {
   background: none;
   border: none;
-  cursor: pointer;
-  font-size: 12px;
   color: rgba(255, 255, 255, 0.5);
-  opacity: 0.5;
+  font-size: 1.3rem;
+  cursor: pointer;
 }
 .delete-comment-btn:hover {
-  opacity: 1;
-  color: red;
+  color: #ef4444;
 }
 
 .comment-content {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.5;
-  white-space: pre-wrap;
-  word-break: break-word;
-  overflow-wrap: anywhere;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.92);
+  margin-bottom: 10px;
 }
 
 .comment-footer {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.5);
-  margin-top: 6px;
+  gap: 22px;
+  font-size: 13.5px;
 }
 
 .comment-footer button {
   background: none;
   border: none;
-  cursor: pointer;
   color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 .comment-footer button:hover {
   color: #00c6ff;
 }
 
-.comment-time {
-  margin-left: auto;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.5);
-}
-
 .comment-input-box {
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(15, 23, 42, 0.8);
   display: flex;
   gap: 8px;
-  position: sticky;
-  bottom: 0;
-  z-index: 10;
-  background-color: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
-  padding: 8px;
-  border-radius: 20px;
 }
 
 .comment-input-box input {
@@ -2416,29 +2405,54 @@ textarea.form-control {
 .comment-input-box input:focus {
   box-shadow: 0 0 0 2px rgba(0, 198, 255, 0.2), 0 0 10px rgba(0, 198, 255, 0.4);
 }
+.comment-input-box input {
+  padding: 16px 20px;
+  border-radius: 9999px;
+  min-height: 54px;
+}
 
 .comment-input-box button {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 12px;
+  height: 54px;
+  width: 54px;
+  border-radius: 9999px;
   background: linear-gradient(135deg, #00c6ff, #0072ff);
-  color: #fff;
+  color: white;
+  border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
 }
 .comment-input-box button:hover {
-  transform: translateY(-2px);
+  transform: scale(1.1);
+}
+
+.reply-list {
+  margin-top: 12px;
+  padding-left: 40px;
+  border-left: 2px solid #eee;
+}
+
+.reply-item {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
 }
 
 @media (max-width: 992px) {
   .task-main {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
   .task-right {
     height: auto;
+    max-height: none;
+    min-height: 500px;
   }
-  .task-left {
-    aspect-ratio: 16/9;
+}
+@media (max-width: 768px) {
+  .task-detail {
+    padding: 12px;
+  }
+  .task-content {
+    padding: 16px;
   }
 }
 

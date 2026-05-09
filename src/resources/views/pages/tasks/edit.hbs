@@ -1,0 +1,81 @@
+<div class="task-form">
+  <div class="task-list-header">
+    <h2 class="mb-0">✏️ Edit Task</h2>
+    <button class="btn btn-outline-secondary" onclick="goBackPrevPage()">
+      Back
+    </button>
+  </div>
+  <form
+    action="/tasks/{{task._id}}/?_method=PUT"
+    enctype="multipart/form-data"
+    class="mt-3 edit-form"
+    method="POST"
+  >
+    <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+    <input type="hidden" name="redirectTo" value="{{redirectTo}}" />
+    <!-- TITLE -->
+    <div class="mb-3">
+      <input
+        name="title"
+        class="form-control"
+        value="{{task.title}}"
+        required
+      />
+    </div>
+    <!-- DESCRIPTION -->
+    <div class="mb-3">
+      <textarea
+        name="description"
+        class="form-control"
+        placeholder="Ghi chú..."
+      >{{task.description}}</textarea>
+    </div>
+    <!-- FILE -->
+    <div class="mb-3">
+      <input
+        type="file"
+        name="attachments"
+        class="form-control"
+        multiple
+        accept="image/*,application/pdf"
+      />
+    </div>
+    <!-- PREVIEW -->
+    <div id="preview" class="preview"></div>
+    <!-- DEADLINE + TAG -->
+    <div class="row g-2 mb-3">
+      <div class="col-12 col-md-6">
+        <input
+          type="date"
+          name="deadline"
+          class="form-control"
+          value="{{formatDateInput task.deadline}}"
+        />
+      </div>
+      <div class="col-12 col-md-6">
+        <select name="tags" class="form-control">
+          <option value="">--- Select tag ---</option>
+          <option value="請求書" {{selected "請求書" task.tags.[0]}}>請求書</option>
+          <option value="安全書類" {{selected "安全書類" task.tags.[0]}}>安全書類</option>
+          <option value="発注" {{selected "発注" task.tags.[0]}}>発注</option>
+          <option value="注文請書" {{selected "注文請書" task.tags.[0]}}>注文請書</option>
+          <option value="リモート" {{selected "リモート" task.tags.[0]}}>リモート</option>
+          <option value="領収書" {{selected "領収書" task.tags.[0]}}>領収書</option>
+          <option value="他" {{selected "他" task.tags.[0]}}>他</option>
+        </select>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+  </form>
+</div>
+
+<script>
+  // BACK
+  const goBackPrevPage = () => {
+    if (window.history.length > 1) {
+      window.history.go(-1);
+    } else {
+      window.location.href = '/tasks';
+    }
+  };
+</script>

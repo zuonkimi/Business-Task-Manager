@@ -47,9 +47,9 @@ module.exports = {
   },
 
   // STRING INCLUDES (CASE INSENSITIVE)
-  includes: (str, keyword) => {
-    if (!str || !keyword) return false;
-    return String(str).toLowerCase().includes(String(keyword).toLowerCase());
+  includes: (string, keyword) => {
+    if (!string || !keyword) return false;
+    return String(string).toLowerCase().includes(String(keyword).toLowerCase());
   },
 
   // HIGHLIGHT SEARCH KEYWORD

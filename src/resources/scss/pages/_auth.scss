@@ -3,7 +3,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 100vh; // 🔥 FIX: phải dùng height, không dùng min-height
+  height: 100vh;
   background: $color-dark;
   overflow: hidden;
   &::before {

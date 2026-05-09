@@ -1,0 +1,370 @@
+<div class="task-detail">
+  <div class="task-main">
+    {{!-- LEFT COLUMN --}}
+    <div class="task-left">
+      <!-- MEDIA -->
+      <div class="task-media">
+        {{#if task.attachments}} {{#each task.attachments}} {{#if (includes type
+        "image")}} <img src="{{url}}" class="media" alt="{{name}}" /> {{else if
+        (includes type "video")}}
+        <video controls class="media">
+          <source src="{{url}}" type="video/mp4" />
+        </video>
+        {{else}}
+        <div class="file-placeholder">
+          <i
+            class="bi bi-file-earmark-text"
+            style="font-size: 4rem; opacity: 0.3"
+          ></i>
+          <p>{{name}}</p>
+        </div>
+        {{/if}} {{/each}} {{else}}
+        <div class="no-media">
+          <i class="bi bi-image" style="font-size: 4rem; opacity: 0.2"></i>
+          <p>Không có file đính kèm</p>
+        </div>
+        {{/if}}
+      </div>
+      <!-- TASK CONTENT -->
+      <div class="task-content">
+        <div class="task-info">
+          <div class="task-header">
+            <img
+              src="{{task.author.avatar}}"
+              class="avatar"
+              alt="{{task.author.name}}"
+            />
+            <div>
+              <div class="name-line">
+                <strong>{{task.author.name}}</strong>
+                <span> • {{formatDate task.createdAt}} </span>
+              </div>
+            </div>
+          </div>
+          <h3 class="title">{{task.title}}</h3>
+          {{#if task.tags}}
+          <div class="tags">
+            {{#each task.tags}} <span class="tag"> #{{this}} </span> {{/each}}
+          </div>
+          {{/if}} {{#if task.description}}
+          <div class="task-desc">{{task.description}}</div>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+    {{!-- RIGHT COLUMN --}}
+    <div class="task-right">
+      <div class="comment-box">
+        <!-- COMMENT LIST -->
+        <div class="comment-list" id="comment-list">
+          {{#each comments}}
+          <!-- COMMENT CHA -->
+          <div class="comment-item" data-id="{{this._id}}">
+            <img
+              class="comment-avatar"
+              src="{{this.user.avatar}}"
+              alt="{{this.user.name}}"
+            />
+            <div class="comment-body">
+              <!-- HEADER -->
+              <div class="comment-header">
+                <strong class="comment-name"> {{this.user.name}} </strong>
+                <button class="delete-comment-btn" data-id="{{this._id}}">
+                  <i class="bi bi-x-lg"></i>
+                </button>
+              </div>
+              <!-- CONTENT -->
+              <div class="comment-content">{{this.content}}</div>
+              <!-- FOOTER -->
+              <div class="comment-footer">
+                <button
+                  class="like-comment-btn {{#if this.isLiked}}liked{{/if}}"
+                  data-id="{{this._id}}"
+                >
+                  <i class="bi bi-heart-fill"></i>
+                  <span>{{this.likeCount}}</span>
+                </button>
+                <button class="reply-btn" data-id="{{this._id}}">
+                  <i class="bi bi-reply"></i> Reply
+                </button>
+                <span class="comment-time"> {{timeAgo this.createdAt}} </span>
+              </div>
+              {{!-- REPLIES --}} {{#if this.replies.length}}
+              <div class="reply-list">
+                {{#each this.replies}}
+                <div class="reply-item" data-id="{{this._id}}">
+                  <img
+                    class="comment-avatar"
+                    src="{{this.user.avatar}}"
+                    alt="{{this.user.name}}"
+                  />
+                  <div class="comment-body">
+                    <div class="comment-header">
+                      <strong class="comment-name"> {{this.user.name}} </strong>
+                      <button class="delete-comment-btn" data-id="{{this._id}}">
+                        <i class="bi bi-x-lg"></i>
+                      </button>
+                    </div>
+                    <div class="comment-content">{{this.content}}</div>
+                    <div class="comment-footer">
+                      <button class="like-comment-btn" data-id="{{this._id}}">
+                        <i class="bi bi-heart-fill"></i>
+                        <span>{{this.likeCount}}</span>
+                      </button>
+                      <span class="comment-time">
+                        {{timeAgo this.createdAt}}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                {{/each}}
+              </div>
+              {{/if}}
+            </div>
+          </div>
+          {{else}}
+          <div class="comment-list empty">
+            Chưa có bình luận nào. <br />
+            Hãy là người đầu tiên bình luận!
+          </div>
+          {{/each}}
+        </div>
+        <!-- COMMENT INPUT -->
+        <div class="comment-input-box">
+          <input
+            id="comment-input"
+            type="text"
+            placeholder="Viết bình luận của bạn..."
+            autocomplete="off"
+          />
+          <button id="comment-btn" data-task="{{task._id}}">
+            <i class="bi bi-send-fill"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('comment-input');
+    const sendBtn = document.getElementById('comment-btn');
+    const commentList = document.getElementById('comment-list');
+    const taskId = sendBtn?.dataset.task;
+
+    if (!input || !sendBtn || !commentList || !taskId) return;
+    // SEND COMMENT
+    async function sendComment() {
+      const content = input.value.trim();
+      if (!content) return;
+      sendBtn.disabled = true;
+      sendBtn.innerHTML = '<i class="bi bi-hourglass-split"></i>';
+      try {
+        const res = await fetch('/api/comments', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            content,
+            taskId,
+            parentId: input.dataset.replyTo || null,
+          }),
+        });
+        const data = await res.json();
+        if (!data.success || !data.comment) {
+          alert(data.message || 'Không thể gửi bình luận');
+          return;
+        }
+        renderNewComment(data.comment);
+        // reset input
+        input.value = '';
+        input.dataset.replyTo = '';
+        input.placeholder = 'Viết bình luận của bạn...';
+      } catch (err) {
+        console.error(err);
+        alert('Lỗi kết nối');
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.innerHTML = '<i class="bi bi-send-fill"></i>';
+      }
+    }
+    // RENDER REPLIES
+    function renderReplies(replies = []) {
+      if (!replies.length) return '';
+      return replies
+        .map(
+          reply => `
+            <div class="reply-item" data-id="${reply._id}">
+              <img
+                class="comment-avatar"
+                src="${reply.user.avatar || '/uploads/defaultavt.jpg'}"
+                alt="${reply.user.name}"
+              />
+              <div class="comment-body">
+                <div class="comment-header">
+                  <strong class="comment-name">
+                    ${reply.user.name}
+                  </strong>
+                  <button
+                    class="delete-comment-btn"
+                    data-id="${reply._id}"
+                  >
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+                <div class="comment-content">
+                  ${reply.content}
+                </div>
+                <div class="comment-footer">
+                  <button
+                    class="like-comment-btn"
+                    data-id="${reply._id}"
+                  >
+                    <i class="bi bi-heart-fill"></i>
+                    <span>${reply.likeCount || 0}</span>
+                  </button>
+                  <span class="comment-time">
+                    just now
+                  </span>
+                </div>
+              </div>
+            </div>
+          `,
+        )
+        .join('');
+    }
+    // RENDER COMMENT
+    function renderNewComment(comment) {
+      // REPLY
+      if (comment.parentId) {
+        const parentComment = document.querySelector(
+          `.comment-item[data-id="${comment.parentId}"]`,
+        );
+        if (!parentComment) return;
+        let replyList = parentComment.querySelector('.reply-list');
+        if (!replyList) {
+          replyList = document.createElement('div');
+          replyList.className = 'reply-list';
+          parentComment.querySelector('.comment-body').appendChild(replyList);
+        }
+        replyList.insertAdjacentHTML('beforeend', renderReplies([comment]));
+        return;
+      }
+      // NORMAL COMMENT
+      const html = `
+        <div
+          class="comment-item"
+          data-id="${comment._id}"
+        >
+          <img
+            class="comment-avatar"
+            src="${comment.user.avatar || '/uploads/defaultavt.jpg'}"
+            alt="${comment.user.name}"
+          />
+          <div class="comment-body">
+            <div class="comment-header">
+              <strong class="comment-name">
+                ${comment.user.name}
+              </strong>
+              <button
+                class="delete-comment-btn"
+                data-id="${comment._id}"
+              >
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </div>
+            <div class="comment-content">
+              ${comment.content}
+            </div>
+            <div class="comment-footer">
+              <button
+                class="like-comment-btn"
+                data-id="${comment._id}"
+              >
+                <i class="bi bi-heart-fill"></i>
+                <span>${comment.likeCount || 0}</span>
+              </button>
+              <button
+                class="reply-btn"
+                data-id="${comment._id}"
+              >
+                <i class="bi bi-reply"></i>
+                Reply
+              </button>
+              <span class="comment-time">
+                just now
+              </span>
+            </div>
+            <div class="reply-list"></div>
+          </div>
+        </div>
+      `;
+      commentList.insertAdjacentHTML('afterbegin', html);
+    }
+    // EVENTS
+    sendBtn.addEventListener('click', sendComment);
+    input.addEventListener('keypress', e => {
+      if (e.key === 'Enter') {
+        sendComment();
+      }
+    });
+    // EVENT DELEGATION
+    commentList.addEventListener('click', async e => {
+      const likeBtn = e.target.closest('.like-comment-btn');
+      const deleteBtn = e.target.closest('.delete-comment-btn');
+      const replyBtn = e.target.closest('.reply-btn');
+      // LIKE
+      if (likeBtn) {
+        const id = likeBtn.dataset.id;
+        const countSpan = likeBtn.querySelector('span');
+        try {
+          const res = await fetch(`/api/comments/${id}/like`, {
+            method: 'POST',
+          });
+          const data = await res.json();
+          if (data.success) {
+            likeBtn.classList.toggle('liked', data.liked);
+            if (countSpan) {
+              countSpan.textContent = data.likeCount || 0;
+            }
+          }
+        } catch (err) {
+          console.error(err);
+        }
+        return;
+      }
+      // DELETE
+      if (deleteBtn) {
+        const ok = confirm('Xóa bình luận này?');
+        if (!ok) return;
+        const id = deleteBtn.dataset.id;
+        const item = deleteBtn.closest('.comment-item, .reply-item');
+        try {
+          const res = await fetch(`/api/comments/${id}`, {
+            method: 'DELETE',
+          });
+          const data = await res.json();
+          if (data.success) {
+            item.remove();
+          }
+        } catch (err) {
+          console.error(err);
+          alert('Không thể xóa');
+        }
+        return;
+      }
+      // REPLY
+      if (replyBtn) {
+        const commentId = replyBtn.dataset.id;
+        input.focus();
+        input.dataset.replyTo = commentId;
+        input.placeholder = 'Đang trả lời bình luận...';
+        input.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }
+    });
+  });
+</script>

@@ -1,5 +1,4 @@
 require('dotenv').config(); // read .env file -> set process.env
-
 // import rate limit middleware
 const rateLimit = require('express-rate-limit');
 // session saved in server memory (should use Redis or MongoDB in production)

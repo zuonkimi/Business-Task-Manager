@@ -1,282 +1,264 @@
-//  TASK DETAIL ROOT
+// TASK DETAIL - COMMENT SCROLL ĐỘC LẬP
 .task-detail {
-  max-width: 1100px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding-top: $spacing-lg;
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-lg;
-  animation: fadeIn 0.3s ease;
+  padding: $spacing-lg 0;
 }
-
-//  MAIN LAYOUT (2 COLUMNS)
 .task-main {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: $spacing-lg;
-  align-items: start;
+  grid-template-columns: 7fr 5fr;
+  gap: $spacing-xl;
 }
-
-//  LEFT - MEDIA (FIXED LAYOUT)
+// LEFT COLUMN (Media + Nội dung)
 .task-left {
-  @include glass(0.05);
+  @include glass(0.06);
   border-radius: $radius-lg;
   overflow: hidden;
-  aspect-ratio: 4 / 3;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.task-left .media {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-//  RIGHT SIDE (SCROLL AREA)
-.task-right {
   display: flex;
   flex-direction: column;
-  gap: $spacing-md;
-  height: calc(100vh - 80px);
+}
+
+.task-media {
+  aspect-ratio: 16 / 9;
+  background: #000;
+  overflow: hidden;
+  img,
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.task-content {
+  padding: $spacing-xl;
+  flex: 1;
+}
+// TASK INFO FIX
+.task-info {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 320px;
   overflow: hidden;
 }
-
-//  TASK INFO (COMPACT HEADER)
-.task-info {
-  @include glass(0.08);
-  border-radius: $radius-lg;
-  padding: $spacing-sm $spacing-md;
-}
-
-/* HEADER */
+// HEADER
 .task-header {
   display: flex;
   align-items: center;
-  gap: $spacing-sm;
+  gap: 12px;
 }
-
-/* AVATAR */
 .task-header .avatar {
-  width: 34px;
-  height: 34px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
-
-/* META */
-.task-meta {
-  display: flex;
-  flex-direction: column;
-}
-
-/* NAME + TIME */
+// NAME
 .name-line {
-  font-size: 13px;
-  color: $text-light;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+
   strong {
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 700;
   }
   span {
     font-size: 12px;
     color: $text-muted;
   }
 }
-
-/* TITLE */
+// TITLE
 .title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-top: $spacing-xs;
-  color: $text-light;
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.35;
+  word-break: break-word;
 }
-
-/* TAGS */
+// TAGS
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
-  margin-top: 6px;
-  .tag {
-    font-size: 11px;
-    padding: 2px 8px;
-    border-radius: $radius-pill;
-    background: rgba($color-primary, 0.12);
-    color: $color-primary;
-  }
+  gap: 6px;
 }
-
-/* DESCRIPTION */
+.tag {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.06);
+  white-space: nowrap;
+}
+// DESCRIPTION
 .task-desc {
-  font-size: 13px;
-  color: $text-muted;
-  line-height: 1.5;
-  margin-top: $spacing-sm;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  overflow-y: auto;
+  font-size: 14px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.88);
+  word-break: break-word;
+  padding-right: 4px;
+  @include scrollbar;
 }
-
-// COMMENT BOX
-.comment-box {
+// RIGHT COLUMN (Comment - Scroll Riêng)
+.task-right {
   display: flex;
   flex-direction: column;
-  gap: $spacing-md;
+  height: calc(100vh - 140px); /* Thanh scroll độc lập theo viewport */
+  min-height: 600px;
+  max-height: 85vh;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: $radius-lg;
+  @include glass(0.06);
+  overflow: hidden;
+}
+.comment-box {
   flex: 1;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 }
 
-// COMMENT LIST
 .comment-list {
   flex: 1;
   overflow-y: auto;
-  padding: $spacing-sm;
-  padding-right: 6px;
-  @include glass(0.03);
-  border-radius: $radius-lg;
+  padding: $spacing-lg;
   @include scrollbar;
+  min-height: 400px;
 }
 
-// COMMENT ITEM
 .comment-item {
   display: flex;
-  align-items: flex-start;
-  gap: $spacing-sm;
-  padding: $spacing-sm 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  transition: 0.2s;
+  gap: $spacing-md;
+  padding: $spacing-md 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  &:last-child {
+    border-bottom: none;
+  }
   &:hover {
     background: rgba(255, 255, 255, 0.03);
     border-radius: $radius-md;
   }
 }
-
-// AVATAR
 .comment-avatar {
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  object-fit: cover;
   flex-shrink: 0;
 }
 
-// BODY
 .comment-body {
   flex: 1;
   min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
 }
-
-// HEADER (NAME + DELETE)
 .comment-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 10px;
+  align-items: center;
+  margin-bottom: 6px;
 }
 
 .comment-name {
   font-weight: 600;
-  color: $text-light;
-  max-width: 70%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 14.8px;
 }
-
-// DELETE
 .delete-comment-btn {
   background: none;
   border: none;
-  cursor: pointer;
-  font-size: 12px;
   color: $text-muted;
-  opacity: 0.5;
+  font-size: 1.3rem;
+  cursor: pointer;
   &:hover {
-    opacity: 1;
-    color: red;
+    color: #ef4444;
   }
 }
-
-// CONTENT
 .comment-content {
-  font-size: 14px;
-  color: $text-light;
-  line-height: 1.5;
-  white-space: pre-wrap;
-  word-break: break-word;
-  overflow-wrap: anywhere;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.92);
+  margin-bottom: 10px;
 }
-
-// FOOTER (LIKE / REPLY / TIME)
 .comment-footer {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 12px;
-  color: $text-muted;
-  margin-top: 6px;
+  gap: 22px;
+  font-size: 13.5px;
 }
 
 .comment-footer button {
   background: none;
   border: none;
-  cursor: pointer;
   color: $text-muted;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   &:hover {
     color: $color-primary;
   }
 }
 
-.comment-time {
-  margin-left: auto;
-  font-size: 11px;
-  color: $text-muted;
-}
-
 // INPUT
 .comment-input-box {
+  padding: $spacing-lg;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(15, 23, 42, 0.8);
   display: flex;
   gap: $spacing-sm;
-  position: sticky;
-  bottom: 0;
-  z-index: 10;
-  @include glass(0.1);
-  padding: $spacing-sm;
-  border-radius: $radius-lg;
 }
 
 .comment-input-box input {
   flex: 1;
   @include input-base;
+  padding: 16px 20px;
+  border-radius: 9999px;
+  min-height: 54px;
 }
 
 .comment-input-box button {
-  padding: $spacing-sm $spacing-md;
-  border: none;
-  border-radius: $radius-md;
+  height: 54px;
+  width: 54px;
+  border-radius: 9999px;
   background: linear-gradient(135deg, $color-primary, $color-primary-dark);
-  color: $color-white;
+  color: white;
+  border: none;
   cursor: pointer;
-  @include smooth;
   &:hover {
-    transform: translateY(-2px);
+    transform: scale(1.1);
   }
 }
 
-//  RESPONSIVE
+.reply-list {
+  margin-top: 12px;
+  padding-left: 40px;
+  border-left: 2px solid #eee;
+}
+
+.reply-item {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+// RESPONSIVE
 @include respond(lg) {
   .task-main {
     grid-template-columns: 1fr;
+    gap: $spacing-lg;
   }
   .task-right {
     height: auto;
+    max-height: none;
+    min-height: 500px;
   }
-  .task-left {
-    aspect-ratio: 16 / 9;
+}
+
+@include respond(md) {
+  .task-detail {
+    padding: $spacing-md;
+  }
+  .task-content {
+    padding: $spacing-lg;
   }
 }
