@@ -72,31 +72,75 @@
 <form id="restoreForm" method="POST"></form>
 
 <script>
+  // SET ID khi mở modal
   const destroyModal = document.getElementById('deleteModal');
   const destroyBtn = document.getElementById('confirmDeleteBtn');
   let deleteId = null;
-  // SET ID khi mở modal
+
   destroyModal.addEventListener('show.bs.modal', event => {
     const button = event.relatedTarget;
     deleteId = button.getAttribute('data-id');
   });
-  // DELETE HARD
+  // DESTROY (xóa vĩnh viễn)
   destroyBtn.onclick = async () => {
-    const form = document.getElementById('deleteForm');
-    await fetch(`/tasks/${deleteId}/force`, {
-      method: 'DELETE',
-    });
-    location.reload();
+    if (!deleteId) return;
+    destroyBtn.disabled = true;
+    try {
+      await fetch(`/tasks/${deleteId}/force`, { method: 'DELETE' });
+      const card = document
+        .querySelector(`button[data-id="${deleteId}"]`)
+        .closest('.card');
+      if (card) card.remove();
+      if (document.querySelectorAll('.trash-list .card').length === 0) {
+        document.querySelector('.trash-list').innerHTML = `
+        <div class="text-center text-muted mt-4">
+          <h5>Thùng rác trống</h5>
+        </div>`;
+      }
+      // CLOSE MODAL HERE
+      const modalEl = document.getElementById('deleteModal');
+      const modalInstance = bootstrap.Modal.getInstance(modalEl);
+      modalInstance.hide();
+    } catch (err) {
+      console.error(err);
+      alert('Có lỗi khi xóa vĩnh viễn');
+    } finally {
+      destroyBtn.disabled = false;
+    }
   };
+
   // RESTORE
-  const restoreTask = async id => {
-    await fetch(`/tasks/${id}/restore?_method=PATCH`, {
-      method: 'POST',
-    });
-    location.reload();
+  window.restoreTask = async id => {
+    const btn = document.querySelector(
+      `button[onclick*="restoreTask('${id}')"]`,
+    );
+    if (btn) btn.disabled = true;
+    try {
+      await fetch(`/tasks/${id}/restore?_method=PATCH`, {
+        method: 'POST',
+      });
+      // Update DOM ngay
+      const card = document
+        .querySelector(`button[onclick*="restoreTask('${id}')"]`)
+        .closest('.card');
+      if (card) card.remove();
+      // Kiểm tra empty state
+      if (document.querySelectorAll('.trash-list .card').length === 0) {
+        document.querySelector('.trash-list').innerHTML = `
+          <div class="text-center text-muted mt-4">
+            <h5>Thùng rác trống</h5>
+          </div>`;
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Có lỗi khi restore');
+    } finally {
+      if (btn) btn.disabled = false;
+    }
   };
-  // BACK
-  const goBackPrevPage = () => {
+
+  // Back button
+  window.goBackPrevPage = () => {
     if (window.history.length > 1) {
       window.history.go(-1);
     } else {

@@ -67,7 +67,6 @@ const buildQuery = (viewerId, filters = {}, options = {}) => {
     ];
     return query;
   }
-
   // NORMAL MODE
   if (mode === 'profile' && targetUserId) {
     query.author = targetUserId;
@@ -79,7 +78,6 @@ const buildQuery = (viewerId, filters = {}, options = {}) => {
   } else {
     query.author = viewerId;
   }
-
   // STATUS FILTER
   if (status) {
     if (['overdue', 'soon'].includes(status)) {
@@ -89,7 +87,6 @@ const buildQuery = (viewerId, filters = {}, options = {}) => {
       query.status = status;
     }
   }
-
   // TAGS FILTER
   if (tags) {
     const tagArray = [].concat(tags).filter(Boolean);
