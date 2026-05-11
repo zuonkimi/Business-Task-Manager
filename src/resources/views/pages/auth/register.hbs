@@ -33,6 +33,9 @@
           required
         />
       </div>
+      {{#if error}}
+      <div class="alert alert-danger">{{error}}</div>
+      {{/if}}
       <button class="btn-submit">Create Account</button>
     </form>
 

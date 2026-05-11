@@ -1189,6 +1189,21 @@ a:hover {
     font-size: 13px;
   }
 }
+.forgot-password {
+  text-align: right;
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.forgot-password a {
+  color: #888;
+  text-decoration: none;
+}
+
+.forgot-password a:hover {
+  text-shadow: 0 0 8px rgba(96, 165, 250, 0.6);
+}
+
 .dashboard-container {
   max-width: 680px;
   margin: 0 auto;

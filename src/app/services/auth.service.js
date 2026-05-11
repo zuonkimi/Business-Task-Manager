@@ -1,5 +1,7 @@
-const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
+const User = require('../models/User');
+const mailService = require('./mail.service');
 
 class AuthService {
   async login({ email, password }) {
@@ -7,6 +9,12 @@ class AuthService {
       throw new Error('Email and password are required!');
     }
     const user = await User.findOne({ email });
+    if (!user) {
+      throw new Error('Invalid email or password!');
+    }
+    if (!user.isVerified) {
+      throw new Error('Please verify your email first!');
+    }
     const isValid = user && (await bcrypt.compare(password, user.password));
     if (!isValid) {
       throw new Error('Invalid email or password!');
@@ -15,6 +23,8 @@ class AuthService {
   }
 
   async register({ name, username, email, password }) {
+    // CREATE TOKEN
+    const verificationToken = crypto.randomBytes(32).toString('hex');
     if (!name || !username || !email || !password) {
       throw new Error('Please fill all fields!');
     }
@@ -39,8 +49,53 @@ class AuthService {
       username,
       email,
       password: hashedPassword,
+      verificationToken, //save Token in DB
     });
+    await mailService.sendVerificationEmail(user.email, verificationToken);
     return user;
+  }
+
+  async verifyEmail(token) {
+    const user = await User.findOne({
+      verificationToken: token,
+    });
+    if (!user) {
+      throw new Error('Invalid token');
+    }
+    if (user.isVerified) {
+      throw new Error('Email already verified');
+    }
+    user.isVerified = true;
+    user.verificationToken = null;
+    await user.save();
+  }
+
+  async forgotPassword(email) {
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw new Error('Email not found');
+    }
+    const token = crypto.randomBytes(32).toString('hex');
+    user.resetPasswordToken = token;
+    user.resetPasswordExpires = Date.now() + 1000 * 60 * 30;
+    await user.save();
+    const resetUrl = `http://localhost:9999/auth/reset-password?token=${token}`;
+    return mailService.sendResetPasswordEmail(email, resetUrl);
+  }
+
+  async resetPassword({ token, password }) {
+    const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+    if (!user) {
+      throw new Error('Invalid for expired token');
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
+    user.resetPasswordToken = null;
+    user.resetPasswordExpires = null;
+    await user.save();
   }
 }
 
