@@ -7,7 +7,7 @@ module.exports = {
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  rolling: true,
+  rolling: false,
   store: MongoStore.create({
     mongoUrl: process.env.MONGO_URI,
   }),

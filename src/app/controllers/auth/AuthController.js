@@ -1,20 +1,24 @@
+const crypto = require('crypto');
 const authService = require('../../services/auth.service');
 
 class AuthController {
-  //Get login
+  // GET LOGIN
   login(req, res) {
-    res.render('pages/auth/login', {
+    return res.render('pages/auth/login', {
       layout: 'auth',
     });
   }
 
-  //Post login
+  // POST LOGIN
   async loginPost(req, res, next) {
     try {
       const user = await authService.login(req.body);
-      req.session.userId = user._id;
-      req.session.email = user.email;
-      return res.redirect('/home');
+      req.session.regenerate(err => {
+        if (err) return next(err);
+        req.session.userId = user._id;
+        req.session.email = user.email;
+        return res.redirect('/home');
+      });
     } catch (err) {
       return res.render('pages/auth/login', {
         layout: 'auth',
@@ -23,14 +27,14 @@ class AuthController {
     }
   }
 
-  //Get register
+  // GET REGISTER
   register(req, res) {
     return res.render('pages/auth/register', {
       layout: 'auth',
     });
   }
 
-  // POST register
+  // POST REGISTER
   async registerPost(req, res, next) {
     try {
       const user = await authService.register(req.body);
@@ -46,16 +50,16 @@ class AuthController {
     }
   }
 
-  //Get logout
+  // LOGOUT
   logout(req, res, next) {
     req.session.destroy(err => {
       if (err) return next(err);
       res.clearCookie('connect.sid');
-      return res.redirect(303, '/auth/login');
+      return res.redirect('/auth/login');
     });
   }
 
-  //Verify email
+  // VERIFY EMAIL
   async verifyEmail(req, res, next) {
     try {
       await authService.verifyEmail(req.query.token);
@@ -65,18 +69,15 @@ class AuthController {
     }
   }
 
-  //Forgot password
-  async forgotPassword(req, res, next) {
-    try {
-      res.render('pages/auth/forgot-password', {
-        layout: 'auth',
-      });
-    } catch (err) {
-      next(err);
-    }
+  // GET FORGOT PASSWORD
+  forgotPassword(req, res) {
+    return res.render('pages/auth/forgot-password', {
+      layout: 'auth',
+    });
   }
 
-  async forgotPasswordPost(req, res, next) {
+  // POST FORGOT PASSWORD
+  async forgotPasswordPost(req, res) {
     try {
       await authService.forgotPassword(req.body.email);
       return res.render('pages/auth/forgot-password', {
@@ -84,26 +85,23 @@ class AuthController {
         success: 'Check your email for reset link',
       });
     } catch (err) {
-      return res.render('pages/auth/forget-password', {
+      return res.render('pages/auth/forgot-password', {
         layout: 'auth',
         error: err.message,
       });
     }
   }
 
-  //Reset password/email
-  async resetPassword(req, res, next) {
-    try {
-      return res.render('pages/auth/reset-password', {
-        layout: 'auth',
-        token: req.query.token,
-      });
-    } catch (err) {
-      next(err);
-    }
+  // GET RESET PASSWORD
+  resetPassword(req, res) {
+    return res.render('pages/auth/reset-password', {
+      layout: 'auth',
+      token: req.query.token,
+    });
   }
 
-  async resetPasswordPost(req, res, next) {
+  // POST RESET PASSWORD
+  async resetPasswordPost(req, res) {
     try {
       await authService.resetPassword(req.body);
       return res.redirect('/auth/login');
@@ -113,6 +111,120 @@ class AuthController {
         error: err.message,
         token: req.body.token,
       });
+    }
+  }
+
+  // GOOGLE LOGIN
+  async googleLogin(req, res, next) {
+    try {
+      const state = crypto.randomBytes(32).toString('hex');
+      req.session.oauthState = state;
+      const url = await authService.getGoogleAuthUrl(state);
+      return res.redirect(url);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  // GOOGLE CALLBACK
+  async googleCallback(req, res, next) {
+    try {
+      const { code, state } = req.query;
+      if (!code) {
+        throw new Error('Google login failed');
+      }
+      if (state !== req.session.oauthState) {
+        throw new Error('Invalid OAuth state');
+      }
+      const user = await authService.googleLoginCallback(code);
+      req.session.regenerate(err => {
+        if (err) return next(err);
+        req.session.userId = user._id;
+        req.session.email = user.email;
+        return res.redirect('/home');
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  //FACEBOOK LOGIN
+  async facebookLogin(req, res, next) {
+    try {
+      const state = crypto.randomBytes(32).toString('hex');
+      req.session.oauthState = state;
+      const url = await authService.getFacebookAuthUrl(state);
+      req.session.save(err => {
+        if (err) return next(err);
+        return res.redirect(url);
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  //FACEBOOK CALLBACK
+  async facebookCallback(req, res, next) {
+    try {
+      const { code, state } = req.query;
+      if (!code) {
+        throw new Error('Facebook Login failed');
+      }
+      if (!req.session.oauthState) {
+        throw new Error('Session expired, try again');
+      }
+      if (state !== req.session.oauthState) {
+        throw new Error('Invalid OAuth state');
+      }
+      const user = await authService.facebookLoginCallback(code);
+      req.session.regenerate(err => {
+        if (err) return next(err);
+        req.session.userId = user._id;
+        req.session.email = user.email;
+        return res.redirect('/home');
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  //LINE LOGIN
+  async lineLogin(req, res, next) {
+    try {
+      const state = crypto.randomBytes(32).toString('hex');
+      req.session.oauthState = state;
+      const url = await authService.getLineAuthUrl(state);
+      req.session.save(err => {
+        if (err) return next(err);
+        return res.redirect(url);
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  //LINE CALLBACK
+  async lineCallback(req, res, next) {
+    try {
+      const { code, state } = req.query;
+      if (!code) {
+        throw new Error('Line login failed');
+      }
+      if (!req.session.oauthState) {
+        throw new Error('Session expired, try again');
+      }
+      if (state !== req.session.oauthState) {
+        throw new Error('Invalid OAuth state');
+      }
+      const user = await authService.lineLoginCallback(code);
+      req.session.regenerate(err => {
+        if (err) return next(err);
+        req.session.userId = user._id;
+        req.session.email = user.email;
+        return res.redirect('/home');
+      });
+    } catch (err) {
+      next(err);
     }
   }
 }
